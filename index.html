@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huzine Training Hub - Masse Builder + Nutrition</title>
+    <style>
+        /* RESET & BASE */
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: #333;}
+        
+        /* NAVIGATION PRINCIPALE */
+        .main-nav {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 15px 20px; position: sticky; top: 0; z-index: 5000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);}
+        .main-nav-container {max-width: 900px; margin: 0 auto; display: flex; gap: 15px; justify-content: center; align-items: center;}
+        .main-nav-btn {padding: 12px 24px; background: rgba(255,255,255,0.2); border: 2px solid white; border-radius: 10px; color: white; font-weight: bold; cursor: pointer; transition: all 0.3s; font-size: 14px;}
+        .main-nav-btn:hover {background: white; color: #667eea; transform: translateY(-2px);}
+        .main-nav-btn.active {background: white; color: #667eea; box-shadow: 0 4px 12px rgba(255,255,255,0.3);}
+        .app-section {display: none;}
+        .app-section.active {display: block;}
+        
+        /* COMMUN */
+        .container {max-width: 900px; margin: 15px auto; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);}
+        h1 {text-align: center; color: #667eea; margin-bottom: 5px; font-size: 26px;}
+        h2 {color: #667eea; margin-bottom: 12px; font-size: 20px;}
+        h3 {color: #667eea; margin-bottom: 12px; font-size: 18px;}
+        .version-badge {background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; margin: 5px;}
+        .season-badge {background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%);}
+        .gas-badge {background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);}
+        .cholesterol-badge {background: linear-gradient(135deg, #fab005 0%, #f59f00 100%);}
+        .header-info {text-align: center; color: #666; margin-bottom: 15px; font-size: 13px;}
+        .auto-save-indicator {position: fixed; top: 80px; right: 20px; background: #51cf66; color: white; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: bold; opacity: 0; transition: opacity 0.3s; z-index: 6000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);}
+        .auto-save-indicator.show {opacity: 1;}
+        .tabs {display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; margin-bottom: 20px;}
+        .tab {padding: 12px 8px; background: #f0f0f0; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; transition: all 0.3s; font-size: 12px;}
+        .tab.active {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);}
+        .tab-content {display: none;}
+        .tab-content.active {display: block; animation: fadeIn 0.4s;}
+        @keyframes fadeIn {from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);}}
+        .btn {padding: 10px 16px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.3s; font-size: 13px;}
+        .btn-primary {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;}
+        .btn-primary:hover {transform: scale(1.05);}
+        .btn-secondary {background: rgba(255,255,255,0.2); color: white; border: 2px solid white;}
+        .btn-success {background: #51cf66; color: white;}
+        .btn-danger {background: #ff6b6b; color: white;}
+        .notes-area {width: 100%; min-height: 80px; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-family: inherit; font-size: 13px; margin-top: 10px;}
+        .modal {display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 7000; justify-content: center; align-items: center; overflow-y: auto; padding: 20px;}
+        .modal.show {display: flex;}
+        .modal-content {background: white; padding: 30px; border-radius: 20px; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; animation: modalPop 0.3s;}
+        @keyframes modalPop {from {transform: scale(0.8); opacity: 0;} to {transform: scale(1); opacity: 1;}}
+        .modal-header {font-size: 22px; font-weight: bold; color: #667eea; margin-bottom: 15px; text-align: center;}
+        .modal-body {margin: 15px 0;}
+        
+        /* MASSE BUILDER SPECIFIQUE */
+        .week-tracker {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; text-align: center;}
+        .week-display {font-size: 32px; font-weight: bold; margin: 10px 0;}
+        .week-controls {display: flex; gap: 8px; justify-content: center; margin-top: 10px;}
+        .workout-section {background: #f8f9ff; border-radius: 15px; padding: 15px; margin-bottom: 15px; border-left: 5px solid #667eea;}
+        .exercise {background: white; padding: 12px; margin: 10px 0; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
+        .exercise-header {display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; gap: 10px;}
+        .exercise-title {font-weight: bold; color: #333; font-size: 15px; flex: 1;}
+        .demo-btn {padding: 6px 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;}
+        .exercise-details {display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 6px; margin: 8px 0; font-size: 12px;}
+        .detail-item {background: #f0f0f0; padding: 5px 8px; border-radius: 6px;}
+        .detail-label {font-weight: bold; color: #667eea;}
+        .sets-tracker {display: grid; grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 6px; margin-top: 10px;}
+        .set-input label {font-size: 10px; font-weight: bold; color: #666; display: block; margin-bottom: 3px;}
+        .set-input input {width: 100%; padding: 6px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 13px; text-align: center;}
+        .set-input input.input-red {border-color: #ff6b6b; background: #fff5f5;}
+        .set-input input.input-yellow {border-color: #ffc107; background: #fffbf0;}
+        .set-input input.input-green {border-color: #51cf66; background: #f0fff4;}
+        .timer {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 15px; text-align: center; margin: 15px 0;}
+        .timer-display {font-size: 42px; font-weight: bold; margin: 10px 0;}
+        .performance-analysis {padding: 8px; margin: 8px 0; border-radius: 6px; font-size: 12px; font-weight: bold; display: none;}
+        .performance-analysis.perfect {background: #e8f5e9; border-left: 3px solid #51cf66;}
+        
+        /* NUTRITION SPECIFIQUE */
+        .timeline-container {background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px; border-radius: 15px; margin-bottom: 20px; overflow-x: auto;}
+        .timeline {display: flex; justify-content: space-between; align-items: center; position: relative;}
+        .timeline-line {position: absolute; top: 50%; left: 5%; right: 5%; height: 4px; background: #dee2e6; z-index: 0; transform: translateY(-50%);}
+        .timeline-progress {position: absolute; top: 50%; left: 5%; height: 4px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); z-index: 1; transform: translateY(-50%); transition: width 0.5s;}
+        .timeline-item {position: relative; z-index: 2; text-align: center; cursor: pointer; flex: 1; padding: 5px;}
+        .timeline-dot {width: 40px; height: 40px; border-radius: 50%; background: white; border: 4px solid #dee2e6; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px;}
+        .timeline-item.active .timeline-dot {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-color: #667eea;}
+        .timeline-item.completed .timeline-dot {background: #51cf66; border-color: #51cf66; color: white;}
+        .day-tracker {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; text-align: center;}
+        .day-display {font-size: 28px; font-weight: bold; margin: 10px 0;}
+        .nutrition-section {background: #f0f4ff; border-radius: 15px; padding: 15px; margin-bottom: 15px; border-left: 5px solid #667eea;}
+        .meal {background: white; padding: 12px; margin: 10px 0; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
+        .meal-foods {background: #f9fafb; border-radius: 8px; padding: 10px; margin: 10px 0; font-size: 13px;}
+        .validation-checkbox {display: flex; align-items: center; gap: 10px; background: #e8f5e9; padding: 10px; border-radius: 8px; margin-top: 10px; cursor: pointer;}
+        .validation-checkbox input {width: 20px; height: 20px; cursor: pointer;}
+        .validation-checkbox.validated {background: #c8e6c9;}
+        .macro-grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 15px 0;}
+        .macro-card {padding: 15px; border-radius: 10px; text-align: center;}
+        .macro-card.calories {background: linear-gradient(135deg, #ffd93d 0%, #ff9800 100%); color: white;}
+        .macro-value {font-size: 28px; font-weight: bold; margin: 5px 0;}
+        .macro-label {font-size: 11px; opacity: 0.9; text-transform: uppercase;}
+        .progress-bar-container {background: #e0e0e0; border-radius: 10px; height: 30px; margin: 10px 0; overflow: hidden;}
+        .progress-bar {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 100%; transition: width 0.5s; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;}
+        
+        @media (max-width: 600px) {
+            .main-nav-container {flex-wrap: wrap;}
+            .main-nav-btn {font-size: 12px; padding: 10px 16px;}
+            .container {padding: 12px; margin: 10px;}
+            h1 {font-size: 20px;}
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVIGATION PRINCIPALE -->
+    <div class="main-nav">
+        <div class="main-nav-container">
+            <button class="main-nav-btn active" onclick="switchApp('muscu')">💪 MASSE BUILDER</button>
+            <button class="main-nav-btn" onclick="switchApp('nutrition')">🔥 NUTRITION</button>
+        </div>
+    </div>
+
+    <div class="auto-save-indicator" id="auto-save-indicator">✅ Sauvegardé</div>
+
+    <!-- ========== APP MASSE BUILDER ========== -->
+    <div id="app-muscu" class="app-section active">
+        <div class="container">
+            <h1>💪 MASSE BUILDER</h1>
+            <div style="text-align: center;"><span class="version-badge">v3.0 FINAL</span></div>
+            <div class="header-info">8 semaines • 3 séances/semaine</div>
+
+            <div class="week-tracker">
+                <div class="week-display" id="muscu-week-display">SEMAINE 1 / 8</div>
+                <div class="week-controls">
+                    <button class="btn btn-secondary" onclick="muscu_changeWeek(-1)">◀️ S-1</button>
+                    <button class="btn btn-secondary" onclick="muscu_changeWeek(1)">S+1 ▶️</button>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="muscu_showTab('training')">🏋️ TRAINING</button>
+                <button class="tab" onclick="muscu_showTab('progression')">📊 SUIVI</button>
+            </div>
+
+            <div class="timer">
+                <div class="timer-display" id="muscu-timer">00:00</div>
+                <div style="display: flex; gap: 8px; justify-content: center; margin-top: 10px;">
+                    <button class="btn btn-secondary" onclick="muscu_startTimer(60)">60s</button>
+                    <button class="btn btn-secondary" onclick="muscu_startTimer(90)">90s</button>
+                    <button class="btn btn-primary" onclick="muscu_stopTimer()">Stop</button>
+                </div>
+            </div>
+
+            <div id="muscu-tab-training" class="tab-content active">
+                <h2>🏋️ SÉANCE D'ENTRAÎNEMENT</h2>
+                <div class="workout-section">
+                    <h3>Exemple d'exercice</h3>
+                    <div class="exercise">
+                        <div class="exercise-header">
+                            <div class="exercise-title">Développé incliné haltères</div>
+                            <button class="demo-btn">📹 Démo</button>
+                        </div>
+                        <div class="exercise-details">
+                            <div class="detail-item"><span class="detail-label">Séries:</span> 4x8</div>
+                            <div class="detail-item"><span class="detail-label">Repos:</span> 90s</div>
+                        </div>
+                        <div class="sets-tracker">
+                            <div class="set-input"><label>S1</label><input type="text" placeholder="32×8"></div>
+                            <div class="set-input"><label>S2</label><input type="text"></div>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="notes-area" placeholder="📝 Notes séance..."></textarea>
+            </div>
+
+            <div id="muscu-tab-progression" class="tab-content">
+                <h2>📊 PROGRESSION</h2>
+                <p style="color: #666; text-align: center; padding: 40px;">Tes données de progression s'afficheront ici</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== APP NUTRITION ========== -->
+    <div id="app-nutrition" class="app-section">
+        <div class="container">
+            <h1>🔥 PLAN NUTRITION</h1>
+            <div style="text-align: center;">
+                <span class="version-badge">v4.0 ANTI-CHOLESTÉROL</span>
+                <span class="version-badge season-badge">🍂 AUTOMNE</span>
+            </div>
+            <div class="header-info">93.4kg • Objectif 88kg en 8 semaines</div>
+
+            <div class="timeline-container">
+                <div class="timeline">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-progress" style="width: 0%"></div>
+                    <div class="timeline-item active" onclick="nutri_afficherSemaine(1)">
+                        <div class="timeline-dot">S1</div>
+                    </div>
+                    <div class="timeline-item" onclick="nutri_afficherSemaine(2)">
+                        <div class="timeline-dot">S2</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-tracker">
+                <div class="day-display">🏋️ JOUR TRAINING</div>
+                <div style="display: flex; gap: 8px; justify-content: center; margin-top: 10px;">
+                    <button class="btn btn-secondary" onclick="nutri_setDayType('training')">🏋️ Training</button>
+                    <button class="btn btn-secondary" onclick="nutri_setDayType('repos')">💤 Repos</button>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="nutri_showTab('menu')">📋 MENU</button>
+                <button class="tab" onclick="nutri_showTab('suivi')">📊 SUIVI</button>
+            </div>
+
+            <div id="nutri-tab-menu" class="tab-content active">
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 0%">0%</div>
+                </div>
+                <div class="macro-grid">
+                    <div class="macro-card calories">
+                        <div class="macro-label">Calories</div>
+                        <div class="macro-value">0/2420</div>
+                    </div>
+                </div>
+                <div class="nutrition-section">
+                    <h3>Petit-déjeuner</h3>
+                    <div class="meal">
+                        <div class="meal-foods">
+                            <ul>
+                                <li>Flocons avoine 40g</li>
+                                <li>Whey isolat 45g</li>
+                            </ul>
+                        </div>
+                        <div class="validation-checkbox">
+                            <input type="checkbox">
+                            <span><strong>⏸️ À valider</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="nutri-tab-suivi" class="tab-content">
+                <h2>📊 SUIVI</h2>
+                <p style="color: #666; text-align: center; padding: 40px;">Tes données nutritionnelles s'afficheront ici</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== NAVIGATION GLOBALE ==========
+        function switchApp(app) {
+            document.querySelectorAll('.app-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.main-nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('app-' + app).classList.add('active');
+            event.target.classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function showAutoSave() {
+            const ind = document.getElementById('auto-save-indicator');
+            ind.classList.add('show');
+            setTimeout(() => ind.classList.remove('show'), 2000);
+        }
+
+        // ========== MASSE BUILDER ==========
+        let muscu_currentWeek = 1;
+        let muscu_timerInterval = null;
+        let muscu_timeLeft = 0;
+
+        function muscu_changeWeek(delta) {
+            muscu_currentWeek = Math.max(1, Math.min(8, muscu_currentWeek + delta));
+            document.getElementById('muscu-week-display').textContent = `SEMAINE ${muscu_currentWeek} / 8`;
+            localStorage.setItem('muscu_week', muscu_currentWeek);
+            showAutoSave();
+        }
+
+        function muscu_showTab(tab) {
+            document.querySelectorAll('#app-muscu .tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('#app-muscu .tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('muscu-tab-' + tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function muscu_startTimer(seconds) {
+            muscu_stopTimer();
+            muscu_timeLeft = seconds;
+            muscu_updateTimer();
+            muscu_timerInterval = setInterval(() => {
+                muscu_timeLeft--;
+                muscu_updateTimer();
+                if (muscu_timeLeft <= 0) {
+                    muscu_stopTimer();
+                    alert('⏰ Repos terminé !');
+                }
+            }, 1000);
+        }
+
+        function muscu_stopTimer() {
+            if (muscu_timerInterval) {
+                clearInterval(muscu_timerInterval);
+                muscu_timerInterval = null;
+            }
+            muscu_timeLeft = 0;
+            muscu_updateTimer();
+        }
+
+        function muscu_updateTimer() {
+            const min = Math.floor(muscu_timeLeft / 60);
+            const sec = muscu_timeLeft % 60;
+            document.getElementById('muscu-timer').textContent = 
+                `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+        }
+
+        // ========== NUTRITION ==========
+        let nutri_semaineActuelle = 'S1';
+        let nutri_jourType = 'training';
+
+        function nutri_afficherSemaine(num) {
+            nutri_semaineActuelle = 'S' + num;
+            document.querySelectorAll('#app-nutrition .timeline-item').forEach((item, i) => {
+                item.classList.remove('active', 'completed');
+                if (i + 1 === num) item.classList.add('active');
+                else if (i + 1 < num) item.classList.add('completed');
+            });
+            showAutoSave();
+        }
+
+        function nutri_setDayType(type) {
+            nutri_jourType = type;
+            localStorage.setItem('nutri_dayType', type);
+            showAutoSave();
+        }
+
+        function nutri_showTab(tab) {
+            document.querySelectorAll('#app-nutrition .tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('#app-nutrition .tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('nutri-tab-' + tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // ========== INIT ==========
+        window.onload = function() {
+            // Charger semaine sauvegardée
+            const savedWeek = localStorage.getItem('muscu_week');
+            if (savedWeek) {
+                muscu_currentWeek = parseInt(savedWeek);
+                muscu_changeWeek(0);
+            }
+            
+            // Charger type de jour
+            const savedDayType = localStorage.getItem('nutri_dayType');
+            if (savedDayType) nutri_jourType = savedDayType;
+        };
+    </script>
+</body>
+</html>
