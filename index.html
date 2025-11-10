@@ -270,6 +270,26 @@
         <div id="tab-ajustements" class="tab-content">
             <h2 style="color: #667eea; margin-bottom: 15px;">⚙️ Ajustements Macros</h2>
 
+            <!-- 🆕 SECTION MODULATION MACROS PAR SEMAINE -->
+            <div class="progress-card" style="margin-bottom: 20px;">
+                <h3 style="color: #667eea; margin-bottom: 15px;">🎯 Modulation Macros par Semaine</h3>
+                <div class="alert-box alert-info" style="margin-bottom: 15px;">
+                    <strong>📊 Macros actuelles - ${semaineActuelle}</strong><br>
+                    Ajuste facilement tes objectifs en fonction de tes résultats
+                </div>
+                <div id="modulation-macros-container"></div>
+            </div>
+
+            <!-- 🆕 SECTION OPTIONS RATTRAPAGE -->
+            <div class="progress-card" style="margin-bottom: 20px;">
+                <h3 style="color: #ff6b6b; margin-bottom: 15px;">🔄 Options Rattrapage</h3>
+                <div class="alert-box alert-warning" style="margin-bottom: 15px;">
+                    <strong>⚠️ Pris du retard ?</strong><br>
+                    Active les options ci-dessous pour compenser et rester sur les objectifs
+                </div>
+                <div id="rattrapage-options-container"></div>
+            </div>
+
             <div class="alert-box alert-warning">
                 <strong>⚠️ QUAND UTILISER CES AJUSTEMENTS ?</strong><br>
                 Les menus standards donnent ~200g P / 320g G / 65g L<br>
@@ -1103,10 +1123,12 @@ window.onload = function() {
     setInterval(verifierChangementDate, 60000);
     setInterval(verifierValidationRepas, 300000); // Vérifier toutes les 5 min
     setInterval(verifierRecapFinJournee, 300000); // Vérifier toutes les 5 min
+    setInterval(verifierSupplementsSoir, 300000); // 🆕 Vérifier suppléments soir
     verifierEtNotifierChangementSemaine();
     verifierBackupHebdomadaire();
     verifierValidationRepas(); // Vérification initiale
     verifierRecapFinJournee(); // Vérification initiale
+    verifierSupplementsSoir(); // 🆕 Vérification initiale
 };
 
 function verifierBackupHebdomadaire() {
@@ -1344,6 +1366,99 @@ function verifierValidationRepas() {
 
     const overlay = document.createElement('div');
     overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 4999;';
+    overlay.onclick = () => {
+        notification.remove();
+        overlay.remove();
+    };
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(notification);
+}
+
+// 🆕 ALERTE OUBLI SUPPLÉMENTS DU SOIR
+function verifierSupplementsSoir() {
+    const now = new Date();
+    const heure = now.getHours();
+    const minutes = now.getMinutes();
+    const today = new Date().toISOString().split('T')[0];
+    const lastAlertSupp = localStorage.getItem('last-suppl-alert-date');
+
+    // Alerte à 22h30 si suppléments non pris
+    if (heure === 22 && minutes >= 30 && minutes < 35) {
+        if (lastAlertSupp === today) return; // Déjà alerté aujourd'hui
+
+        if (!isSupplementsSoirValides()) {
+            localStorage.setItem('last-suppl-alert-date', today);
+            afficherAlerteSupplementsSoir();
+        }
+    }
+}
+
+function afficherAlerteSupplementsSoir() {
+    const menu = MENUS_BASE[jourType];
+    const supplementsSoir = menu.supplementsGlobaux?.find(s => s.moment.includes('SOIR'));
+
+    if (!supplementsSoir) return;
+
+    // Extraire les suppléments prioritaires (ARTICULATIONS, DIABÈTE, RÉCUPÉRATION)
+    const prioritaires = supplementsSoir.liste.filter(s =>
+        s.includes('Oméga-3') ||
+        s.includes('Magnésium') ||
+        s.includes('Berbérine') ||
+        s.includes('Collagène') ||
+        s.includes('Glycine')
+    );
+
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 15px 50px rgba(255,107,107,0.5);
+        z-index: 5000;
+        max-width: 420px;
+        text-align: center;
+        animation: shake 0.6s;
+    `;
+
+    const now = new Date();
+    const heureActuelle = `${now.getHours()}h${now.getMinutes().toString().padStart(2, '0')}`;
+
+    notification.innerHTML = `
+        <div style="font-size: 64px; margin-bottom: 15px;">💊</div>
+        <h2 style="margin-bottom: 10px; font-size: 24px;">Suppléments du soir !</h2>
+        <div style="font-size: 15px; margin-bottom: 20px; opacity: 0.95;">
+            Il est ${heureActuelle}, c'est l'heure de prendre tes compléments 🕐
+        </div>
+
+        <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 12px; margin: 15px 0; text-align: left;">
+            <div style="font-size: 14px; font-weight: bold; margin-bottom: 10px; text-align: center;">⚡ PRIORITAIRES</div>
+            ${prioritaires.map(s => `<div style="font-size: 13px; margin: 5px 0; padding-left: 10px;">• ${s}</div>`).join('')}
+        </div>
+
+        <div style="font-size: 13px; margin-top: 15px; opacity: 0.9;">
+            ⚠️ Important pour récupération et santé
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: center;">
+            <button onclick="toggleSupplementsSoir(); this.parentElement.parentElement.nextSibling.remove(); this.parentElement.parentElement.remove();"
+                    style="padding: 12px 25px; background: white; color: #ff6b6b; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 15px;">
+                ✅ C'est pris !
+            </button>
+            <button onclick="this.parentElement.parentElement.nextSibling.remove(); this.parentElement.parentElement.remove();"
+                    style="padding: 12px 20px; background: rgba(255,255,255,0.3); color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 14px;">
+                Plus tard
+            </button>
+        </div>
+    `;
+
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 4999;';
     overlay.onclick = () => {
         notification.remove();
         overlay.remove();
@@ -1591,16 +1706,8 @@ function setDayType(type) {
 
     document.getElementById('day-display').textContent = type === 'training' ? '🏋️ JOUR TRAINING' : '💤 JOUR REPOS';
 
-    const menu = MENUS_BASE[type];
-    const config = PLAN_HYBRIDE.semaines[semaineActuelle];
-
-    document.getElementById('cal-total').textContent = config.calories[type];
-    document.getElementById('prot-total').textContent = config.macros[type].P;
-    document.getElementById('gluc-total').textContent = config.macros[type].G;
-    document.getElementById('lip-total').textContent = config.macros[type].L;
-
     afficherMenu();
-    calculerProgression();
+    calculerProgression(); // 🆕 calculerProgression() gère les macros custom
     showAutoSave();
 }
 
@@ -1773,16 +1880,28 @@ function afficherMenu() {
     if (menu.supplementsGlobaux && menu.supplementsGlobaux.length > 0) {
         html += `<div class="nutrition-section">
             <h3>💊 SUPPLÉMENTS ${jourType === 'training' ? 'JOUR TRAINING' : 'JOUR REPOS'}</h3>`;
-        
-        menu.supplementsGlobaux.forEach(supp => {
+
+        menu.supplementsGlobaux.forEach((supp, suppIndex) => {
+            const isSoir = supp.moment.includes('SOIR');
+            const suppValide = isSoir ? isSupplementsSoirValides() : false;
+
             html += `<div class="meal">
                 <strong style="color: #667eea; font-size: 14px;">${supp.moment}</strong>
                 <div class="meal-foods">
                     <ul>${supp.liste.map(s => `<li>${s}</li>`).join('')}</ul>
-                </div>
-            </div>`;
+                </div>`;
+
+            // 🆕 Checkbox validation UNIQUEMENT pour suppléments du SOIR
+            if (isSoir) {
+                html += `<div class="validation-checkbox ${suppValide ? 'validated' : ''}" onclick="toggleSupplementsSoir()" style="margin-top: 15px;">
+                    <input type="checkbox" ${suppValide ? 'checked' : ''} onclick="event.stopPropagation()">
+                    <span><strong>${suppValide ? '✅ Compléments pris' : '⚠️ À prendre ce soir'}</strong></span>
+                </div>`;
+            }
+
+            html += `</div>`;
         });
-        
+
         html += `</div>`;
     }
     
@@ -1825,13 +1944,35 @@ function isRepasValide(repasId) {
     return validations.includes(repasId);
 }
 
+// 🆕 GESTION VALIDATION SUPPLÉMENTS DU SOIR
+function toggleSupplementsSoir() {
+    const today = new Date().toISOString().split('T')[0];
+    const key = `supplements-soir-${today}`;
+    const current = localStorage.getItem(key) === 'true';
+    localStorage.setItem(key, (!current).toString());
+    afficherMenu();
+    showAutoSave();
+}
+
+function isSupplementsSoirValides() {
+    const today = new Date().toISOString().split('T')[0];
+    const key = `supplements-soir-${today}`;
+    return localStorage.getItem(key) === 'true';
+}
+
 function calculerProgression() {
     const menu = MENUS_BASE[jourType];
     const config = PLAN_HYBRIDE.semaines[semaineActuelle];
+
+    // 🆕 Utiliser macros custom si définies
+    const macrosCustom = JSON.parse(localStorage.getItem('macros-custom') || '{}');
+    const macrosCibles = macrosCustom[semaineActuelle]?.[jourType] || config.macros[jourType];
+    const caloriesCible = Math.round(macrosCibles.P * 4 + macrosCibles.G * 4 + macrosCibles.L * 9);
+
     const today = new Date().toISOString().split('T')[0];
     const key = `repas-${today}`;
     const validations = JSON.parse(localStorage.getItem(key) || '[]');
-    
+
     let totalCal = 0, totalP = 0, totalG = 0, totalL = 0;
     validations.forEach(id => {
         const repas = menu.repas.find(r => r.id === id);
@@ -1852,7 +1993,13 @@ function calculerProgression() {
     document.getElementById('gluc-actuel').textContent = totalG;
     document.getElementById('lip-actuel').textContent = totalL;
 
-    const pct = Math.min(100, Math.round((totalCal / config.calories[jourType]) * 100));
+    // 🆕 Afficher macros cibles (custom ou par défaut)
+    document.getElementById('cal-total').textContent = caloriesCible;
+    document.getElementById('prot-total').textContent = macrosCibles.P;
+    document.getElementById('gluc-total').textContent = macrosCibles.G;
+    document.getElementById('lip-total').textContent = macrosCibles.L;
+
+    const pct = Math.min(100, Math.round((totalCal / caloriesCible) * 100));
     document.getElementById('progress-bar').style.width = pct + '%';
     document.getElementById('progress-bar').textContent = pct + '%';
 }
@@ -2578,7 +2725,11 @@ function showTab(tabName) {
 
     // 🆕 Nouveaux onglets
     if (tabName === 'supplements') afficherStackSupplements();
-    if (tabName === 'ajustements') afficherAjustementsMacros();
+    if (tabName === 'ajustements') {
+        afficherModulationMacros();
+        afficherOptionsRattrapage();
+        afficherAjustementsMacros();
+    }
 }
 
 // 🆕 FONCTION AFFICHAGE STACK SUPPLÉMENTS
@@ -2676,6 +2827,184 @@ function afficherStackSupplements() {
     </div></div>`;
 
     document.getElementById('stack-cholesterol-container').innerHTML = htmlCholesterol;
+}
+
+// 🆕 FONCTION MODULATION MACROS PAR SEMAINE
+function afficherModulationMacros() {
+    const config = PLAN_HYBRIDE.semaines[semaineActuelle];
+    const macrosCustom = JSON.parse(localStorage.getItem('macros-custom') || '{}');
+    const macrosSemaine = macrosCustom[semaineActuelle] || config.macros;
+
+    let html = `
+        <div style="background: #f8f9ff; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                <div>
+                    <strong style="color: #667eea;">🏋️ JOUR TRAINING</strong>
+                    ${creerInputsMacros('training', macrosSemaine.training, config.calories.training)}
+                </div>
+                <div>
+                    <strong style="color: #667eea;">💤 JOUR REPOS</strong>
+                    ${creerInputsMacros('repos', macrosSemaine.repos, config.calories.repos)}
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button onclick="sauvegarderMacrosCustom()" class="btn btn-primary" style="padding: 10px 20px;">
+                    💾 Sauvegarder les macros
+                </button>
+                <button onclick="reinitialiserMacros()" class="btn btn-secondary" style="padding: 10px 20px;">
+                    🔄 Réinitialiser
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('modulation-macros-container').innerHTML = html;
+}
+
+function creerInputsMacros(typeJour, macros, calories) {
+    return `
+        <div style="background: white; padding: 12px; border-radius: 8px; margin-top: 8px;">
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 12px; color: #666;">Protéines (g)</label>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button onclick="ajusterMacro('${typeJour}', 'P', -5)" style="padding: 5px 10px; background: #f0f0f0; border: none; border-radius: 5px; cursor: pointer;">-5</button>
+                    <input type="number" id="macro-${typeJour}-P" value="${macros.P}"
+                           style="width: 70px; padding: 8px; border: 2px solid #667eea; border-radius: 8px; text-align: center; font-weight: bold;" />
+                    <button onclick="ajusterMacro('${typeJour}', 'P', 5)" style="padding: 5px 10px; background: #f0f0f0; border: none; border-radius: 5px; cursor: pointer;">+5</button>
+                </div>
+            </div>
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 12px; color: #666;">Glucides (g)</label>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button onclick="ajusterMacro('${typeJour}', 'G', -10)" style="padding: 5px 10px; background: #f0f0f0; border: none; border-radius: 5px; cursor: pointer;">-10</button>
+                    <input type="number" id="macro-${typeJour}-G" value="${macros.G}"
+                           style="width: 70px; padding: 8px; border: 2px solid #667eea; border-radius: 8px; text-align: center; font-weight: bold;" />
+                    <button onclick="ajusterMacro('${typeJour}', 'G', 10)" style="padding: 5px 10px; background: #f0f0f0; border: none; border-radius: 5px; cursor: pointer;">+10</button>
+                </div>
+            </div>
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 12px; color: #666;">Lipides (g)</label>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button onclick="ajusterMacro('${typeJour}', 'L', -5)" style="padding: 5px 10px; background: #f0f0f0; border: none; border-radius: 5px; cursor: pointer;">-5</button>
+                    <input type="number" id="macro-${typeJour}-L" value="${macros.L}"
+                           style="width: 70px; padding: 8px; border: 2px solid #667eea; border-radius: 8px; text-align: center; font-weight: bold;" />
+                    <button onclick="ajusterMacro('${typeJour}', 'L', 5)" style="padding: 5px 10px; background: #f0f0f0; border: none; border-radius: 5px; cursor: pointer;">+5</button>
+                </div>
+            </div>
+            <div style="font-size: 13px; color: #999; margin-top: 10px;">
+                📊 Calories estimées : <strong>${calories} kcal</strong>
+            </div>
+        </div>
+    `;
+}
+
+function ajusterMacro(typeJour, macro, delta) {
+    const input = document.getElementById(`macro-${typeJour}-${macro}`);
+    const newValue = parseInt(input.value) + delta;
+    if (newValue >= 0) {
+        input.value = newValue;
+    }
+}
+
+function sauvegarderMacrosCustom() {
+    const macrosCustom = JSON.parse(localStorage.getItem('macros-custom') || '{}');
+
+    macrosCustom[semaineActuelle] = {
+        training: {
+            P: parseInt(document.getElementById('macro-training-P').value),
+            G: parseInt(document.getElementById('macro-training-G').value),
+            L: parseInt(document.getElementById('macro-training-L').value)
+        },
+        repos: {
+            P: parseInt(document.getElementById('macro-repos-P').value),
+            G: parseInt(document.getElementById('macro-repos-G').value),
+            L: parseInt(document.getElementById('macro-repos-L').value)
+        }
+    };
+
+    localStorage.setItem('macros-custom', JSON.stringify(macrosCustom));
+
+    // Recalculer les calories
+    const calTraining = Math.round(macrosCustom[semaineActuelle].training.P * 4 + macrosCustom[semaineActuelle].training.G * 4 + macrosCustom[semaineActuelle].training.L * 9);
+    const calRepos = Math.round(macrosCustom[semaineActuelle].repos.P * 4 + macrosCustom[semaineActuelle].repos.G * 4 + macrosCustom[semaineActuelle].repos.L * 9);
+
+    alert(`✅ Macros sauvegardées pour ${semaineActuelle} !\n\nTraining: P${macrosCustom[semaineActuelle].training.P} G${macrosCustom[semaineActuelle].training.G} L${macrosCustom[semaineActuelle].training.L} ≈ ${calTraining} kcal\nRepos: P${macrosCustom[semaineActuelle].repos.P} G${macrosCustom[semaineActuelle].repos.G} L${macrosCustom[semaineActuelle].repos.L} ≈ ${calRepos} kcal`);
+
+    afficherModulationMacros();
+    afficherMenu();
+    calculerProgression();
+}
+
+function reinitialiserMacros() {
+    const macrosCustom = JSON.parse(localStorage.getItem('macros-custom') || '{}');
+    delete macrosCustom[semaineActuelle];
+    localStorage.setItem('macros-custom', JSON.stringify(macrosCustom));
+    alert(`🔄 Macros réinitialisées pour ${semaineActuelle}`);
+    afficherModulationMacros();
+    afficherMenu();
+    calculerProgression();
+}
+
+// 🆕 FONCTION OPTIONS RATTRAPAGE
+function afficherOptionsRattrapage() {
+    const options = JSON.parse(localStorage.getItem('options-rattrapage') || '{}');
+
+    const optionsList = [
+        {
+            id: 'deficit-augmente',
+            nom: '📉 Augmenter le déficit (-200 kcal)',
+            description: 'Réduit les glucides de 50g pour compenser le retard'
+        },
+        {
+            id: 'carb-cycling',
+            nom: '🔄 Carb cycling strict',
+            description: 'Alterne jours bas/hauts en glucides (Training+50g, Repos-50g)'
+        },
+        {
+            id: 'week-deload-skip',
+            nom: '⏭️ Sauter le deload S5',
+            description: 'Continue la sèche en S5 au lieu de deload si retard >1kg'
+        },
+        {
+            id: 'training-extra',
+            nom: '🏃 Cardio léger 3×/sem',
+            description: '20min marche rapide les jours repos (-100 kcal/session)'
+        }
+    ];
+
+    let html = '';
+    optionsList.forEach(opt => {
+        const checked = options[opt.id] || false;
+        html += `
+            <div style="background: ${checked ? '#e8f5e9' : 'white'}; border: 2px solid ${checked ? '#4caf50' : '#ddd'}; padding: 15px; border-radius: 10px; margin-bottom: 12px; cursor: pointer; transition: all 0.3s;"
+                 onclick="toggleOptionRattrapage('${opt.id}')">
+                <label style="display: flex; align-items: start; cursor: pointer;">
+                    <input type="checkbox" ${checked ? 'checked' : ''} onclick="event.stopPropagation();"
+                           style="margin-right: 12px; width: 20px; height: 20px; margin-top: 2px;">
+                    <div style="flex: 1;">
+                        <div style="font-weight: bold; font-size: 14px; margin-bottom: 5px;">${opt.nom}</div>
+                        <div style="font-size: 12px; color: #666;">${opt.description}</div>
+                    </div>
+                </label>
+            </div>
+        `;
+    });
+
+    html += `
+        <div style="margin-top: 15px; padding: 12px; background: #fff3cd; border-radius: 8px; font-size: 13px;">
+            💡 <strong>Astuce :</strong> Active une ou plusieurs options si ta perte de poids stagne >2 semaines
+        </div>
+    `;
+
+    document.getElementById('rattrapage-options-container').innerHTML = html;
+}
+
+function toggleOptionRattrapage(optionId) {
+    const options = JSON.parse(localStorage.getItem('options-rattrapage') || '{}');
+    options[optionId] = !options[optionId];
+    localStorage.setItem('options-rattrapage', JSON.stringify(options));
+    afficherOptionsRattrapage();
+    showAutoSave();
 }
 
 // 🆕 FONCTION AFFICHAGE AJUSTEMENTS MACROS
