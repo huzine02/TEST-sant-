@@ -433,56 +433,52 @@ const MENUS_BASE = {
                 id: 'repas1_training',
                 nom: 'REPAS 1 - Pré-Training',
                 heure: '12:00',
-                calories: 1060,
-                macros: {P: 78, G: 141, L: 22},
+                calories: 961,
+                macros: {P: 87, G: 104, L: 23},
                 note: '⏰ Finir 1h45 avant training (13h45)',
                 options: [
                     {
                         id: 'A',
                         nom: 'Option A - Poulet-Riz',
                         aliments: [
-                            '🍗 Poulet grillé : 250g cru → 200g cuit',
-                            '🍚 Riz basmati : 90g cru → 270g cuit',
+                            '🍗 Poulet blanc grillé : 300g cru → 240g cuit',
+                            '🍚 Riz basmati : 70g cru → 210g cuit',
                             '🥦 Légumes vapeur : 350g cru → 300g cuit',
                             '🫒 Huile olive : 15ml (1 c. soupe)',
-                            '🍌 Banane : 120g (1 moyenne)',
-                            '🍎 Pomme : 150g (1 moyenne)'
+                            '🍌 Banane : 120g (1 moyenne)'
                         ]
                     },
                     {
                         id: 'B',
                         nom: 'Option B - Dinde-Quinoa',
                         aliments: [
-                            '🦃 Escalope dinde : 250g cru → 200g cuit',
-                            '🌾 Quinoa : 85g cru → 255g cuit',
+                            '🦃 Escalope dinde : 300g cru → 240g cuit',
+                            '🌾 Quinoa : 65g cru → 195g cuit',
                             '🥦 Haricots verts : 350g',
                             '🫒 Huile olive : 15ml',
-                            '🍌 Banane : 120g',
-                            '🍊 Orange : 150g'
+                            '🍌 Banane : 120g'
                         ]
                     },
                     {
                         id: 'C',
                         nom: 'Option C - Bœuf-Pâtes',
                         aliments: [
-                            '🥩 Bœuf haché 5% : 220g cru → 180g cuit',
-                            '🍝 Pâtes complètes : 85g crues → 255g cuites',
+                            '🥩 Bœuf haché 5% : 270g cru → 220g cuit',
+                            '🍝 Pâtes complètes : 65g crues → 195g cuites',
                             '🥬 Épinards : 350g',
                             '🫒 Huile olive : 15ml',
-                            '🍌 Banane : 120g',
-                            '🍎 Poire : 150g'
+                            '🍌 Banane : 120g'
                         ]
                     },
                     {
                         id: 'D',
                         nom: 'Option D - Poisson-Riz',
                         aliments: [
-                            '🐟 Cabillaud/Colin : 280g cru → 230g cuit',
-                            '🍚 Riz basmati : 90g cru → 270g cuit',
+                            '🐟 Cabillaud/Colin : 300g cru → 240g cuit',
+                            '🍚 Riz basmati : 70g cru → 210g cuit',
                             '🥒 Courgettes : 350g',
                             '🫒 Huile olive : 15ml',
-                            '🍌 Banane : 120g',
-                            '🍎 Pomme : 150g'
+                            '🍌 Banane : 120g'
                         ]
                     }
                 ],
@@ -494,6 +490,9 @@ const MENUS_BASE = {
                     '✅ MSM : 2000mg (2 gélules)',
                     '✅ Acide Hyaluronique : 200mg (1 gélule)',
                     '✅ Boswellia : 500mg (1 gélule)',
+                    '',
+                    '💊 DIABÈTE :',
+                    '✅ Berbérine : 500mg (1 gélule) 🆕',
                     '',
                     '💊 AUTRES :',
                     '✅ Créatine : 5g (dans eau/thé)',
@@ -511,21 +510,21 @@ const MENUS_BASE = {
                 id: 'repas2_training',
                 nom: 'REPAS 2 - Post-Training',
                 heure: '15:45',
-                calories: 860,
-                macros: {P: 62, G: 148, L: 5},
+                calories: 834,
+                macros: {P: 77, G: 122, L: 5},
                 note: '⏰ Dans les 30 min post-training MAX',
                 aliments: [
                     '💪 SHAKER ANTI-INFLAMMATOIRE :',
                     '━━━━━━━━━━━━━━━━━━',
-                    '💪 Whey isolate nature : 60g',
-                    '🍌 Bananes mûres : 360g (3 moyennes)',
-                    '🥣 Flocons avoine : 40g secs',
+                    '💪 Whey isolate nature : 80g',
+                    '🍌 Bananes mûres : 240g (2 moyennes)',
+                    '🥣 Flocons avoine : 40g secs → 80g réhydratés',
                     '🍒 Jus cerise acide : 150ml (Montmorency)',
                     '🫐 Myrtilles surgelées : 100g',
-                    '🍯 Miel : 10g (1 c. café)',
+                    '🍯 Miel : 10g (1 c. café, optionnel)',
                     '💧 Eau : 200ml + glace',
                     '',
-                    '🔄 MIXER 30 sec = Shake 1L',
+                    '🔄 MIXER 30 sec = Shake 750ml',
                     '',
                     '💰 Coût : ~2.80€'
                 ]
@@ -534,18 +533,18 @@ const MENUS_BASE = {
                 id: 'repas3_training',
                 nom: 'REPAS 3 - Final',
                 heure: '19:30',
-                calories: 715,
-                macros: {P: 46, G: 54, L: 34},
+                calories: 778,
+                macros: {P: 80, G: 29, L: 38},
                 note: '🍽️ Version standard Lun/Mer',
                 options: [
                     {
                         id: 'A',
-                        nom: 'Option A - Saumon-Riz',
+                        nom: 'Option A - Poulet-Riz',
                         aliments: [
-                            '🐟 Saumon sauvage : 180g cru → 150g cuit',
-                            '🍚 Riz basmati : 50g cru → 150g cuit',
-                            '🥗 Salade verte + légumes : 300g',
-                            '🫒 Huile olive : 15ml',
+                            '🍗 Poulet blanc grillé : 300g cru → 240g cuit',
+                            '🍚 Riz basmati : 20g cru → 60g cuit',
+                            '🥗 Salade verte + légumes crus : 300g',
+                            '🫒 Huile olive : 25ml',
                             '🌰 Graines lin moulues : 15g',
                             '',
                             '🌿 AJOUTS :',
@@ -556,11 +555,10 @@ const MENUS_BASE = {
                     },
                     {
                         id: 'B',
-                        nom: 'Option B - Poulet-Patate',
+                        nom: 'Option B - Saumon-Légumes',
                         aliments: [
-                            '🍗 Poulet grillé : 200g cru → 160g cuit',
-                            '🍠 Patate douce : 200g crue → 180g cuite',
-                            '🥗 Salade + légumes : 300g',
+                            '🐟 Saumon sauvage : 250g cru → 200g cuit',
+                            '🥗 Salade + légumes : 400g',
                             '🫒 Huile olive : 20ml',
                             '🌰 Graines lin : 15g',
                             '',
@@ -578,14 +576,14 @@ const MENUS_BASE = {
                             '🌰 Graines lin : 15g',
                             '',
                             '2️⃣ VIANDE (puis viande) :',
-                            '🥩 Steak bœuf OU Poulet : 250g cru → 200g cuit',
+                            '🥩 Steak bœuf 5% OU Poulet : 300g cru → 240g cuit',
                             '',
                             '3️⃣ FRITES (en dernier) :',
-                            '🍟 Pommes terre : 350g crues',
-                            '→ Air Fryer + spray huile 10ml',
+                            '🍟 Pommes terre : 250g crues → 215g frites',
+                            '→ Air Fryer + spray huile 5ml',
                             '',
-                            '⚠️ +160 kcal = 875 kcal total',
-                            '→ Compenser Lun/Mer (-80 kcal)'
+                            '⚠️ -100g vs avant = Macros respectées',
+                            '💰 Total : 776 kcal (P:79 G:54 L:27)'
                         ]
                     }
                 ],
@@ -617,7 +615,7 @@ const MENUS_BASE = {
                 liste: [
                     '💊 ARTICULATIONS :',
                     '• Oméga-3 EPA/DHA : 4g (4 capsules)',
-                    '  → ⚠️ 2g seulement si saumon au dîner',
+                    '  → ⚠️ 2g seulement si saumon/poisson gras dîner',
                     '• Curcuma + Poivre noir : 1000mg + 20mg',
                     '• Boswellia : 500mg (1 gélule)',
                     '• Collagène : 5g (eau chaude)',
@@ -628,9 +626,9 @@ const MENUS_BASE = {
                     '• Vitamine C : 1000mg',
                     '• Glycine : 5g (sommeil +15%)',
                     '',
-                    '💊 DIABÈTE (optionnel) :',
-                    '• Berbérine : 500mg (si glycémie >1g/L)',
-                    '• Chrome picolinate : 200mcg',
+                    '💊 DIABÈTE (glycémie 1.09) :',
+                    '• Berbérine : 500mg (PRIORITÉ) 🆕',
+                    '• Chrome picolinate : 200mcg 🆕',
                     '',
                     '💧 Eau : 500ml'
                 ]
@@ -643,40 +641,37 @@ const MENUS_BASE = {
                 id: 'repas1_repos',
                 nom: 'REPAS 1',
                 heure: '12:00',
-                calories: 935,
-                macros: {P: 76, G: 100, L: 27},
+                calories: 886,
+                macros: {P: 87, G: 85, L: 23},
                 options: [
                     {
                         id: 'A',
                         nom: 'Option A - Poulet-Riz',
                         aliments: [
-                            '🍗 Poulet : 250g cru → 200g cuit',
-                            '🍚 Riz basmati : 70g cru → 210g cuit',
-                            '🥦 Légumes : 400g (augmenté)',
-                            '🫒 Huile olive : 20ml (+5ml vs training)',
-                            '🍎 Pomme : 150g'
+                            '🍗 Poulet blanc : 300g cru → 240g cuit',
+                            '🍚 Riz basmati : 80g cru → 240g cuit',
+                            '🥦 Légumes : 350g cru → 300g cuit',
+                            '🫒 Huile olive : 15ml'
                         ]
                     },
                     {
                         id: 'B',
                         nom: 'Option B - Dinde-Quinoa',
                         aliments: [
-                            '🦃 Dinde : 250g cru → 200g cuit',
-                            '🌾 Quinoa : 65g cru → 195g cuit',
-                            '🥦 Légumes : 400g',
-                            '🫒 Huile olive : 20ml',
-                            '🍊 Orange : 150g'
+                            '🦃 Dinde : 300g cru → 240g cuit',
+                            '🌾 Quinoa : 70g cru → 210g cuit',
+                            '🥦 Légumes : 350g',
+                            '🫒 Huile olive : 15ml'
                         ]
                     },
                     {
                         id: 'C',
                         nom: 'Option C - Bœuf-Patate',
                         aliments: [
-                            '🥩 Bœuf 5% : 220g cru → 180g cuit',
-                            '🍠 Patate douce : 250g cuite',
-                            '🥬 Légumes : 400g',
-                            '🫒 Huile olive : 20ml',
-                            '🍌 Banane : 100g'
+                            '🥩 Bœuf 5% : 270g cru → 220g cuit',
+                            '🍠 Patate douce : 280g crue → 250g cuite',
+                            '🥬 Légumes : 350g',
+                            '🫒 Huile olive : 15ml'
                         ]
                     }
                 ],
@@ -688,6 +683,11 @@ const MENUS_BASE = {
                     '✅ MSM : 2000mg',
                     '✅ Acide Hyaluronique : 200mg',
                     '✅ Boswellia : 500mg',
+                    '',
+                    '💊 DIABÈTE :',
+                    '✅ Berbérine : 500mg 🆕',
+                    '',
+                    '💊 AUTRES :',
                     '✅ Créatine : 5g',
                     '✅ Collagène : 10g'
                 ],
@@ -701,16 +701,17 @@ const MENUS_BASE = {
                 id: 'repas2_repos',
                 nom: 'COLLATION',
                 heure: '16:00',
-                calories: 405,
-                macros: {P: 30, G: 49, L: 11},
+                calories: 346,
+                macros: {P: 24, G: 46, L: 8},
+                note: '💡 Ajouter 30g whey si besoin atteindre P220g',
                 options: [
                     {
                         id: 'A',
                         nom: 'Option A - Skyr',
                         aliments: [
-                            '🍶 Skyr 0% : 250g',
+                            '🍶 Skyr 0% : 200g (réduit)',
                             '🍌 Banane : 120g',
-                            '🥜 Amandes : 20g (15-20 unités)',
+                            '🥜 Amandes : 15g (12 unités)',
                             '🍯 Miel : 10g'
                         ]
                     },
@@ -720,28 +721,28 @@ const MENUS_BASE = {
                         aliments: [
                             '🥚 Œufs durs : 3 entiers',
                             '🍌 Banane : 120g',
-                            '🌰 Noix : 20g',
-                            '🍎 Pomme : 150g'
+                            '🌰 Noix : 15g',
+                            '🍎 Pomme : 100g'
                         ]
                     },
                     {
                         id: 'C',
                         nom: 'Option C - Fromage blanc',
                         aliments: [
-                            '🧀 Fromage blanc 0% : 300g',
-                            '🫐 Fruits rouges : 100g',
-                            '🥜 Beurre cacahuète : 15g',
+                            '🧀 Fromage blanc 0% : 250g',
+                            '🫐 Fruits rouges : 80g',
+                            '🥜 Beurre cacahuète : 10g',
                             '🍯 Miel : 10g'
                         ]
                     },
                     {
                         id: 'D',
-                        nom: 'Option D - Shaker',
+                        nom: 'Option D - Whey Boost',
                         aliments: [
-                            '💪 Whey : 35g',
-                            '🍌 Banane : 150g',
+                            '💪 Whey : 30g (+P si besoin)',
+                            '🍌 Banane : 120g',
                             '🥛 Lait avoine : 200ml',
-                            '🥜 Amandes : 15g'
+                            '🥜 Amandes : 10g'
                         ]
                     }
                 ]
@@ -750,35 +751,34 @@ const MENUS_BASE = {
                 id: 'repas3_repos',
                 nom: 'REPAS 3 - Soir',
                 heure: '19:30',
-                calories: 765,
-                macros: {P: 47, G: 55, L: 39},
+                calories: 909,
+                macros: {P: 78, G: 47, L: 53},
                 note: '🍽️ Rotation protéines selon jour',
                 options: [
                     {
                         id: 'A',
-                        nom: 'Option A - Saumon',
+                        nom: 'Option A - Saumon (Mar/Jeu/Sam)',
                         aliments: [
-                            '🐟 Saumon sauvage : 180g cru → 150g cuit',
-                            '🍠 Patate douce : 200g cuite',
+                            '🐟 Saumon sauvage : 350g cru → 280g cuit',
+                            '🍠 Patate douce : 170g crue → 150g cuite',
                             '🥗 Salade + légumes : 350g',
-                            '🫒 Huile olive : 20ml',
+                            '🫒 Huile olive : 25ml',
                             '🌰 Graines lin : 15g',
                             '',
-                            '💡 ROTATION :',
-                            '• Mardi : Saumon',
-                            '• Jeudi : Sardines 200g',
-                            '• Samedi : Maquereaux 150g',
-                            '• Dimanche : Poulet 200g'
+                            '💡 ROTATION POISSON :',
+                            '• Mardi : Saumon 350g',
+                            '• Jeudi : Sardines 300g cru',
+                            '• Samedi : Maquereaux 280g cru'
                         ]
                     },
                     {
                         id: 'B',
-                        nom: 'Option B - Poulet-Légumes',
+                        nom: 'Option B - Poulet (Dimanche)',
                         aliments: [
-                            '🍗 Poulet : 200g cru → 160g cuit',
-                            '🥔 Pommes terre : 200g vapeur',
+                            '🍗 Poulet : 300g cru → 240g cuit',
+                            '🥔 Pommes terre : 250g crues → 200g vapeur',
                             '🥦 Légumes : 400g',
-                            '🫒 Huile olive : 25ml',
+                            '🫒 Huile olive : 30ml',
                             '🌰 Graines lin : 15g'
                         ]
                     },
@@ -787,17 +787,20 @@ const MENUS_BASE = {
                         nom: 'Option C - Œufs',
                         aliments: [
                             '🥚 Œufs entiers : 5 (omelette)',
-                            '🍠 Patate douce : 200g',
+                            '🍠 Patate douce : 220g crue → 200g cuite',
                             '🥦 Mix légumes : 400g',
-                            '🫒 Huile olive : 15ml',
+                            '🫒 Huile olive : 20ml',
                             '🧀 Fromage râpé : 30g'
                         ]
                     }
                 ],
                 supplements: [
-                    '💧 BOUILLON OS (3-4×/sem) :',
+                    '💧 BOUILLON OS (3-4×/sem optionnel) :',
                     '• 250ml après repas',
-                    '• P: 10g / Collagène naturel'
+                    '• P: 10g / Collagène naturel',
+                    '',
+                    '🍶 SKYR (si besoin +protéines) :',
+                    '• 100g = +10g protéines'
                 ]
             }
         ],
@@ -813,14 +816,18 @@ const MENUS_BASE = {
             {
                 moment: 'SOIR (22h00)',
                 liste: [
-                    '💊 Oméga-3 : 2g (si saumon) ou 4g',
+                    '💊 Oméga-3 : 2g (si poisson gras) ou 4g',
                     '💊 Curcuma + Poivre : 1000mg',
                     '💊 Boswellia : 500mg',
                     '💊 Collagène : 5g',
                     '💊 Magnésium : 400mg',
                     '💊 Zinc : 30mg',
                     '💊 Vitamine C : 1000mg',
-                    '💊 Glycine : 5g'
+                    '💊 Glycine : 5g',
+                    '',
+                    '💊 DIABÈTE :',
+                    '• Berbérine : 500mg 🆕',
+                    '• Chrome : 200mcg 🆕'
                 ]
             }
         ]
