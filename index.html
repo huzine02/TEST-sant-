@@ -406,22 +406,22 @@
 // 🆕 Saisons simplifiées
 const SAISONS={automne:{mois:[9,10,11],nom:'Automne',emoji:'🍂',fruits:['Pomme','Poire','Raisin'],legumes:['Courge','Potimarron','Carottes','Courgettes','Brocoli','Haricots verts','Épinards']},hiver:{mois:[12,1,2],nom:'Hiver',emoji:'❄️',fruits:['Pomme','Poire','Orange','Kiwi'],legumes:['Carottes','Courge','Épinards','Brocoli']},printemps:{mois:[3,4,5],nom:'Printemps',emoji:'🌸',fruits:['Fraise','Cerise','Pomme'],legumes:['Carottes','Haricots verts','Épinards','Asperges']},ete:{mois:[6,7,8],nom:'Été',emoji:'☀️',fruits:['Pêche','Abricot','Melon'],legumes:['Courgettes','Haricots verts','Carottes','Tomate']}};
 
-// 🆕 PLAN SÈCHE 10 SEMAINES - MACROS AJUSTÉES
+// 🆕 PLAN SÈCHE 10 SEMAINES - MACROS CORRIGÉES (P220g réaliste)
 const PLAN_HYBRIDE = {
     dateDebut: new Date().toISOString().split('T')[0],
     poidsInitial: 93.4,
     tailleInitiale: 105,
     semaines: {
-        S1: {phase:'seche',nom:'Sèche S1',objectif:'Kickstart sèche intensive',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.7,couleur:'#ff6b6b'},
-        S2: {phase:'seche',nom:'Sèche S2',objectif:'Accélération perte gras',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.7,couleur:'#ff6b6b'},
-        S3: {phase:'seche',nom:'Sèche S3',objectif:'Momentum optimal',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.7,couleur:'#ff6b6b'},
-        S4: {phase:'seche',nom:'Sèche S4',objectif:'Finalisation phase 1',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.7,couleur:'#ff6b6b'},
-        S5: {phase:'deload',nom:'Deload',objectif:'Récupération métabolique',calories:{training:2750,repos:2350},macros:{training:{P:230,G:280,L:85},repos:{P:220,G:200,L:95}},deficitCible:400,perteVisee:0.3,couleur:'#ffc107'},
-        S6: {phase:'seche',nom:'Sèche S6',objectif:'Reprise intensité',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.7,couleur:'#ff6b6b'},
-        S7: {phase:'seche',nom:'Sèche S7',objectif:'Continuation sèche',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.7,couleur:'#ff6b6b'},
-        S8: {phase:'seche',nom:'Sèche S8',objectif:'Phase finale approche',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.7,couleur:'#ff6b6b'},
-        S9: {phase:'seche',nom:'Sèche S9',objectif:'Dernière ligne droite',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.7,couleur:'#ff6b6b'},
-        S10: {phase:'finale',nom:'Finale',objectif:'Bilan final & transition',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.5,couleur:'#51cf66'}
+        S1: {phase:'seche',nom:'Sèche S1',objectif:'Kickstart sèche intensive',calories:{training:2573,repos:2241},macros:{training:{P:244,G:255,L:66},repos:{P:214,G:179,L:84}},deficitCible:445,perteVisee:0.6,couleur:'#ff6b6b'},
+        S2: {phase:'seche',nom:'Sèche S2',objectif:'Accélération perte gras',calories:{training:2573,repos:2241},macros:{training:{P:244,G:255,L:66},repos:{P:214,G:179,L:84}},deficitCible:445,perteVisee:0.6,couleur:'#ff6b6b'},
+        S3: {phase:'seche',nom:'Sèche S3',objectif:'Momentum optimal',calories:{training:2573,repos:2241},macros:{training:{P:244,G:255,L:66},repos:{P:214,G:179,L:84}},deficitCible:445,perteVisee:0.6,couleur:'#ff6b6b'},
+        S4: {phase:'seche',nom:'Sèche S4',objectif:'Finalisation phase 1',calories:{training:2573,repos:2241},macros:{training:{P:244,G:255,L:66},repos:{P:214,G:179,L:84}},deficitCible:445,perteVisee:0.6,couleur:'#ff6b6b'},
+        S5: {phase:'deload',nom:'Deload',objectif:'Récupération métabolique',calories:{training:2750,repos:2350},macros:{training:{P:230,G:280,L:85},repos:{P:220,G:200,L:95}},deficitCible:350,perteVisee:0.3,couleur:'#ffc107'},
+        S6: {phase:'seche',nom:'Sèche S6',objectif:'Reprise intensité',calories:{training:2573,repos:2241},macros:{training:{P:244,G:255,L:66},repos:{P:214,G:179,L:84}},deficitCible:445,perteVisee:0.6,couleur:'#ff6b6b'},
+        S7: {phase:'seche',nom:'Sèche S7',objectif:'Continuation sèche',calories:{training:2573,repos:2241},macros:{training:{P:244,G:255,L:66},repos:{P:214,G:179,L:84}},deficitCible:445,perteVisee:0.6,couleur:'#ff6b6b'},
+        S8: {phase:'seche',nom:'Sèche S8',objectif:'Phase finale approche',calories:{training:2573,repos:2241},macros:{training:{P:244,G:255,L:66},repos:{P:214,G:179,L:84}},deficitCible:445,perteVisee:0.6,couleur:'#ff6b6b'},
+        S9: {phase:'seche',nom:'Sèche S9',objectif:'Dernière ligne droite',calories:{training:2573,repos:2241},macros:{training:{P:244,G:255,L:66},repos:{P:214,G:179,L:84}},deficitCible:445,perteVisee:0.6,couleur:'#ff6b6b'},
+        S10: {phase:'finale',nom:'Finale',objectif:'Bilan final & transition',calories:{training:2573,repos:2241},macros:{training:{P:244,G:255,L:66},repos:{P:214,G:179,L:84}},deficitCible:445,perteVisee:0.5,couleur:'#51cf66'}
     }
 };
 
