@@ -1,4 +1,1631 @@
-rapport += `Évolution: ${dernierePesee.deltaKg > 0 ? '+' : ''}${dernierePesee.deltaKg}kg\n`;
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutri-Track Sèche 10 Sem - Hocine</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 15px; color: #333;}
+        .container {max-width: 950px; margin: 0 auto; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);}
+        h1 {text-align: center; color: #667eea; margin-bottom: 5px; font-size: 26px;}
+        .version-badge {text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; margin: 5px;}
+        .gas-badge {background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);}
+        .season-badge {background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%);}
+        .cholesterol-badge {background: linear-gradient(135deg, #fab005 0%, #f59f00 100%);}
+        .header-info {text-align: center; color: #666; margin-bottom: 15px; font-size: 13px;}
+        .timeline-container {background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px; border-radius: 15px; margin-bottom: 20px; overflow-x: auto;}
+        .timeline {display: flex; justify-content: space-between; align-items: center; position: relative; max-width: 100%;}
+        .timeline-line {position: absolute; top: 50%; left: 5%; right: 5%; height: 4px; background: #dee2e6; z-index: 0; transform: translateY(-50%);}
+        .timeline-progress {position: absolute; top: 50%; left: 5%; height: 4px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); z-index: 1; transform: translateY(-50%); transition: width 0.5s;}
+        .timeline-item {position: relative; z-index: 2; text-align: center; cursor: pointer; flex: 1; padding: 5px;}
+        .timeline-dot {width: 40px; height: 40px; border-radius: 50%; background: white; border: 4px solid #dee2e6; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; transition: all 0.3s;}
+        .timeline-item.active .timeline-dot {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-color: #667eea; transform: scale(1.2);}
+        .timeline-item.completed .timeline-dot {background: #51cf66; border-color: #51cf66; color: white;}
+        .timeline-item.future .timeline-dot {background: #f8f9fa; border-color: #dee2e6;}
+        .timeline-label {font-size: 11px; font-weight: bold; color: #666;}
+        .timeline-phase {font-size: 9px; color: #999; margin-top: 2px;}
+        .day-tracker {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; text-align: center;}
+        .day-display {font-size: 28px; font-weight: bold; margin: 10px 0;}
+        .day-controls {display: flex; gap: 8px; justify-content: center; margin-top: 10px; flex-wrap: wrap;}
+        .auto-save-indicator {position: fixed; top: 20px; right: 20px; background: #51cf66; color: white; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: bold; opacity: 0; transition: opacity 0.3s; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);}
+        .auto-save-indicator.show {opacity: 1;}
+        .tabs {display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; margin-bottom: 20px;}
+        .tab {padding: 12px 8px; background: #f0f0f0; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; transition: all 0.3s; font-size: 12px;}
+        .tab.active {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);}
+        .tab-content {display: none;}
+        .tab-content.active {display: block; animation: fadeIn 0.4s;}
+        @keyframes fadeIn {from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);}}
+        @keyframes slideIn {from {opacity: 0; transform: translateX(100px);} to {opacity: 1; transform: translateX(0);}}
+        @keyframes slideOut {from {opacity: 1; transform: translateX(0);} to {opacity: 0; transform: translateX(100px);}}
+        .nutrition-section {background: #f0f4ff; border-radius: 15px; padding: 15px; margin-bottom: 15px; border-left: 5px solid #667eea;}
+        .nutrition-section h3 {color: #667eea; margin-bottom: 12px; font-size: 18px;}
+        .meal {background: white; padding: 12px; margin: 10px 0; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
+        .meal-details {display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 6px; margin: 8px 0; font-size: 12px;}
+        .detail-item {background: #f0f0f0; padding: 5px 8px; border-radius: 6px;}
+        .detail-label {font-weight: bold; color: #667eea;}
+        .meal-foods {background: #f9fafb; border-radius: 8px; padding: 10px; margin: 10px 0; font-size: 13px; line-height: 1.6;}
+        .meal-foods ul {margin-left: 20px;}
+        .season-tag {background: #fff9e6; color: #ff6b00; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-left: 5px;}
+        .cholesterol-tag {background: #fff3bf; color: #f59f00; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-left: 5px;}
+        /* 🆕 Styles pour suppléments et ajouts anti-inflammatoires */
+        .supplements-box {background: #e8f5e9; border-left: 4px solid #51cf66; padding: 10px; margin: 10px 0; border-radius: 6px; font-size: 12px;}
+        .anti-inflam-box {background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px; margin: 10px 0; border-radius: 6px; font-size: 12px;}
+        .gas-tip {background: #e8f5e9; border-left: 4px solid #51cf66; padding: 10px; margin: 10px 0; border-radius: 6px; font-size: 12px;}
+        .hydration-note {background: #e3f2fd; border-left: 4px solid #2196f3; padding: 10px; margin: 10px 0; border-radius: 6px; font-size: 12px;}
+        .validation-checkbox {display: flex; align-items: center; gap: 10px; background: #e8f5e9; padding: 10px; border-radius: 8px; margin-top: 10px; cursor: pointer;}
+        .validation-checkbox input {width: 20px; height: 20px; cursor: pointer;}
+        .validation-checkbox.validated {background: #c8e6c9;}
+        .progress-card {background: white; padding: 15px; border-radius: 10px; margin: 10px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
+        .progress-bar-container {background: #e0e0e0; border-radius: 10px; height: 30px; margin: 10px 0; overflow: hidden;}
+        .progress-bar {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 100%; transition: width 0.5s; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px;}
+        .macro-grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 15px 0;}
+        .macro-card {background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%); padding: 15px; border-radius: 10px; text-align: center;}
+        .macro-card.calories {background: linear-gradient(135deg, #ffd93d 0%, #ff9800 100%); color: white;}
+        .macro-card.proteines {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;}
+        .macro-card.glucides {background: linear-gradient(135deg, #ffa500 0%, #ff6347 100%); color: white;}
+        .macro-card.lipides {background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%); color: white;}
+        .macro-card.hydration {background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%); color: white;}
+        .macro-value {font-size: 28px; font-weight: bold; margin: 5px 0;}
+        .macro-label {font-size: 11px; opacity: 0.9; text-transform: uppercase;}
+        .week-card {background: white; border-radius: 15px; padding: 20px; margin: 15px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 6px solid #667eea;}
+        .week-card.agressive {border-left-color: #ff6b6b;}
+        .week-card.deload {border-left-color: #ffc107;}
+        .week-card.moderee {border-left-color: #51cf66;}
+        .week-header {display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;}
+        .week-title {font-size: 22px; font-weight: bold; color: #667eea;}
+        .phase-badge {padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; color: white;}
+        .phase-badge.agressive {background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%);}
+        .phase-badge.deload {background: linear-gradient(135deg, #ffc107 0%, #ffd54f 100%);}
+        .phase-badge.moderee {background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);}
+        .stats-grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 15px 0;}
+        .stat-item {background: #f8f9fa; padding: 12px; border-radius: 8px; text-align: center;}
+        .stat-value {font-size: 24px; font-weight: bold; color: #667eea; margin: 5px 0;}
+        .stat-label {font-size: 11px; color: #666; text-transform: uppercase;}
+        .chart-container {background: #f8f9fa; border-radius: 10px; padding: 20px; margin: 15px 0; min-height: 300px; position: relative;}
+        .chart-svg {width: 100%; height: 250px;}
+        .form-group {margin: 15px 0;}
+        .form-label {display: block; font-weight: bold; color: #667eea; margin-bottom: 8px; font-size: 14px;}
+        .form-input {width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; transition: border 0.3s;}
+        .form-input:focus {border-color: #667eea; outline: none;}
+        .form-row {display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;}
+        .alert-box {padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 14px; border-left: 4px solid;}
+        .alert-success {background: #e8f5e9; border-color: #51cf66; color: #2e7d32;}
+        .alert-warning {background: #fff9e6; border-color: #ffc107; color: #f57c00;}
+        .alert-danger {background: #ffebee; border-color: #ff6b6b; color: #c62828;}
+        .alert-info {background: #e3f2fd; border-color: #2196f3; color: #1565c0;}
+        .grignotage-section {background: #fff9e6; border-left: 5px solid #ffc107; padding: 15px; border-radius: 15px; margin: 15px 0;}
+        .grignotage-item {background: white; padding: 10px; margin: 8px 0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;}
+        .btn {padding: 10px 16px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.3s; font-size: 13px;}
+        .btn-primary {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;}
+        .btn-primary:hover {transform: scale(1.05); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);}
+        .btn-secondary {background: rgba(255,255,255,0.2); color: white; border: 2px solid white;}
+        .btn-danger {background: #ff6b6b; color: white;}
+        .btn-success {background: #51cf66; color: white;}
+        .modal {display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; overflow-y: auto;}
+        .modal.show {display: flex;}
+        .modal-content {background: white; padding: 30px; border-radius: 20px; max-width: 500px; width: 90%; margin: 20px; animation: modalPop 0.3s; max-height: 90vh; overflow-y: auto;}
+        @keyframes modalPop {from {transform: scale(0.8); opacity: 0;} to {transform: scale(1); opacity: 1;}}
+        .modal-header {font-size: 22px; font-weight: bold; color: #667eea; margin-bottom: 15px; text-align: center;}
+        .modal-body {margin: 15px 0;}
+        .notes-area {width: 100%; min-height: 80px; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-family: inherit; font-size: 13px; margin-top: 10px;}
+        .info-box {background: #e3f2fd; border-left: 4px solid #2196f3; padding: 12px; border-radius: 8px; margin: 10px 0; font-size: 13px;}
+        .warning-box {background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; border-radius: 8px; margin: 10px 0; font-size: 13px;}
+        .option-selector {background: #f8f9fa; padding: 12px; border-radius: 8px; margin: 10px 0;}
+        .option-btn {padding: 8px 16px; background: white; border: 2px solid #e0e0e0; border-radius: 8px; margin: 4px; cursor: pointer; font-size: 12px; font-weight: bold; transition: all 0.3s;}
+        .option-btn.active {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-color: #667eea;}
+        @media (max-width: 600px) {.container {padding: 12px;} h1 {font-size: 22px;} .macro-grid, .stats-grid {grid-template-columns: repeat(2, 1fr);} .timeline-item {padding: 2px;} .timeline-dot {width: 30px; height: 30px; font-size: 10px;} .timeline-label, .timeline-phase {font-size: 9px;}}
+    </style>
+</head>
+<body>
+    <div class="auto-save-indicator" id="auto-save-indicator">✅ Sauvegardé</div>
+    <div class="container">
+        <h1>🔥 PLAN SÈCHE 10 SEMAINES</h1>
+        <div style="text-align: center;">
+            <span class="version-badge">v5.0 SÈCHE • Hocine 44 ans</span>
+            <span class="version-badge season-badge" id="season-badge">🍂 AUTOMNE</span>
+        </div>
+        <div class="header-info">93.4kg • 105cm taille • Objectif 88kg en 10 semaines • Phase de sèche maximale</div>
+        
+        <div class="timeline-container">
+            <div style="text-align: center; margin-bottom: 15px; font-weight: bold; color: #667eea;">PROGRESSION 10 SEMAINES</div>
+            <div class="timeline">
+                <div class="timeline-line"></div>
+                <div class="timeline-progress" id="timeline-progress" style="width: 0%"></div>
+                <div class="timeline-item" onclick="afficherSemaine(1)">
+                    <div class="timeline-dot">S1</div>
+                    <div class="timeline-label">Semaine 1</div>
+                    <div class="timeline-phase">Sèche</div>
+                </div>
+                <div class="timeline-item" onclick="afficherSemaine(2)">
+                    <div class="timeline-dot">S2</div>
+                    <div class="timeline-label">Semaine 2</div>
+                    <div class="timeline-phase">Sèche</div>
+                </div>
+                <div class="timeline-item" onclick="afficherSemaine(3)">
+                    <div class="timeline-dot">S3</div>
+                    <div class="timeline-label">Semaine 3</div>
+                    <div class="timeline-phase">Sèche</div>
+                </div>
+                <div class="timeline-item" onclick="afficherSemaine(4)">
+                    <div class="timeline-dot">S4</div>
+                    <div class="timeline-label">Semaine 4</div>
+                    <div class="timeline-phase">Sèche</div>
+                </div>
+                <div class="timeline-item" onclick="afficherSemaine(5)">
+                    <div class="timeline-dot">S5</div>
+                    <div class="timeline-label">Semaine 5</div>
+                    <div class="timeline-phase">Deload</div>
+                </div>
+                <div class="timeline-item" onclick="afficherSemaine(6)">
+                    <div class="timeline-dot">S6</div>
+                    <div class="timeline-label">Semaine 6</div>
+                    <div class="timeline-phase">Sèche</div>
+                </div>
+                <div class="timeline-item" onclick="afficherSemaine(7)">
+                    <div class="timeline-dot">S7</div>
+                    <div class="timeline-label">Semaine 7</div>
+                    <div class="timeline-phase">Sèche</div>
+                </div>
+                <div class="timeline-item" onclick="afficherSemaine(8)">
+                    <div class="timeline-dot">S8</div>
+                    <div class="timeline-label">Semaine 8</div>
+                    <div class="timeline-phase">Sèche</div>
+                </div>
+                <div class="timeline-item" onclick="afficherSemaine(9)">
+                    <div class="timeline-dot">S9</div>
+                    <div class="timeline-label">Semaine 9</div>
+                    <div class="timeline-phase">Sèche</div>
+                </div>
+                <div class="timeline-item" onclick="afficherSemaine(10)">
+                    <div class="timeline-dot">S10</div>
+                    <div class="timeline-label">Semaine 10</div>
+                    <div class="timeline-phase">Finale</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="day-tracker">
+            <div style="font-size: 14px; margin-bottom: 5px;">📅 <span id="semaine-actuelle-label">SEMAINE 1</span></div>
+            <div class="day-display" id="day-display">🏋️ JOUR TRAINING</div>
+            <div class="day-controls">
+                <button class="btn btn-secondary" onclick="setDayType('training')">🏋️ Training</button>
+                <button class="btn btn-secondary" onclick="setDayType('repos')">💤 Repos</button>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('menu')">📋 MENU</button>
+            <button class="tab" onclick="showTab('suivi10sem')">📊 SUIVI</button>
+            <button class="tab" onclick="showTab('saison')">🍂 SAISON</button>
+            <button class="tab" onclick="showTab('grignotages')">🍪 SNACKS</button>
+            <button class="tab" onclick="showTab('export')">📤 EXPORT</button>
+        </div>
+
+        <div id="tab-menu" class="tab-content active">
+            <div class="progress-card">
+                <h3 style="color: #667eea; margin-bottom: 10px;">📊 Progression du jour</h3>
+                <div class="progress-bar-container"><div class="progress-bar" id="progress-bar" style="width: 0%">0%</div></div>
+                <div class="macro-grid">
+                    <div class="macro-card calories"><div class="macro-label">Calories</div><div class="macro-value"><span id="cal-actuel">0</span>/<span id="cal-total">2580</span></div></div>
+                    <div class="macro-card proteines"><div class="macro-label">Protéines</div><div class="macro-value"><span id="prot-actuel">0</span>/<span id="prot-total">240</span>g</div></div>
+                    <div class="macro-card glucides"><div class="macro-label">Glucides</div><div class="macro-value"><span id="gluc-actuel">0</span>/<span id="gluc-total">250</span>g</div></div>
+                    <div class="macro-card lipides"><div class="macro-label">Lipides</div><div class="macro-value"><span id="lip-actuel">0</span>/<span id="lip-total">75</span>g</div></div>
+                </div>
+            </div>
+            <div id="menu-container"></div>
+            <textarea class="notes-area" id="notes-jour" placeholder="📝 Notes du jour (énergie, sensations, digestion...)" oninput="showAutoSave()"></textarea>
+        </div>
+
+        <div id="tab-suivi10sem" class="tab-content">
+            <h2 style="color: #667eea; margin-bottom: 15px;">📊 Suivi Plan Sèche 10 Semaines</h2>
+            
+            <div id="carte-semaine-actuelle"></div>
+            
+            <div class="progress-card">
+                <h3 style="color: #667eea; margin-bottom: 15px;">📈 Évolution Poids & Mensurations</h3>
+                <div class="chart-container" id="chart-poids">
+                    <svg class="chart-svg" id="svg-poids"></svg>
+                </div>
+            </div>
+
+            <div id="alertes-container"></div>
+
+            <div class="progress-card">
+                <h3 style="color: #667eea; margin-bottom: 15px;">📋 Historique Pesées</h3>
+                <button class="btn btn-primary" style="width: 100%; margin-bottom: 15px;" onclick="ouvrirFormulairePesee()">⚖️ Nouvelle pesée (Vendredi/Samedi)</button>
+                <div id="historique-pesees"></div>
+            </div>
+        </div>
+
+        <div id="tab-saison" class="tab-content">
+            <h2 style="color: #667eea; margin-bottom: 15px;">🍂 Fruits & Légumes de Saison</h2>
+            <div class="info-box"><strong>📅 Saison actuelle :</strong> <span id="season-name-detail">Automne</span> (mise à jour automatique)</div>
+            <div class="progress-card"><h3>🍎 Fruits disponibles</h3><div id="fruits-saison" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;"></div></div>
+            <div class="progress-card"><h3>🥦 Légumes disponibles</h3><div id="legumes-saison" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;"></div></div>
+        </div>
+
+        <div id="tab-grignotages" class="tab-content">
+            <h2 style="color: #667eea; margin-bottom: 15px;">🍪 Grignotages</h2>
+            <button class="btn btn-primary" style="width: 100%; margin-bottom: 15px;" onclick="openGrignotageModal()">+ Ajouter grignotage</button>
+            <div class="grignotage-section" id="liste-grignotages"><p style="color: #999; text-align: center;">Aucun grignotage aujourd'hui 👍</p></div>
+            <div class="progress-card"><h3>Total grignotages : <span id="total-grignotages" style="color: #ffc107;">+0 kcal</span></h3></div>
+        </div>
+
+        <div id="tab-export" class="tab-content">
+            <h2 style="color: #667eea; margin-bottom: 15px;">📤 Export & Sauvegarde</h2>
+            
+            <div class="alert-box alert-info" style="margin-bottom: 20px;">
+                <strong>💾 SAUVEGARDE TES DONNÉES !</strong><br>
+                Les données sont stockées uniquement dans ton navigateur.<br>
+                Fais un backup régulier pour ne rien perdre !
+            </div>
+
+            <div class="progress-card">
+                <h3 style="color: #667eea; margin-bottom: 15px;">💾 Sauvegarde complète</h3>
+                <button class="btn btn-success" style="width: 100%; margin: 10px 0;" onclick="telechargerBackup()">💾 Télécharger backup (.json)</button>
+                <button class="btn btn-primary" style="width: 100%; margin: 10px 0;" onclick="document.getElementById('input-restore').click()">📥 Restaurer backup</button>
+                <input type="file" id="input-restore" accept=".json" style="display: none;" onchange="restaurerBackup(event)">
+                <div style="font-size: 12px; color: #999; margin-top: 10px; text-align: center;">
+                    Dernier backup : <span id="last-backup-date">Jamais</span>
+                </div>
+            </div>
+
+            <div class="progress-card">
+                <h3 style="color: #667eea; margin-bottom: 15px;">📋 Rapports texte</h3>
+                <button class="btn btn-primary" style="width: 100%; margin: 10px 0;" onclick="exportRapport()">📋 Copier rapport du jour</button>
+                <button class="btn btn-secondary" style="width: 100%; margin: 10px 0;" onclick="exportRapportSemaine()">📊 Copier rapport semaine</button>
+            </div>
+
+            <div class="progress-card">
+                <h3 style="color: #667eea; margin-bottom: 15px;">⚙️ Gestion</h3>
+                <button class="btn btn-danger" style="width: 100%; margin: 10px 0;" onclick="resetJour()">🔄 Reset jour actuel</button>
+                <button class="btn btn-danger" style="width: 100%; margin: 10px 0;" onclick="resetSemaine()">⚠️ Reset semaine actuelle</button>
+                <button class="btn btn-danger" style="width: 100%;" onclick="resetTout()">🗑️ Effacer toutes les données</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-pesee">
+        <div class="modal-content">
+            <div class="modal-header">⚖️ Nouvelle Pesée Hebdomadaire</div>
+            <div class="modal-body">
+                <div class="info-box" style="margin-bottom: 15px;">
+                    <strong>📅 Pesée idéale :</strong> Vendredi ou Samedi matin, à jeun, après toilettes
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Semaine concernée</label>
+                    <select class="form-input" id="input-semaine">
+                        <option value="S1">S1 - Sèche</option>
+                        <option value="S2">S2 - Sèche</option>
+                        <option value="S3">S3 - Sèche</option>
+                        <option value="S4">S4 - Sèche</option>
+                        <option value="S5">S5 - Deload</option>
+                        <option value="S6">S6 - Sèche</option>
+                        <option value="S7">S7 - Sèche</option>
+                        <option value="S8">S8 - Sèche</option>
+                        <option value="S9">S9 - Sèche</option>
+                        <option value="S10">S10 - Finale</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">⚖️ Poids (kg) *</label>
+                        <input type="number" step="0.1" class="form-input" id="input-poids" placeholder="Ex: 92.5">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">📊 % Graisse *</label>
+                        <input type="number" step="0.1" class="form-input" id="input-bf" placeholder="Ex: 23.5">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">📏 Tour taille (cm)</label>
+                        <input type="number" step="0.5" class="form-input" id="input-taille" placeholder="Ex: 103">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">💪 Tour bras (cm)</label>
+                        <input type="number" step="0.5" class="form-input" id="input-bras" placeholder="Ex: 38">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">⚡ Énergie (/10)</label>
+                        <input type="number" min="1" max="10" class="form-input" id="input-energie" placeholder="8">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">🌿 Digestion (/10)</label>
+                        <input type="number" min="1" max="10" class="form-input" id="input-digestion" placeholder="8">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">📝 Notes</label>
+                    <textarea class="notes-area" id="input-notes-pesee" placeholder="Sensations, énergie training, points à améliorer..." style="min-height: 60px;"></textarea>
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-secondary" style="flex: 1;" onclick="closeModal('modal-pesee')">Annuler</button>
+                <button class="btn btn-success" style="flex: 1;" onclick="enregistrerPesee()">💾 Enregistrer</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-grignotage">
+        <div class="modal-content">
+            <div class="modal-header">🍪 Ajouter grignotage</div>
+            <div class="modal-body">
+                <input type="text" class="form-input" id="input-aliment" placeholder="Aliment (ex: Chocolat noir)">
+                <input type="number" class="form-input" id="input-quantite" placeholder="Quantité (g)">
+                <input type="number" class="form-input" id="input-calories" placeholder="Calories">
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-secondary" style="flex: 1;" onclick="closeModal('modal-grignotage')">Annuler</button>
+                <button class="btn btn-primary" style="flex: 1;" onclick="ajouterGrignotage()">Ajouter</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+// 🆕 Saisons simplifiées
+const SAISONS={automne:{mois:[9,10,11],nom:'Automne',emoji:'🍂',fruits:['Pomme','Poire','Raisin'],legumes:['Courge','Potimarron','Carottes','Courgettes','Brocoli','Haricots verts','Épinards']},hiver:{mois:[12,1,2],nom:'Hiver',emoji:'❄️',fruits:['Pomme','Poire','Orange','Kiwi'],legumes:['Carottes','Courge','Épinards','Brocoli']},printemps:{mois:[3,4,5],nom:'Printemps',emoji:'🌸',fruits:['Fraise','Cerise','Pomme'],legumes:['Carottes','Haricots verts','Épinards','Asperges']},ete:{mois:[6,7,8],nom:'Été',emoji:'☀️',fruits:['Pêche','Abricot','Melon'],legumes:['Courgettes','Haricots verts','Carottes','Tomate']}};
+
+// 🆕 PLAN SÈCHE 10 SEMAINES - MACROS AJUSTÉES
+const PLAN_HYBRIDE = {
+    dateDebut: new Date().toISOString().split('T')[0],
+    poidsInitial: 93.4,
+    tailleInitiale: 105,
+    semaines: {
+        S1: {phase:'seche',nom:'Sèche S1',objectif:'Kickstart sèche intensive',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.7,couleur:'#ff6b6b'},
+        S2: {phase:'seche',nom:'Sèche S2',objectif:'Accélération perte gras',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.7,couleur:'#ff6b6b'},
+        S3: {phase:'seche',nom:'Sèche S3',objectif:'Momentum optimal',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.7,couleur:'#ff6b6b'},
+        S4: {phase:'seche',nom:'Sèche S4',objectif:'Finalisation phase 1',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.7,couleur:'#ff6b6b'},
+        S5: {phase:'deload',nom:'Deload',objectif:'Récupération métabolique',calories:{training:2750,repos:2350},macros:{training:{P:230,G:280,L:85},repos:{P:220,G:200,L:95}},deficitCible:400,perteVisee:0.3,couleur:'#ffc107'},
+        S6: {phase:'seche',nom:'Sèche S6',objectif:'Reprise intensité',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.7,couleur:'#ff6b6b'},
+        S7: {phase:'seche',nom:'Sèche S7',objectif:'Continuation sèche',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.7,couleur:'#ff6b6b'},
+        S8: {phase:'seche',nom:'Sèche S8',objectif:'Phase finale approche',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.7,couleur:'#ff6b6b'},
+        S9: {phase:'seche',nom:'Sèche S9',objectif:'Dernière ligne droite',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.7,couleur:'#ff6b6b'},
+        S10: {phase:'finale',nom:'Finale',objectif:'Bilan final & transition',calories:{training:2580,repos:2100},macros:{training:{P:240,G:250,L:75},repos:{P:240,G:160,L:75}},deficitCible:420,perteVisee:0.5,couleur:'#51cf66'}
+    }
+};
+
+// 🆕 NOUVEAU MENUS_BASE COMPLET AVEC SUPPLÉMENTS
+const MENUS_BASE = {
+    training: {
+        repas: [
+            {
+                id: 'repas1_training',
+                nom: 'REPAS 1 - Pré-Training',
+                heure: '12:00',
+                calories: 1060,
+                macros: {P: 78, G: 141, L: 22},
+                note: '⏰ Finir 1h45 avant training (13h45)',
+                options: [
+                    {
+                        id: 'A',
+                        nom: 'Option A - Poulet-Riz',
+                        aliments: [
+                            '🍗 Poulet grillé : 250g cru → 200g cuit',
+                            '🍚 Riz basmati : 90g cru → 270g cuit',
+                            '🥦 Légumes vapeur : 350g cru → 300g cuit',
+                            '🫒 Huile olive : 15ml (1 c. soupe)',
+                            '🍌 Banane : 120g (1 moyenne)',
+                            '🍎 Pomme : 150g (1 moyenne)'
+                        ]
+                    },
+                    {
+                        id: 'B',
+                        nom: 'Option B - Dinde-Quinoa',
+                        aliments: [
+                            '🦃 Escalope dinde : 250g cru → 200g cuit',
+                            '🌾 Quinoa : 85g cru → 255g cuit',
+                            '🥦 Haricots verts : 350g',
+                            '🫒 Huile olive : 15ml',
+                            '🍌 Banane : 120g',
+                            '🍊 Orange : 150g'
+                        ]
+                    },
+                    {
+                        id: 'C',
+                        nom: 'Option C - Bœuf-Pâtes',
+                        aliments: [
+                            '🥩 Bœuf haché 5% : 220g cru → 180g cuit',
+                            '🍝 Pâtes complètes : 85g crues → 255g cuites',
+                            '🥬 Épinards : 350g',
+                            '🫒 Huile olive : 15ml',
+                            '🍌 Banane : 120g',
+                            '🍎 Poire : 150g'
+                        ]
+                    },
+                    {
+                        id: 'D',
+                        nom: 'Option D - Poisson-Riz',
+                        aliments: [
+                            '🐟 Cabillaud/Colin : 280g cru → 230g cuit',
+                            '🍚 Riz basmati : 90g cru → 270g cuit',
+                            '🥒 Courgettes : 350g',
+                            '🫒 Huile olive : 15ml',
+                            '🍌 Banane : 120g',
+                            '🍎 Pomme : 150g'
+                        ]
+                    }
+                ],
+                // 🆕 Suppléments associés au repas
+                supplements: [
+                    '💊 ARTICULATIONS (avec repas gras) :',
+                    '✅ Glucosamine : 1500mg (1 comprimé)',
+                    '✅ Chondroïtine : 1200mg (1 comprimé)',
+                    '✅ MSM : 2000mg (2 gélules)',
+                    '✅ Acide Hyaluronique : 200mg (1 gélule)',
+                    '✅ Boswellia : 500mg (1 gélule)',
+                    '',
+                    '💊 AUTRES :',
+                    '✅ Créatine : 5g (dans eau/thé)',
+                    '✅ Collagène : 10g (dans café/thé chaud)'
+                ],
+                // 🆕 Ajouts anti-inflammatoires
+                antiInflammatoires: [
+                    '🌿 Curcuma frais : 5g (saupoudrer)',
+                    '🫚 Gingembre frais : 5g (râper)',
+                    '🧄 Ail cru : 1 gousse (hacher, attendre 10 min)',
+                    '⚫ Poivre noir : Pincée (×2000 absorption curcuma)'
+                ]
+            },
+            {
+                id: 'repas2_training',
+                nom: 'REPAS 2 - Post-Training',
+                heure: '15:45',
+                calories: 860,
+                macros: {P: 62, G: 148, L: 5},
+                note: '⏰ Dans les 30 min post-training MAX',
+                aliments: [
+                    '💪 SHAKER ANTI-INFLAMMATOIRE :',
+                    '━━━━━━━━━━━━━━━━━━',
+                    '💪 Whey isolate nature : 60g',
+                    '🍌 Bananes mûres : 360g (3 moyennes)',
+                    '🥣 Flocons avoine : 40g secs',
+                    '🍒 Jus cerise acide : 150ml (Montmorency)',
+                    '🫐 Myrtilles surgelées : 100g',
+                    '🍯 Miel : 10g (1 c. café)',
+                    '💧 Eau : 200ml + glace',
+                    '',
+                    '🔄 MIXER 30 sec = Shake 1L',
+                    '',
+                    '💰 Coût : ~2.80€'
+                ]
+            },
+            {
+                id: 'repas3_training',
+                nom: 'REPAS 3 - Final',
+                heure: '19:30',
+                calories: 715,
+                macros: {P: 46, G: 54, L: 34},
+                note: '🍽️ Version standard Lun/Mer',
+                options: [
+                    {
+                        id: 'A',
+                        nom: 'Option A - Saumon-Riz',
+                        aliments: [
+                            '🐟 Saumon sauvage : 180g cru → 150g cuit',
+                            '🍚 Riz basmati : 50g cru → 150g cuit',
+                            '🥗 Salade verte + légumes : 300g',
+                            '🫒 Huile olive : 15ml',
+                            '🌰 Graines lin moulues : 15g',
+                            '',
+                            '🌿 AJOUTS :',
+                            '• Curcuma frais : 3g',
+                            '• Gingembre : 3g',
+                            '• Ail cru : 1 gousse'
+                        ]
+                    },
+                    {
+                        id: 'B',
+                        nom: 'Option B - Poulet-Patate',
+                        aliments: [
+                            '🍗 Poulet grillé : 200g cru → 160g cuit',
+                            '🍠 Patate douce : 200g crue → 180g cuite',
+                            '🥗 Salade + légumes : 300g',
+                            '🫒 Huile olive : 20ml',
+                            '🌰 Graines lin : 15g',
+                            '',
+                            '🌿 AJOUTS identiques'
+                        ]
+                    },
+                    {
+                        id: 'C',
+                        nom: '🍟 VENDREDI - Frites',
+                        aliments: [
+                            '⚠️ ORDRE IMPORTANT :',
+                            '1️⃣ SALADE (manger en premier) :',
+                            '🥗 Salade verte : 200g',
+                            '🫒 Huile olive : 10ml',
+                            '🌰 Graines lin : 15g',
+                            '',
+                            '2️⃣ VIANDE (puis viande) :',
+                            '🥩 Steak bœuf OU Poulet : 250g cru → 200g cuit',
+                            '',
+                            '3️⃣ FRITES (en dernier) :',
+                            '🍟 Pommes terre : 350g crues',
+                            '→ Air Fryer + spray huile 10ml',
+                            '',
+                            '⚠️ +160 kcal = 875 kcal total',
+                            '→ Compenser Lun/Mer (-80 kcal)'
+                        ]
+                    }
+                ],
+                // 🆕 Suppléments spécifiques soir
+                supplements: []
+            }
+        ],
+        // 🆕 Nouvelle structure pour suppléments globaux
+        supplementsGlobaux: [
+            {
+                moment: 'MATIN (7h30, à jeun)',
+                liste: [
+                    '☕ Café noir : 1-2 tasses (300mg caféine)',
+                    '💊 Vitamine D3 : 5000 UI (1 capsule)',
+                    '💧 Eau : 500ml'
+                ]
+            },
+            {
+                moment: 'PENDANT TRAINING (14h-15h30)',
+                liste: [
+                    '⚠️ PAS d\'intra-workout en sèche',
+                    '💧 Eau : 750ml-1L',
+                    '🧂 Sel : 1g (pincée)',
+                    '💊 Créatine : 5g (si pas pris repas 1)'
+                ]
+            },
+            {
+                moment: 'SOIR (22h00, avant coucher)',
+                liste: [
+                    '💊 ARTICULATIONS :',
+                    '• Oméga-3 EPA/DHA : 4g (4 capsules)',
+                    '  → ⚠️ 2g seulement si saumon au dîner',
+                    '• Curcuma + Poivre noir : 1000mg + 20mg',
+                    '• Boswellia : 500mg (1 gélule)',
+                    '• Collagène : 5g (eau chaude)',
+                    '',
+                    '💊 RÉCUPÉRATION :',
+                    '• Magnésium bisglycinate : 400mg',
+                    '• Zinc : 30mg',
+                    '• Vitamine C : 1000mg',
+                    '• Glycine : 5g (sommeil +15%)',
+                    '',
+                    '💊 DIABÈTE (optionnel) :',
+                    '• Berbérine : 500mg (si glycémie >1g/L)',
+                    '• Chrome picolinate : 200mcg',
+                    '',
+                    '💧 Eau : 500ml'
+                ]
+            }
+        ]
+    },
+    repos: {
+        repas: [
+            {
+                id: 'repas1_repos',
+                nom: 'REPAS 1',
+                heure: '12:00',
+                calories: 935,
+                macros: {P: 76, G: 100, L: 27},
+                options: [
+                    {
+                        id: 'A',
+                        nom: 'Option A - Poulet-Riz',
+                        aliments: [
+                            '🍗 Poulet : 250g cru → 200g cuit',
+                            '🍚 Riz basmati : 70g cru → 210g cuit',
+                            '🥦 Légumes : 400g (augmenté)',
+                            '🫒 Huile olive : 20ml (+5ml vs training)',
+                            '🍎 Pomme : 150g'
+                        ]
+                    },
+                    {
+                        id: 'B',
+                        nom: 'Option B - Dinde-Quinoa',
+                        aliments: [
+                            '🦃 Dinde : 250g cru → 200g cuit',
+                            '🌾 Quinoa : 65g cru → 195g cuit',
+                            '🥦 Légumes : 400g',
+                            '🫒 Huile olive : 20ml',
+                            '🍊 Orange : 150g'
+                        ]
+                    },
+                    {
+                        id: 'C',
+                        nom: 'Option C - Bœuf-Patate',
+                        aliments: [
+                            '🥩 Bœuf 5% : 220g cru → 180g cuit',
+                            '🍠 Patate douce : 250g cuite',
+                            '🥬 Légumes : 400g',
+                            '🫒 Huile olive : 20ml',
+                            '🍌 Banane : 100g'
+                        ]
+                    }
+                ],
+                // 🆕 Suppléments identiques training
+                supplements: [
+                    '💊 ARTICULATIONS (avec repas) :',
+                    '✅ Glucosamine : 1500mg',
+                    '✅ Chondroïtine : 1200mg',
+                    '✅ MSM : 2000mg',
+                    '✅ Acide Hyaluronique : 200mg',
+                    '✅ Boswellia : 500mg',
+                    '✅ Créatine : 5g',
+                    '✅ Collagène : 10g'
+                ],
+                antiInflammatoires: [
+                    '🌿 Curcuma : 5g',
+                    '🫚 Gingembre : 5g',
+                    '🧄 Ail : 1 gousse'
+                ]
+            },
+            {
+                id: 'repas2_repos',
+                nom: 'COLLATION',
+                heure: '16:00',
+                calories: 405,
+                macros: {P: 30, G: 49, L: 11},
+                options: [
+                    {
+                        id: 'A',
+                        nom: 'Option A - Skyr',
+                        aliments: [
+                            '🍶 Skyr 0% : 250g',
+                            '🍌 Banane : 120g',
+                            '🥜 Amandes : 20g (15-20 unités)',
+                            '🍯 Miel : 10g'
+                        ]
+                    },
+                    {
+                        id: 'B',
+                        nom: 'Option B - Œufs',
+                        aliments: [
+                            '🥚 Œufs durs : 3 entiers',
+                            '🍌 Banane : 120g',
+                            '🌰 Noix : 20g',
+                            '🍎 Pomme : 150g'
+                        ]
+                    },
+                    {
+                        id: 'C',
+                        nom: 'Option C - Fromage blanc',
+                        aliments: [
+                            '🧀 Fromage blanc 0% : 300g',
+                            '🫐 Fruits rouges : 100g',
+                            '🥜 Beurre cacahuète : 15g',
+                            '🍯 Miel : 10g'
+                        ]
+                    },
+                    {
+                        id: 'D',
+                        nom: 'Option D - Shaker',
+                        aliments: [
+                            '💪 Whey : 35g',
+                            '🍌 Banane : 150g',
+                            '🥛 Lait avoine : 200ml',
+                            '🥜 Amandes : 15g'
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'repas3_repos',
+                nom: 'REPAS 3 - Soir',
+                heure: '19:30',
+                calories: 765,
+                macros: {P: 47, G: 55, L: 39},
+                note: '🍽️ Rotation protéines selon jour',
+                options: [
+                    {
+                        id: 'A',
+                        nom: 'Option A - Saumon',
+                        aliments: [
+                            '🐟 Saumon sauvage : 180g cru → 150g cuit',
+                            '🍠 Patate douce : 200g cuite',
+                            '🥗 Salade + légumes : 350g',
+                            '🫒 Huile olive : 20ml',
+                            '🌰 Graines lin : 15g',
+                            '',
+                            '💡 ROTATION :',
+                            '• Mardi : Saumon',
+                            '• Jeudi : Sardines 200g',
+                            '• Samedi : Maquereaux 150g',
+                            '• Dimanche : Poulet 200g'
+                        ]
+                    },
+                    {
+                        id: 'B',
+                        nom: 'Option B - Poulet-Légumes',
+                        aliments: [
+                            '🍗 Poulet : 200g cru → 160g cuit',
+                            '🥔 Pommes terre : 200g vapeur',
+                            '🥦 Légumes : 400g',
+                            '🫒 Huile olive : 25ml',
+                            '🌰 Graines lin : 15g'
+                        ]
+                    },
+                    {
+                        id: 'C',
+                        nom: 'Option C - Œufs',
+                        aliments: [
+                            '🥚 Œufs entiers : 5 (omelette)',
+                            '🍠 Patate douce : 200g',
+                            '🥦 Mix légumes : 400g',
+                            '🫒 Huile olive : 15ml',
+                            '🧀 Fromage râpé : 30g'
+                        ]
+                    }
+                ],
+                supplements: [
+                    '💧 BOUILLON OS (3-4×/sem) :',
+                    '• 250ml après repas',
+                    '• P: 10g / Collagène naturel'
+                ]
+            }
+        ],
+        supplementsGlobaux: [
+            {
+                moment: 'MATIN (7h30, à jeun)',
+                liste: [
+                    '☕ Café noir',
+                    '💊 Vitamine D3 : 5000 UI',
+                    '💧 Eau : 500ml'
+                ]
+            },
+            {
+                moment: 'SOIR (22h00)',
+                liste: [
+                    '💊 Oméga-3 : 2g (si saumon) ou 4g',
+                    '💊 Curcuma + Poivre : 1000mg',
+                    '💊 Boswellia : 500mg',
+                    '💊 Collagène : 5g',
+                    '💊 Magnésium : 400mg',
+                    '💊 Zinc : 30mg',
+                    '💊 Vitamine C : 1000mg',
+                    '💊 Glycine : 5g'
+                ]
+            }
+        ]
+    }
+};
+
+function getSaison(){const mois=new Date().getMonth()+1;for(const[key,saison]of Object.entries(SAISONS)){if(saison.mois.includes(mois))return saison}return SAISONS.automne}
+let SAISON_ACTUELLE=getSaison();
+
+let semaineActuelle = 'S1';
+let jourType = 'training';
+let grignotages = [];
+let pesees = JSON.parse(localStorage.getItem('pesees-hebdo') || '[]');
+let derniereDateChargee = new Date().toISOString().split('T')[0];
+let derniereSemaineChargee = 'S1';
+let optionsSelectionnees = JSON.parse(localStorage.getItem('options-repas') || '{}');
+
+window.onload = function() {
+    updateSeasonDisplay();
+    semaineActuelle = getSemaineActuelle();
+    derniereSemaineChargee = semaineActuelle;
+    derniereDateChargee = new Date().toISOString().split('T')[0];
+    loadDayType();
+    afficherMenu();
+    loadGrignotages();
+    calculerProgression();
+    afficherSaison();
+    afficherCarteSemaine();
+    afficherGraphiquePoids();
+    afficherHistoriquePesees();
+    afficherAlertes();
+    updateTimelineVisuel();
+    
+    setInterval(verifierChangementDate, 60000);
+    verifierEtNotifierChangementSemaine();
+    verifierBackupHebdomadaire();
+};
+
+function verifierBackupHebdomadaire() {
+    const lastBackup = localStorage.getItem('last-backup');
+    const aujourdhui = new Date();
+    const jourSemaine = aujourdhui.getDay();
+    
+    if (jourSemaine === 0) {
+        if (!lastBackup) {
+            rappelBackup('Tu n\'as jamais fait de backup ! 💾');
+        } else {
+            const dateLastBackup = new Date(lastBackup);
+            const diffJours = Math.floor((aujourdhui - dateLastBackup) / (1000 * 60 * 60 * 24));
+            
+            if (diffJours >= 7) {
+                rappelBackup(`Dernier backup il y a ${diffJours} jours ! 📅`);
+            }
+        }
+    }
+}
+
+function rappelBackup(message) {
+    const lastNotif = localStorage.getItem('derniere-notif-backup');
+    const today = new Date().toISOString().split('T')[0];
+    
+    if (lastNotif === today) return;
+    
+    setTimeout(() => {
+        const notification = document.createElement('div');
+        notification.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 4000; max-width: 400px; text-align: center; animation: modalPop 0.5s;';
+        notification.innerHTML = `
+            <div style="font-size: 48px; margin-bottom: 15px;">💾</div>
+            <h3 style="color: #667eea; margin-bottom: 10px;">Rappel Backup Hebdomadaire</h3>
+            <p style="color: #666; margin-bottom: 20px;">${message}<br><small>Protège tes données avec un backup !</small></p>
+            <button onclick="this.parentElement.remove(); document.querySelector('.tab[onclick*=export]').click(); setTimeout(() => telechargerBackup(), 500);" style="background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%); color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-right: 10px;">💾 Faire backup</button>
+            <button onclick="this.parentElement.remove();" style="background: #f0f0f0; color: #666; border: none; padding: 12px 24px; border-radius: 10px; font-weight: bold; cursor: pointer;">Plus tard</button>
+        `;
+        document.body.appendChild(notification);
+        
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 3999;';
+        overlay.onclick = () => {
+            notification.remove();
+            overlay.remove();
+        };
+        document.body.appendChild(overlay);
+        
+        localStorage.setItem('derniere-notif-backup', today);
+    }, 3000);
+}
+
+function verifierChangementDate() {
+    const dateActuelle = new Date().toISOString().split('T')[0];
+    const semaineActuelle_check = getSemaineActuelle();
+    
+    if (dateActuelle !== derniereDateChargee) {
+        derniereDateChargee = dateActuelle;
+        afficherMenu();
+        loadGrignotages();
+        calculerProgression();
+    }
+    
+    if (semaineActuelle_check !== derniereSemaineChargee) {
+        derniereSemaineChargee = semaineActuelle_check;
+        semaineActuelle = semaineActuelle_check;
+        afficherMenu();
+        afficherCarteSemaine();
+        updateTimelineVisuel();
+        calculerProgression();
+    }
+}
+
+function verifierEtNotifierChangementSemaine() {
+    const peseesSemaine = pesees.filter(p => p.semaine === semaineActuelle);
+    const aujourdhui = new Date();
+    const jourSemaine = aujourdhui.getDay();
+    
+    if ((jourSemaine === 5 || jourSemaine === 6) && peseesSemaine.length === 0) {
+        const lastNotif = localStorage.getItem('derniere-notif-pesee');
+        const today = new Date().toISOString().split('T')[0];
+        
+        if (lastNotif !== today) {
+            setTimeout(() => {
+                const notification = document.createElement('div');
+                notification.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 4000; max-width: 400px; text-align: center; animation: modalPop 0.5s;';
+                notification.innerHTML = `
+                    <div style="font-size: 48px; margin-bottom: 15px;">⚖️</div>
+                    <h3 style="color: #667eea; margin-bottom: 10px;">Rappel Pesée Hebdomadaire</h3>
+                    <p style="color: #666; margin-bottom: 20px;">C'est le moment idéal pour te peser !<br><small>Vendredi/Samedi matin, à jeun, après toilettes</small></p>
+                    <button onclick="this.parentElement.remove(); ouvrirFormulairePesee();" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-right: 10px;">⚖️ Faire ma pesée</button>
+                    <button onclick="this.parentElement.remove();" style="background: #f0f0f0; color: #666; border: none; padding: 12px 24px; border-radius: 10px; font-weight: bold; cursor: pointer;">Plus tard</button>
+                `;
+                document.body.appendChild(notification);
+                
+                const overlay = document.createElement('div');
+                overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 3999;';
+                overlay.onclick = () => {
+                    notification.remove();
+                    overlay.remove();
+                };
+                document.body.appendChild(overlay);
+                
+                localStorage.setItem('derniere-notif-pesee', today);
+            }, 2000);
+        }
+    }
+}
+
+// 🆕 Fonction semaine actuelle étendue à 10 semaines
+function getSemaineActuelle() {
+    const dateDebut = new Date(PLAN_HYBRIDE.dateDebut);
+    const aujourdhui = new Date();
+    const diffJours = Math.floor((aujourdhui - dateDebut) / (1000*60*60*24));
+    const numSemaine = Math.floor(diffJours / 7) + 1;
+    const semaine = 'S' + (numSemaine > 10 ? 10 : numSemaine < 1 ? 1 : numSemaine);
+    return semaine;
+}
+
+function updateSeasonDisplay() {
+    SAISON_ACTUELLE = getSaison();
+    document.getElementById('season-badge').textContent = SAISON_ACTUELLE.emoji + ' ' + SAISON_ACTUELLE.nom.toUpperCase();
+    document.getElementById('season-name-detail').textContent = SAISON_ACTUELLE.nom;
+}
+
+function afficherSaison() {
+    const fruitsHTML = SAISON_ACTUELLE.fruits.map(f => `<span style="background: #fff9e6; padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: bold;">🍎 ${f}</span>`).join('');
+    const legumesHTML = SAISON_ACTUELLE.legumes.map(l => `<span style="background: #e8f5e9; padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: bold;">🥦 ${l}</span>`).join('');
+    document.getElementById('fruits-saison').innerHTML = fruitsHTML;
+    document.getElementById('legumes-saison').innerHTML = legumesHTML;
+}
+
+function setDayType(type) {
+    jourType = type;
+    localStorage.setItem('jourType', type);
+    document.getElementById('day-display').textContent = type === 'training' ? '🏋️ JOUR TRAINING' : '💤 JOUR REPOS';
+    
+    const menu = MENUS_BASE[type];
+    const config = PLAN_HYBRIDE.semaines[semaineActuelle];
+    
+    document.getElementById('cal-total').textContent = config.calories[type];
+    document.getElementById('prot-total').textContent = config.macros[type].P;
+    document.getElementById('gluc-total').textContent = config.macros[type].G;
+    document.getElementById('lip-total').textContent = config.macros[type].L;
+    
+    afficherMenu();
+    calculerProgression();
+    showAutoSave();
+}
+
+function loadDayType() {
+    const saved = localStorage.getItem('jourType');
+    if (saved) jourType = saved;
+    document.getElementById('day-display').textContent = jourType === 'training' ? '🏋️ JOUR TRAINING' : '💤 JOUR REPOS';
+}
+
+// 🆕 Fonction affichage menu MODIFIÉE avec suppléments et anti-inflammatoires
+function afficherMenu() {
+    const menu = MENUS_BASE[jourType];
+    const config = PLAN_HYBRIDE.semaines[semaineActuelle];
+    
+    document.getElementById('semaine-actuelle-label').textContent = `${semaineActuelle} - ${config.nom.toUpperCase()}`;
+    
+    let html = '';
+    
+    menu.repas.forEach(repas => {
+        const valide = isRepasValide(repas.id);
+        
+        html += `<div class="nutrition-section">
+            <h3>${repas.heure} - ${repas.nom}</h3>
+            <div class="meal">
+                <div class="meal-details">
+                    <div class="detail-item"><span class="detail-label">Cal:</span> ${repas.calories}</div>
+                    <div class="detail-item"><span class="detail-label">P:</span> ${repas.macros.P}g</div>
+                    <div class="detail-item"><span class="detail-label">G:</span> ${repas.macros.G}g</div>
+                    <div class="detail-item"><span class="detail-label">L:</span> ${repas.macros.L}g</div>
+                </div>`;
+        
+        if (repas.note) {
+            html += `<div style="background: #fff9e6; padding: 8px; border-radius: 6px; margin: 8px 0; font-size: 12px;"><strong>⚠️</strong> ${repas.note}</div>`;
+        }
+        
+        if (repas.options) {
+            const today = new Date().toISOString().split('T')[0];
+            const optionKey = `${today}-${repas.id}`;
+            const optionSelectionnee = optionsSelectionnees[optionKey] || repas.options[0].id;
+            
+            html += `<div class="option-selector">
+                <strong>🔄 Choix option :</strong><br>`;
+            
+            repas.options.forEach(opt => {
+                const isActive = opt.id === optionSelectionnee;
+                html += `<button class="option-btn ${isActive ? 'active' : ''}" onclick="selectOption('${repas.id}', '${opt.id}')">${opt.nom}</button>`;
+            });
+            
+            html += `</div>`;
+            
+            const optionChoisie = repas.options.find(o => o.id === optionSelectionnee);
+            
+            if (optionChoisie.plat) {
+                html += `<div class="meal-foods">
+                    <strong>🍽️ PLAT PRINCIPAL:</strong>
+                    <ul>${optionChoisie.plat.map(a => `<li>${a}</li>`).join('')}</ul>
+                </div>`;
+                
+                if (optionChoisie.dessert) {
+                    html += `<div class="meal-foods">
+                        <strong>🍨 DESSERT (30 min après):</strong>
+                        <ul>${optionChoisie.dessert.map(a => `<li>${a}</li>`).join('')}</ul>
+                    </div>`;
+                }
+            } else {
+                html += `<div class="meal-foods">
+                    <strong>🥘 Aliments:</strong>
+                    <ul>${optionChoisie.aliments.map(a => `<li>${a}</li>`).join('')}</ul>
+                </div>`;
+            }
+        } else if (repas.aliments) {
+            html += `<div class="meal-foods">
+                <strong>🥘 Aliments:</strong>
+                <ul>${repas.aliments.map(a => `<li>${a}</li>`).join('')}</ul>
+            </div>`;
+        }
+        
+        // 🆕 Ajout suppléments associés au repas
+        if (repas.supplements && repas.supplements.length > 0) {
+            html += `<div class="supplements-box">
+                <strong>💊 SUPPLÉMENTS À PRENDRE AVEC CE REPAS :</strong>
+                <ul style="margin-left: 10px; margin-top: 5px;">${repas.supplements.map(s => `<li style="margin: 3px 0;">${s}</li>`).join('')}</ul>
+            </div>`;
+        }
+        
+        // 🆕 Ajout anti-inflammatoires
+        if (repas.antiInflammatoires && repas.antiInflammatoires.length > 0) {
+            html += `<div class="anti-inflam-box">
+                <strong>🌿 AJOUTS ANTI-INFLAMMATOIRES :</strong>
+                <ul style="margin-left: 10px; margin-top: 5px;">${repas.antiInflammatoires.map(a => `<li style="margin: 3px 0;">${a}</li>`).join('')}</ul>
+            </div>`;
+        }
+        
+        html += `<div class="validation-checkbox ${valide ? 'validated' : ''}" onclick="toggleRepas('${repas.id}')">
+            <input type="checkbox" ${valide ? 'checked' : ''} onclick="event.stopPropagation()">
+            <span><strong>${valide ? '✅ Validé' : '⏸️ À valider'}</strong></span>
+        </div>
+        </div>
+    </div>`;
+    });
+    
+    // 🆕 Ajout section suppléments globaux
+    if (menu.supplementsGlobaux && menu.supplementsGlobaux.length > 0) {
+        html += `<div class="nutrition-section">
+            <h3>💊 SUPPLÉMENTS ${jourType === 'training' ? 'JOUR TRAINING' : 'JOUR REPOS'}</h3>`;
+        
+        menu.supplementsGlobaux.forEach(supp => {
+            html += `<div class="meal">
+                <strong style="color: #667eea; font-size: 14px;">${supp.moment}</strong>
+                <div class="meal-foods">
+                    <ul>${supp.liste.map(s => `<li>${s}</li>`).join('')}</ul>
+                </div>
+            </div>`;
+        });
+        
+        html += `</div>`;
+    }
+    
+    document.getElementById('menu-container').innerHTML = html;
+}
+
+// 🆕 Fonction sélection option
+function selectOption(repasId, optionId) {
+    const today = new Date().toISOString().split('T')[0];
+    const optionKey = `${today}-${repasId}`;
+    optionsSelectionnees[optionKey] = optionId;
+    localStorage.setItem('options-repas', JSON.stringify(optionsSelectionnees));
+    afficherMenu();
+    showAutoSave();
+}
+
+function toggleRepas(repasId) {
+    const today = new Date().toISOString().split('T')[0];
+    const key = `repas-${today}`;
+    let validations = JSON.parse(localStorage.getItem(key) || '[]');
+    const index = validations.indexOf(repasId);
+    
+    if (index > -1) {
+        validations.splice(index, 1);
+    } else {
+        validations.push(repasId);
+    }
+    
+    localStorage.setItem(key, JSON.stringify(validations));
+    
+    afficherMenu();
+    calculerProgression();
+    showAutoSave();
+}
+
+function isRepasValide(repasId) {
+    const today = new Date().toISOString().split('T')[0];
+    const key = `repas-${today}`;
+    const validations = JSON.parse(localStorage.getItem(key) || '[]');
+    return validations.includes(repasId);
+}
+
+function calculerProgression() {
+    const menu = MENUS_BASE[jourType];
+    const config = PLAN_HYBRIDE.semaines[semaineActuelle];
+    const today = new Date().toISOString().split('T')[0];
+    const key = `repas-${today}`;
+    const validations = JSON.parse(localStorage.getItem(key) || '[]');
+    
+    let totalCal = 0, totalP = 0, totalG = 0, totalL = 0;
+    validations.forEach(id => {
+        const repas = menu.repas.find(r => r.id === id);
+        if (repas && repas.calories) {
+            totalCal += repas.calories;
+            totalP += repas.macros.P;
+            totalG += repas.macros.G;
+            totalL += repas.macros.L;
+        }
+    });
+
+    const grigJour = grignotages.filter(g => g.date === today);
+    const totalGrig = grigJour.reduce((sum, g) => sum + g.calories, 0);
+    totalCal += totalGrig;
+
+    document.getElementById('cal-actuel').textContent = totalCal;
+    document.getElementById('prot-actuel').textContent = totalP;
+    document.getElementById('gluc-actuel').textContent = totalG;
+    document.getElementById('lip-actuel').textContent = totalL;
+
+    const pct = Math.min(100, Math.round((totalCal / config.calories[jourType]) * 100));
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('progress-bar').textContent = pct + '%';
+}
+
+function afficherSemaine(num) {
+    semaineActuelle = 'S' + num;
+    afficherMenu();
+    calculerProgression();
+    afficherCarteSemaine();
+    updateTimelineVisuel();
+    showAutoSave();
+}
+
+// 🆕 Timeline étendue à 10 semaines
+function updateTimelineVisuel() {
+    const items = document.querySelectorAll('.timeline-item');
+    const numActuel = parseInt(semaineActuelle.substring(1));
+    
+    items.forEach((item, i) => {
+        const num = i + 1;
+        item.classList.remove('active', 'completed', 'future');
+        const pesee = pesees.find(p => p.semaine === 'S' + num);
+        
+        if (num < numActuel || pesee) {
+            item.classList.add('completed');
+        } else if (num === numActuel) {
+            item.classList.add('active');
+        } else {
+            item.classList.add('future');
+        }
+    });
+
+    const progress = ((numActuel - 1) / 9) * 90;
+    document.getElementById('timeline-progress').style.width = progress + '%';
+}
+
+function afficherCarteSemaine() {
+    const config = PLAN_HYBRIDE.semaines[semaineActuelle];
+    const pesee = pesees.find(p => p.semaine === semaineActuelle);
+    
+    let html = `<div class="week-card ${config.phase}">
+        <div class="week-header">
+            <div class="week-title">${semaineActuelle} - ${config.nom}</div>
+            <div class="phase-badge ${config.phase}">${config.phase.toUpperCase()}</div>
+        </div>
+        <div style="margin: 15px 0; color: #666; font-size: 14px;">
+            <strong>🎯 Objectif :</strong> ${config.objectif}
+        </div>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-label">Calories Training</div>
+                <div class="stat-value">${config.calories.training}</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Calories Repos</div>
+                <div class="stat-value">${config.calories.repos}</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Déficit cible</div>
+                <div class="stat-value">${config.deficitCible}</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Perte visée</div>
+                <div class="stat-value">${config.perteVisee}kg</div>
+            </div>
+        </div>
+        <div style="background: #f8f9fa; padding: 12px; border-radius: 8px; margin-top: 15px;">
+            <strong>📊 Macros Training :</strong> P${config.macros.training.P}g / G${config.macros.training.G}g / L${config.macros.training.L}g<br>
+            <strong>📊 Macros Repos :</strong> P${config.macros.repos.P}g / G${config.macros.repos.G}g / L${config.macros.repos.L}g
+        </div>`;
+    
+    if (pesee) {
+        const deltaKg = pesee.deltaKg || 0;
+        const deltaColor = deltaKg < 0 ? '#51cf66' : '#ff6b6b';
+        html += `<div class="alert-box alert-success" style="margin-top: 15px;">
+            <strong>✅ Pesée enregistrée</strong><br>
+            Poids: ${pesee.poids}kg (<span style="color: ${deltaColor}">${deltaKg > 0 ? '+' : ''}${deltaKg.toFixed(1)}kg</span>)<br>
+            % Graisse: ${pesee.bf}% | Tour taille: ${pesee.taille}cm<br>
+            Énergie: ${pesee.energie}/10 | Digestion: ${pesee.digestion}/10
+        </div>`;
+    } else {
+        html += `<div class="alert-box alert-warning" style="margin-top: 15px;">
+            <strong>⚠️ Pesée manquante</strong><br>
+            Pense à te peser ce vendredi ou samedi matin !
+        </div>`;
+    }
+    
+    html += `</div>`;
+    document.getElementById('carte-semaine-actuelle').innerHTML = html;
+}
+
+function ouvrirFormulairePesee() {
+    document.getElementById('input-semaine').value = semaineActuelle;
+    document.getElementById('modal-pesee').classList.add('show');
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove('show');
+}
+
+function enregistrerPesee() {
+    const semaine = document.getElementById('input-semaine').value;
+    const poids = parseFloat(document.getElementById('input-poids').value);
+    const bf = parseFloat(document.getElementById('input-bf').value);
+    const taille = parseFloat(document.getElementById('input-taille').value) || null;
+    const bras = parseFloat(document.getElementById('input-bras').value) || null;
+    const energie = parseInt(document.getElementById('input-energie').value) || null;
+    const digestion = parseInt(document.getElementById('input-digestion').value) || null;
+    const notes = document.getElementById('input-notes-pesee').value;
+
+    if (!poids || !bf) {
+        alert('⚠️ Poids et % graisse obligatoires !');
+        return;
+    }
+
+    const existingIndex = pesees.findIndex(p => p.semaine === semaine);
+    const peseePrecedente = pesees.find(p => {
+        const numSem = parseInt(semaine.substring(1));
+        return p.semaine === 'S' + (numSem - 1);
+    });
+
+    const masseMaigre = poids * (1 - bf / 100);
+    const masseGrasse = poids * (bf / 100);
+    
+    const pesee = {
+        semaine,
+        date: new Date().toISOString().split('T')[0],
+        poids,
+        bf,
+        masseMaigre: parseFloat(masseMaigre.toFixed(1)),
+        masseGrasse: parseFloat(masseGrasse.toFixed(1)),
+        taille,
+        bras,
+        energie,
+        digestion,
+        notes,
+        deltaKg: peseePrecedente ? parseFloat((poids - peseePrecedente.poids).toFixed(1)) : 0,
+        deltaBF: peseePrecedente ? parseFloat((bf - peseePrecedente.bf).toFixed(1)) : 0,
+        deltaTaille: peseePrecedente && taille && peseePrecedente.taille ? parseFloat((taille - peseePrecedente.taille).toFixed(1)) : null
+    };
+
+    if (existingIndex > -1) {
+        pesees[existingIndex] = pesee;
+    } else {
+        pesees.push(pesee);
+    }
+
+    pesees.sort((a, b) => {
+        const numA = parseInt(a.semaine.substring(1));
+        const numB = parseInt(b.semaine.substring(1));
+        return numA - numB;
+    });
+
+    localStorage.setItem('pesees-hebdo', JSON.stringify(pesees));
+
+    document.getElementById('input-poids').value = '';
+    document.getElementById('input-bf').value = '';
+    document.getElementById('input-taille').value = '';
+    document.getElementById('input-bras').value = '';
+    document.getElementById('input-energie').value = '';
+    document.getElementById('input-digestion').value = '';
+    document.getElementById('input-notes-pesee').value = '';
+
+    closeModal('modal-pesee');
+    afficherCarteSemaine();
+    afficherGraphiquePoids();
+    afficherHistoriquePesees();
+    afficherAlertes();
+    updateTimelineVisuel();
+    showAutoSave();
+}
+
+function afficherGraphiquePoids() {
+    if (pesees.length === 0) {
+        document.getElementById('svg-poids').innerHTML = '<text x="50%" y="50%" text-anchor="middle" fill="#999" font-size="14">Aucune donnée - Ajoute ta première pesée !</text>';
+        return;
+    }
+
+    const svg = document.getElementById('svg-poids');
+    const width = svg.clientWidth || 800;
+    const height = 250;
+    const padding = {top: 20, right: 50, bottom: 40, left: 50};
+    
+    const poidsData = [{semaine: 'S0', poids: PLAN_HYBRIDE.poidsInitial}, ...pesees];
+    const minPoids = Math.min(...poidsData.map(p => p.poids)) - 1;
+    const maxPoids = Math.max(...poidsData.map(p => p.poids)) + 1;
+    
+    const xScale = (width - padding.left - padding.right) / (poidsData.length - 1);
+    const yScale = (height - padding.top - padding.bottom) / (maxPoids - minPoids);
+    
+    let pathD = '';
+    let points = '';
+    
+    poidsData.forEach((p, i) => {
+        const x = padding.left + i * xScale;
+        const y = height - padding.bottom - ((p.poids - minPoids) * yScale);
+        
+        if (i === 0) pathD += `M ${x} ${y}`;
+        else pathD += ` L ${x} ${y}`;
+        
+        const color = p.semaine === semaineActuelle ? '#667eea' : '#51cf66';
+        points += `<circle cx="${x}" cy="${y}" r="5" fill="${color}" stroke="white" stroke-width="2"/>`;
+        points += `<text x="${x}" y="${y - 10}" text-anchor="middle" font-size="11" font-weight="bold" fill="${color}">${p.poids}kg</text>`;
+    });
+    
+    let gridLines = '';
+    for (let i = 0; i <= 4; i++) {
+        const y = padding.top + (height - padding.top - padding.bottom) * i / 4;
+        const valeur = (maxPoids - (maxPoids - minPoids) * i / 4).toFixed(1);
+        gridLines += `<line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" stroke="#e0e0e0" stroke-width="1"/>`;
+        gridLines += `<text x="${padding.left - 10}" y="${y + 4}" text-anchor="end" font-size="10" fill="#999">${valeur}kg</text>`;
+    }
+    
+    let xLabels = '';
+    poidsData.forEach((p, i) => {
+        const x = padding.left + i * xScale;
+        xLabels += `<text x="${x}" y="${height - 10}" text-anchor="middle" font-size="11" fill="#666">${p.semaine}</text>`;
+    });
+    
+    svg.innerHTML = `
+        ${gridLines}
+        <path d="${pathD}" fill="none" stroke="#667eea" stroke-width="3"/>
+        ${points}
+        ${xLabels}
+        <text x="${width / 2}" y="15" text-anchor="middle" font-size="12" font-weight="bold" fill="#667eea">Évolution du poids</text>
+    `;
+}
+
+function afficherHistoriquePesees() {
+    if (pesees.length === 0) {
+        document.getElementById('historique-pesees').innerHTML = '<p style="color: #999; text-align: center;">Aucune pesée enregistrée</p>';
+        return;
+    }
+
+    let html = '';
+    pesees.slice().reverse().forEach(p => {
+        const deltaColor = p.deltaKg < 0 ? '#51cf66' : p.deltaKg > 0 ? '#ff6b6b' : '#999';
+        html += `<div class="progress-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div>
+                    <strong style="font-size: 18px; color: #667eea;">${p.semaine}</strong>
+                    <span style="color: #999; margin-left: 10px; font-size: 12px;">${new Date(p.date).toLocaleDateString('fr-FR')}</span>
+                </div>
+                <button class="btn btn-danger" onclick="supprimerPesee('${p.semaine}')" style="padding: 6px 12px; font-size: 11px;">Supprimer</button>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-label">Poids</div>
+                    <div class="stat-value">${p.poids}kg</div>
+                    ${p.deltaKg !== 0 ? `<div style="font-size: 11px; color: ${deltaColor}; font-weight: bold;">${p.deltaKg > 0 ? '+' : ''}${p.deltaKg}kg</div>` : ''}
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">% Graisse</div>
+                    <div class="stat-value">${p.bf}%</div>
+                    ${p.deltaBF !== 0 ? `<div style="font-size: 11px; color: ${p.deltaBF < 0 ? '#51cf66' : '#ff6b6b'}; font-weight: bold;">${p.deltaBF > 0 ? '+' : ''}${p.deltaBF}%</div>` : ''}
+                </div>
+                ${p.taille ? `<div class="stat-item">
+                    <div class="stat-label">Tour taille</div>
+                    <div class="stat-value">${p.taille}cm</div>
+                    ${p.deltaTaille ? `<div style="font-size: 11px; color: ${p.deltaTaille < 0 ? '#51cf66' : '#ff6b6b'}; font-weight: bold;">${p.deltaTaille > 0 ? '+' : ''}${p.deltaTaille}cm</div>` : ''}
+                </div>` : ''}
+                <div class="stat-item">
+                    <div class="stat-label">Masse maigre</div>
+                    <div class="stat-value">${p.masseMaigre}kg</div>
+                </div>
+            </div>
+            ${p.energie || p.digestion ? `<div style="background: #f8f9fa; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 12px;">
+                ${p.energie ? `⚡ Énergie: ${p.energie}/10 | ` : ''}
+                ${p.digestion ? `🌿 Digestion: ${p.digestion}/10` : ''}
+            </div>` : ''}
+            ${p.notes ? `<div style="background: #fff9e6; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 12px;">
+                <strong>📝 Notes :</strong> ${p.notes}
+            </div>` : ''}
+        </div>`;
+    });
+    document.getElementById('historique-pesees').innerHTML = html;
+}
+
+function supprimerPesee(semaine) {
+    if (!confirm(`Supprimer la pesée ${semaine} ?`)) return;
+    pesees = pesees.filter(p => p.semaine !== semaine);
+    localStorage.setItem('pesees-hebdo', JSON.stringify(pesees));
+    afficherCarteSemaine();
+    afficherGraphiquePoids();
+    afficherHistoriquePesees();
+    afficherAlertes();
+    updateTimelineVisuel();
+    showAutoSave();
+}
+
+function afficherAlertes() {
+    if (pesees.length < 2) {
+        document.getElementById('alertes-container').innerHTML = '';
+        return;
+    }
+
+    const dernierePesee = pesees[pesees.length - 1];
+    const config = PLAN_HYBRIDE.semaines[dernierePesee.semaine];
+    const deltaKg = dernierePesee.deltaKg;
+    const perteVisee = config.perteVisee;
+    
+    let html = '<div class="progress-card"><h3 style="color: #667eea; margin-bottom: 15px;">🚨 Alertes & Recommandations</h3>';
+
+    if (Math.abs(deltaKg - (-perteVisee)) > 0.5) {
+        if (deltaKg > -0.3) {
+            html += `<div class="alert-box alert-danger">
+                <strong>🔴 ALERTE : Perte trop lente</strong><br>
+                Perte réelle: ${deltaKg.toFixed(1)}kg | Objectif: -${perteVisee}kg<br>
+                <strong>Actions :</strong><br>
+                • Réduire calories de 100-150 kcal/jour<br>
+                • Vérifier adhérence (repas validés)<br>
+                • Augmenter NEAT (marche 30 min/jour)
+            </div>`;
+        } else if (deltaKg < -1.5) {
+            html += `<div class="alert-box alert-warning">
+                <strong>🟠 ATTENTION : Perte trop rapide</strong><br>
+                Perte réelle: ${deltaKg.toFixed(1)}kg | Objectif: -${perteVisee}kg<br>
+                <strong>Actions :</strong><br>
+                • Augmenter calories de 100-150 kcal/jour<br>
+                • Ajouter glucides autour training<br>
+                • Surveiller masse maigre (protéines 2g/kg)
+            </div>`;
+        }
+    } else {
+        html += `<div class="alert-box alert-success">
+            <strong>✅ PROGRESSION OPTIMALE</strong><br>
+            Perte réelle: ${deltaKg.toFixed(1)}kg | Objectif: -${perteVisee}kg<br>
+            Continue exactement comme ça ! 💪
+        </div>`;
+    }
+
+    if (dernierePesee.energie && dernierePesee.energie < 6) {
+        html += `<div class="alert-box alert-warning">
+            <strong>⚡ Énergie basse (${dernierePesee.energie}/10)</strong><br>
+            • Augmenter glucides pré-training (+20g)<br>
+            • Sommeil 8h minimum<br>
+            • Envisager refeed si phase sèche
+        </div>`;
+    }
+
+    const numSemaine = parseInt(dernierePesee.semaine.substring(1));
+    if (numSemaine === 10) {
+        html += `<div class="alert-box alert-success">
+            <strong>🎉 SEMAINE 10 : BILAN FINAL</strong><br>
+            Félicitations pour avoir terminé le programme !<br>
+            Pense à faire le bilan complet :<br>
+            • Photos avant/après<br>
+            • Mensurations complètes<br>
+            • Analyses sanguines si nécessaire
+        </div>`;
+    }
+
+    html += '</div>';
+    document.getElementById('alertes-container').innerHTML = html;
+}
+
+function openGrignotageModal() {
+    document.getElementById('modal-grignotage').classList.add('show');
+}
+
+function ajouterGrignotage() {
+    const aliment = document.getElementById('input-aliment').value.trim();
+    const quantite = document.getElementById('input-quantite').value;
+    const calories = document.getElementById('input-calories').value;
+    
+    if (!aliment || !quantite || !calories) {
+        alert('⚠️ Remplis tous les champs');
+        return;
+    }
+
+    const grig = {
+        id: Date.now(),
+        date: new Date().toISOString().split('T')[0],
+        heure: new Date().toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'}),
+        aliment,
+        quantite: parseInt(quantite),
+        calories: parseInt(calories)
+    };
+
+    grignotages.push(grig);
+    localStorage.setItem('grignotages', JSON.stringify(grignotages));
+
+    document.getElementById('input-aliment').value = '';
+    document.getElementById('input-quantite').value = '';
+    document.getElementById('input-calories').value = '';
+
+    closeModal('modal-grignotage');
+    loadGrignotages();
+    calculerProgression();
+    showAutoSave();
+}
+
+function loadGrignotages() {
+    grignotages = JSON.parse(localStorage.getItem('grignotages') || '[]');
+    const today = new Date().toISOString().split('T')[0];
+    const grigJour = grignotages.filter(g => g.date === today);
+    
+    if (grigJour.length === 0) {
+        document.getElementById('liste-grignotages').innerHTML = '<p style="color: #999; text-align: center;">Aucun grignotage aujourd\'hui 👍</p>';
+        document.getElementById('total-grignotages').textContent = '+0 kcal';
+        return;
+    }
+
+    let html = '';
+    grigJour.forEach(g => {
+        html += `<div class="grignotage-item"><div><strong>${g.heure} - ${g.aliment}</strong><br><small>${g.quantite}g • ${g.calories} kcal</small></div><button class="btn btn-danger" onclick="supprimerGrignotage(${g.id})">×</button></div>`;
+    });
+    document.getElementById('liste-grignotages').innerHTML = html;
+
+    const total = grigJour.reduce((sum, g) => sum + g.calories, 0);
+    const color = total > 500 ? '#ff6b6b' : total > 300 ? '#ffc107' : '#51cf66';
+    document.getElementById('total-grignotages').innerHTML = `<span style="color: ${color}">+${total} kcal</span>`;
+}
+
+function supprimerGrignotage(id) {
+    if (!confirm('Supprimer ce grignotage ?')) return;
+    grignotages = grignotages.filter(g => g.id !== id);
+    localStorage.setItem('grignotages', JSON.stringify(grignotages));
+    loadGrignotages();
+    calculerProgression();
+    showAutoSave();
+}
+
+function exportRapport() {
+    const config = PLAN_HYBRIDE.semaines[semaineActuelle];
+    const menu = MENUS_BASE[jourType];
+    const today = new Date().toISOString().split('T')[0];
+    const key = `repas-${today}`;
+    const validations = JSON.parse(localStorage.getItem(key) || '[]');
+    const grigJour = grignotages.filter(g => g.date === today);
+    
+    let totalCal = 0, totalP = 0, totalG = 0, totalL = 0;
+    validations.forEach(id => {
+        const repas = menu.repas.find(r => r.id === id);
+        if (repas && repas.calories) {
+            totalCal += repas.calories;
+            totalP += repas.macros.P;
+            totalG += repas.macros.G;
+            totalL += repas.macros.L;
+        }
+    });
+
+    const totalGrig = grigJour.reduce((sum, g) => sum + g.calories, 0);
+    totalCal += totalGrig;
+
+    let rapport = `🔥 RAPPORT PLAN SÈCHE - ${today}\n`;
+    rapport += `${semaineActuelle} - ${config.nom} (${config.phase.toUpperCase()})\n`;
+    rapport += `${jourType === 'training' ? '🏋️ JOUR TRAINING' : '💤 JOUR REPOS'}\n`;
+    rapport += `${SAISON_ACTUELLE.emoji} Saison: ${SAISON_ACTUELLE.nom}\n\n`;
+    
+    rapport += `🎯 OBJECTIFS SEMAINE\n`;
+    rapport += `Calories: ${config.calories[jourType]} kcal | Déficit: ${config.deficitCible} kcal\n`;
+    rapport += `Perte visée: -${config.perteVisee}kg\n`;
+    rapport += `Macros: P${config.macros[jourType].P}g / G${config.macros[jourType].G}g / L${config.macros[jourType].L}g\n\n`;
+    
+    rapport += `✅ RÉALISATIONS JOUR\n`;
+    rapport += `Calories: ${totalCal} kcal (${Math.round((totalCal / config.calories[jourType]) * 100)}%)\n`;
+    rapport += `Protéines: ${totalP}g | Glucides: ${totalG}g | Lipides: ${totalL}g\n`;
+    rapport += `Repas validés: ${validations.length}/${menu.repas.length}\n\n`;
+    
+    if (grigJour.length > 0) {
+        rapport += `🍪 GRIGNOTAGES (+${totalGrig} kcal)\n`;
+        grigJour.forEach(g => rapport += `${g.heure} - ${g.aliment} ${g.quantite}g (+${g.calories} kcal)\n`);
+        rapport += `\n`;
+    }
+
+    rapport += `📝 NOTES\n${document.getElementById('notes-jour')?.value || '(Aucune note)'}\n\n`;
+    
+    rapport += `📊 PROGRESSION PROGRAMME\n`;
+    rapport += `Semaine actuelle: ${semaineActuelle}/S10\n`;
+    rapport += `Pesées enregistrées: ${pesees.length}/10\n`;
+    if (pesees.length > 0) {
+        const dernierePesee = pesees[pesees.length - 1];
+        rapport += `Dernier poids: ${dernierePesee.poids}kg (${dernierePesee.bf}%)\n`;
+        rapport += `Évolution: ${dernierePesee.deltaKg > 0 ? '+' : ''}${dernierePesee.deltaKg}kg\n`;
     }
 
     navigator.clipboard.writeText(rapport).then(() => alert('✅ Rapport copié !')).catch(() => alert('❌ Erreur copie'));
@@ -233,6 +1860,9 @@ function showAutoSave() {
 }
 
 function showTab(tabName) {
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active
+
+                                                                              function showTab(tabName) {
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.getElementById('tab-' + tabName).classList.add('active');
