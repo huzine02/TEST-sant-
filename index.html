@@ -188,9 +188,11 @@
         <div class="day-tracker">
             <div style="font-size: 14px; margin-bottom: 5px;">📅 <span id="semaine-actuelle-label">SEMAINE 1</span></div>
             <div class="day-display" id="day-display">🏋️ JOUR TRAINING</div>
+            <div style="font-size: 11px; color: #666; margin: 5px 0; text-align: center;" id="auto-mode-indicator">🤖 Mode AUTO (Lun/Mer/Ven=Training)</div>
             <div class="day-controls">
                 <button class="btn btn-secondary" onclick="setDayType('training')">🏋️ Training</button>
                 <button class="btn btn-secondary" onclick="setDayType('repos')">💤 Repos</button>
+                <button class="btn btn-secondary" onclick="toggleAutoMode()" id="btn-toggle-auto" style="font-size: 11px; padding: 6px 10px;">🔄 Auto</button>
             </div>
         </div>
 
@@ -834,76 +836,94 @@ const MENUS_BASE = {
     }
 };
 
-// 🆕 DÉTAILS NUTRITIONNELS COMPLETS PAR ALIMENT
+// 🆕 DÉTAILS NUTRITIONNELS COMPLETS PAR ALIMENT (Plan corrigé)
 const DETAILS_NUTRITIONNELS = {
     training: {
         repas1: {
             cout: '~2.50€',
-            total: {P: 78, G: 141, L: 22, kcal: 1060},
+            total: {P: 87, G: 104, L: 23, kcal: 961},
             aliments: {
-                poulet_250g: {P: 60, G: 0, L: 5, kcal: 280},
-                riz_90g: {P: 7, G: 76, L: 1, kcal: 340},
+                poulet_300g: {P: 72, G: 0, L: 6, kcal: 336},  // 300g cru → 240g cuit
+                riz_70g: {P: 5, G: 59, L: 1, kcal: 265},  // 70g cru → 210g cuit
                 legumes_350g: {P: 9, G: 18, L: 1, kcal: 115},
                 huile_15ml: {P: 0, G: 0, L: 15, kcal: 135},
-                banane_120g: {P: 1, G: 27, L: 0, kcal: 110},
-                pomme_150g: {P: 1, G: 20, L: 0, kcal: 80}
-            }
+                banane_120g: {P: 1, G: 27, L: 0, kcal: 110}
+            },
+            note: '✅ Pomme supprimée vs plan initial'
         },
         repas2: {
-            cout: '~2.80€',
-            total: {P: 62, G: 148, L: 5, kcal: 860},
+            cout: '~2.50€',
+            total: {P: 77, G: 122, L: 5, kcal: 834},
             aliments: {
-                whey_60g: {P: 51, G: 3, L: 1, kcal: 220},
-                bananes_360g: {P: 4, G: 81, L: 1, kcal: 330},
-                flocons_40g: {P: 5, G: 24, L: 3, kcal: 150},
-                jus_cerise_150ml: {P: 1, G: 20, L: 0, kcal: 80},
+                whey_80g: {P: 68, G: 4, L: 1, kcal: 293},  // +20g vs avant
+                bananes_240g: {P: 3, G: 54, L: 1, kcal: 220},  // 2 bananes (vs 3)
+                flocons_40g: {P: 5, G: 24, L: 3, kcal: 150},  // 40g secs → 80g réhydratés
                 myrtilles_100g: {P: 1, G: 12, L: 0, kcal: 50},
-                miel_10g: {P: 0, G: 8, L: 0, kcal: 30}
-            }
+                miel_10g: {P: 0, G: 8, L: 0, kcal: 30},
+                cannelle_5g: {P: 0, G: 0, L: 0, kcal: 0}
+            },
+            note: '✅ Jus cerise supprimé vs plan initial'
         },
         repas3: {
-            cout: '~3.50€',
-            total: {P: 46, G: 54, L: 34, kcal: 715},
+            cout: '~2.80€',
+            total: {P: 80, G: 29, L: 38, kcal: 778},
             aliments: {
-                saumon_180g: {P: 35, G: 0, L: 12, kcal: 250},
-                riz_50g: {P: 4, G: 42, L: 0, kcal: 185},
+                poulet_300g: {P: 72, G: 0, L: 6, kcal: 336},  // Option A désormais
+                riz_20g: {P: 2, G: 17, L: 0, kcal: 76},  // 20g cru → 60g cuit
                 salade_300g: {P: 4, G: 12, L: 1, kcal: 70},
-                huile_15ml: {P: 0, G: 0, L: 15, kcal: 135},
+                huile_25ml: {P: 0, G: 0, L: 25, kcal: 225},  // +10ml vs avant
                 graines_lin_15g: {P: 3, G: 0, L: 6, kcal: 75}
-            }
+            },
+            note: '✅ Poulet remplace saumon, riz drastiquement réduit'
         },
         repas3_vendredi: {
             cout: '~2.50€',
-            total: {P: 73, G: 76, L: 30, kcal: 875},
+            total: {P: 79, G: 54, L: 27, kcal: 776},
             aliments: {
                 salade_200g: {P: 2, G: 4, L: 0, kcal: 25},
-                viande_250g: {P: 60, G: 0, L: 8, kcal: 320},
-                frites_350g: {P: 8, G: 70, L: 10, kcal: 390},
-                huile_10ml: {P: 0, G: 0, L: 10, kcal: 90},
+                poulet_300g: {P: 72, G: 0, L: 6, kcal: 336},
+                frites_250g: {P: 6, G: 50, L: 9, kcal: 290},  // 250g crues → 215g frites
+                huile_spray_5ml: {P: 0, G: 0, L: 5, kcal: 45},  // Air Fryer
                 graines_lin_15g: {P: 3, G: 0, L: 6, kcal: 75}
             },
-            note: '⚠️ SURPLUS +160 kcal → Compenser Lun/Mer (-80 kcal chaque)'
+            note: '✅ Frites réduites 350g→250g, macros respectées'
         }
     },
     repos: {
         repas1: {
-            cout: '~2.30€',
-            total: {P: 76, G: 100, L: 27, kcal: 935},
+            cout: '~2.50€',
+            total: {P: 87, G: 85, L: 23, kcal: 886},
             aliments: {
-                poulet_250g: {P: 60, G: 0, L: 5, kcal: 280},
-                riz_70g: {P: 5, G: 59, L: 1, kcal: 265},
-                legumes_400g: {P: 10, G: 21, L: 1, kcal: 130},
-                huile_20ml: {P: 0, G: 0, L: 20, kcal: 180},
-                pomme_150g: {P: 1, G: 20, L: 0, kcal: 80}
-            }
+                poulet_300g: {P: 72, G: 0, L: 6, kcal: 336},  // +50g vs avant
+                riz_80g: {P: 6, G: 67, L: 1, kcal: 303},  // 80g cru → 240g cuit
+                legumes_350g: {P: 9, G: 18, L: 1, kcal: 115},  // -50g vs avant
+                huile_15ml: {P: 0, G: 0, L: 15, kcal: 135}  // -5ml vs avant
+            },
+            note: '✅ Pomme supprimée, poulet augmenté'
         },
         collation: {
-            cout: '~1.80€',
-            total: {P: 30, G: 49, L: 11, kcal: 405}
+            cout: '~1.50€',
+            total: {P: 24, G: 46, L: 8, kcal: 346},
+            aliments: {
+                skyr_200g: {P: 20, G: 8, L: 0, kcal: 112},  // -50g vs avant
+                flocons_40g: {P: 5, G: 24, L: 3, kcal: 150},
+                myrtilles_100g: {P: 1, G: 12, L: 0, kcal: 50},
+                amandes_15g: {P: 3, G: 2, L: 8, kcal: 90},  // -5g vs avant
+                cannelle_2g: {P: 0, G: 0, L: 0, kcal: 0}
+            },
+            note: '✅ Portions réduites pour baisser calories'
         },
         repas3: {
-            cout: '~3.20€',
-            total: {P: 47, G: 55, L: 39, kcal: 765}
+            cout: '~4.50€',
+            total: {P: 78, G: 47, L: 53, kcal: 909},
+            aliments: {
+                saumon_350g: {P: 70, G: 0, L: 21, kcal: 490},  // 350g cru → 280g cuit
+                patate_douce_170g: {P: 3, G: 34, L: 0, kcal: 148},  // 170g crue → 150g cuite
+                legumes_200g: {P: 5, G: 10, L: 1, kcal: 65},
+                huile_25ml: {P: 0, G: 0, L: 25, kcal: 225},
+                graines_lin_15g: {P: 3, G: 0, L: 6, kcal: 75}
+            },
+            note: '✅ Saumon massif +170g, glucides réduits'
         }
     }
 };
@@ -1081,8 +1101,12 @@ window.onload = function() {
     updateTimelineVisuel();
     
     setInterval(verifierChangementDate, 60000);
+    setInterval(verifierValidationRepas, 300000); // Vérifier toutes les 5 min
+    setInterval(verifierRecapFinJournee, 300000); // Vérifier toutes les 5 min
     verifierEtNotifierChangementSemaine();
     verifierBackupHebdomadaire();
+    verifierValidationRepas(); // Vérification initiale
+    verifierRecapFinJournee(); // Vérification initiale
 };
 
 function verifierBackupHebdomadaire() {
@@ -1137,14 +1161,24 @@ function rappelBackup(message) {
 function verifierChangementDate() {
     const dateActuelle = new Date().toISOString().split('T')[0];
     const semaineActuelle_check = getSemaineActuelle();
-    
+
     if (dateActuelle !== derniereDateChargee) {
         derniereDateChargee = dateActuelle;
+
+        // 🆕 Recharger le type de jour si en mode AUTO
+        const autoMode = localStorage.getItem('autoMode') !== 'false';
+        if (autoMode) {
+            loadDayType();
+        }
+
         afficherMenu();
         loadGrignotages();
         calculerProgression();
+
+        // 🆕 NOTIFICATION VISUELLE CHANGEMENT DE JOUR
+        showDayChangeNotification(semaineActuelle_check !== derniereSemaineChargee);
     }
-    
+
     if (semaineActuelle_check !== derniereSemaineChargee) {
         derniereSemaineChargee = semaineActuelle_check;
         semaineActuelle = semaineActuelle_check;
@@ -1153,6 +1187,330 @@ function verifierChangementDate() {
         updateTimelineVisuel();
         calculerProgression();
     }
+}
+
+// 🆕 NOTIFICATION CHANGEMENT JOUR/SEMAINE
+function showDayChangeNotification(isWeekChange) {
+    const today = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const dateStr = today.toLocaleDateString('fr-FR', options);
+    const dayType = detecterJourType();
+    const dayIcon = dayType === 'training' ? '🏋️' : '💤';
+    const dayLabel = dayType === 'training' ? 'TRAINING' : 'REPOS';
+
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: ${isWeekChange ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'white'};
+        color: ${isWeekChange ? 'white' : '#333'};
+        padding: 30px 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        z-index: 5000;
+        max-width: 450px;
+        text-align: center;
+        animation: modalPop 0.5s;
+    `;
+
+    if (isWeekChange) {
+        const config = PLAN_HYBRIDE.semaines[semaineActuelle];
+        notification.innerHTML = `
+            <div style="font-size: 64px; margin-bottom: 15px;">📅</div>
+            <h2 style="margin-bottom: 10px; font-size: 28px;">Nouvelle Semaine !</h2>
+            <div style="font-size: 18px; margin-bottom: 15px; opacity: 0.95;">
+                ${semaineActuelle} - ${config.nom}
+            </div>
+            <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 12px; margin: 15px 0;">
+                <div style="font-size: 16px; margin-bottom: 8px;">${dateStr}</div>
+                <div style="font-size: 24px; font-weight: bold;">${dayIcon} Jour ${dayLabel}</div>
+            </div>
+            <div style="font-size: 14px; margin-top: 15px; opacity: 0.9;">
+                Objectif: ${config.objectif}<br>
+                Perte visée: ${config.perteVisee} kg
+            </div>
+            <button onclick="this.parentElement.nextSibling.remove(); this.parentElement.remove();"
+                    style="margin-top: 20px; padding: 12px 30px; background: white; color: #667eea; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px;">
+                C'est parti ! 💪
+            </button>
+        `;
+    } else {
+        notification.innerHTML = `
+            <div style="font-size: 48px; margin-bottom: 15px;">📅</div>
+            <h3 style="color: #667eea; margin-bottom: 15px; font-size: 22px;">Nouveau Jour</h3>
+            <div style="background: #f0f4ff; padding: 15px; border-radius: 12px; margin: 15px 0;">
+                <div style="font-size: 14px; color: #666; margin-bottom: 8px;">${dateStr}</div>
+                <div style="font-size: 22px; font-weight: bold; color: #333;">${dayIcon} Jour ${dayLabel}</div>
+            </div>
+            <button onclick="this.parentElement.nextSibling.remove(); this.parentElement.remove();"
+                    style="margin-top: 15px; padding: 10px 25px; background: #667eea; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">
+                OK
+            </button>
+        `;
+    }
+
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 4999;';
+    overlay.onclick = () => {
+        notification.remove();
+        overlay.remove();
+    };
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(notification);
+}
+
+// 🆕 VÉRIFICATION ET ALERTE VALIDATION REPAS
+function verifierValidationRepas() {
+    const now = new Date();
+    const heure = now.getHours();
+    const minutes = now.getMinutes();
+    const today = new Date().toISOString().split('T')[0];
+    const lastAlertDate = localStorage.getItem('last-meal-alert-date');
+    const lastAlertTime = localStorage.getItem('last-meal-alert-time');
+
+    // Alertes aux heures stratégiques: 19h, 21h, 22h30
+    const alertHours = [
+        { h: 19, m: 0, label: 'soirée' },
+        { h: 21, m: 0, label: 'tard' },
+        { h: 22, m: 30, label: 'très tard' }
+    ];
+
+    let shouldAlert = false;
+    let alertLabel = '';
+
+    for (const alert of alertHours) {
+        if (heure === alert.h && minutes >= alert.m && minutes < alert.m + 5) {
+            const alertKey = `${alert.h}:${alert.m}`;
+            if (lastAlertDate !== today || lastAlertTime !== alertKey) {
+                shouldAlert = true;
+                alertLabel = alert.label;
+                localStorage.setItem('last-meal-alert-date', today);
+                localStorage.setItem('last-meal-alert-time', alertKey);
+                break;
+            }
+        }
+    }
+
+    if (!shouldAlert) return;
+
+    // Vérifier quels repas manquent
+    const menu = MENUS_BASE[jourType];
+    const repasManquants = menu.repas.filter(r => !isRepasValide(r.id));
+
+    if (repasManquants.length === 0) return; // Tous validés, pas d'alerte
+
+    // Afficher notification
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+        color: white;
+        padding: 25px 35px;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(255,107,107,0.4);
+        z-index: 5000;
+        max-width: 400px;
+        text-align: center;
+        animation: shake 0.5s;
+    `;
+
+    const repasListeHTML = repasManquants.map(r =>
+        `<div style="background: rgba(255,255,255,0.2); padding: 8px; border-radius: 8px; margin: 5px 0; font-size: 14px;">
+            ${r.nom}
+        </div>`
+    ).join('');
+
+    notification.innerHTML = `
+        <div style="font-size: 48px; margin-bottom: 15px;">⚠️</div>
+        <h3 style="margin-bottom: 10px; font-size: 22px;">Repas non validés</h3>
+        <div style="font-size: 14px; margin-bottom: 15px; opacity: 0.95;">
+            Il est ${heure}h${minutes.toString().padStart(2, '0')}, tu n'as pas encore validé:
+        </div>
+        ${repasListeHTML}
+        <div style="font-size: 13px; margin-top: 15px; opacity: 0.9;">
+            ${repasManquants.length} repas manquant${repasManquants.length > 1 ? 's' : ''}
+        </div>
+        <button onclick="this.parentElement.nextSibling.remove(); this.parentElement.remove();"
+                style="margin-top: 20px; padding: 10px 25px; background: white; color: #ff6b6b; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">
+            OK, je valide !
+        </button>
+    `;
+
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 4999;';
+    overlay.onclick = () => {
+        notification.remove();
+        overlay.remove();
+    };
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(notification);
+}
+
+// 🆕 RÉCAP AUTOMATIQUE FIN DE JOURNÉE
+function verifierRecapFinJournee() {
+    const now = new Date();
+    const heure = now.getHours();
+    const minutes = now.getMinutes();
+    const today = new Date().toISOString().split('T')[0];
+    const lastRecapDate = localStorage.getItem('last-recap-date');
+
+    // Récap à 23h00
+    if (heure === 23 && minutes >= 0 && minutes < 5) {
+        if (lastRecapDate === today) return; // Déjà montré aujourd'hui
+        localStorage.setItem('last-recap-date', today);
+
+        afficherRecapJournee();
+    }
+}
+
+function afficherRecapJournee() {
+    const menu = MENUS_BASE[jourType];
+    const config = PLAN_HYBRIDE.semaines[semaineActuelle];
+    const repasValides = menu.repas.filter(r => isRepasValide(r.id));
+    const repasManquants = menu.repas.filter(r => !isRepasValide(r.id));
+    const today = new Date().toISOString().split('T')[0];
+
+    // Calculer macros atteintes
+    let macrosAtteintes = { P: 0, G: 0, L: 0, kcal: 0 };
+    repasValides.forEach(repas => {
+        macrosAtteintes.P += repas.macros.P;
+        macrosAtteintes.G += repas.macros.G;
+        macrosAtteintes.L += repas.macros.L;
+        macrosAtteintes.kcal += repas.calories;
+    });
+
+    // Ajouter grignotages
+    const grignotagesKey = `grignotages-${today}`;
+    const grignotages = JSON.parse(localStorage.getItem(grignotagesKey) || '[]');
+    grignotages.forEach(g => {
+        macrosAtteintes.P += g.P || 0;
+        macrosAtteintes.G += g.G || 0;
+        macrosAtteintes.L += g.L || 0;
+        macrosAtteintes.kcal += g.kcal || 0;
+    });
+
+    const macrosCibles = config.macros[jourType];
+    const caloriesCible = config.calories[jourType];
+
+    // Calculer pourcentages
+    const pctP = Math.round((macrosAtteintes.P / macrosCibles.P) * 100);
+    const pctG = Math.round((macrosAtteintes.G / macrosCibles.G) * 100);
+    const pctL = Math.round((macrosAtteintes.L / macrosCibles.L) * 100);
+    const pctCal = Math.round((macrosAtteintes.kcal / caloriesCible) * 100);
+
+    // Score global
+    const tauxValidation = Math.round((repasValides.length / menu.repas.length) * 100);
+    const score = Math.round((tauxValidation + pctP + pctG + pctL + pctCal) / 5);
+
+    // Emoji basé sur le score
+    let emoji = '🌟';
+    if (score >= 95) emoji = '🏆';
+    else if (score >= 85) emoji = '💪';
+    else if (score >= 75) emoji = '👍';
+    else if (score >= 60) emoji = '😐';
+    else emoji = '⚠️';
+
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        z-index: 5000;
+        max-width: 500px;
+        text-align: center;
+        animation: modalPop 0.5s;
+    `;
+
+    const repasValidesHTML = repasValides.length > 0 ? `
+        <div style="background: rgba(255,255,255,0.15); padding: 10px; border-radius: 10px; margin: 10px 0;">
+            <div style="font-size: 14px; margin-bottom: 5px;">✅ Repas validés (${repasValides.length}/${menu.repas.length})</div>
+            ${repasValides.map(r => `<div style="font-size: 12px; opacity: 0.9;">• ${r.nom}</div>`).join('')}
+        </div>
+    ` : '';
+
+    const repasManquantsHTML = repasManquants.length > 0 ? `
+        <div style="background: rgba(255,107,107,0.3); padding: 10px; border-radius: 10px; margin: 10px 0;">
+            <div style="font-size: 14px; margin-bottom: 5px;">❌ Non validés (${repasManquants.length})</div>
+            ${repasManquants.map(r => `<div style="font-size: 12px; opacity: 0.9;">• ${r.nom}</div>`).join('')}
+        </div>
+    ` : '';
+
+    const grignotagesHTML = grignotages.length > 0 ? `
+        <div style="background: rgba(255,193,7,0.3); padding: 10px; border-radius: 10px; margin: 10px 0;">
+            <div style="font-size: 14px; margin-bottom: 5px;">🍪 Grignotages (${grignotages.length})</div>
+            ${grignotages.map(g => `<div style="font-size: 12px; opacity: 0.9;">• ${g.nom} (+${g.kcal} kcal)</div>`).join('')}
+        </div>
+    ` : '';
+
+    notification.innerHTML = `
+        <div style="font-size: 64px; margin-bottom: 15px;">${emoji}</div>
+        <h2 style="margin-bottom: 5px; font-size: 26px;">Récap de ta journée</h2>
+        <div style="font-size: 14px; margin-bottom: 20px; opacity: 0.9;">
+            ${jourType === 'training' ? '🏋️ Jour Training' : '💤 Jour Repos'} • ${semaineActuelle}
+        </div>
+
+        ${repasValidesHTML}
+        ${repasManquantsHTML}
+        ${grignotagesHTML}
+
+        <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 12px; margin: 15px 0;">
+            <div style="font-size: 16px; margin-bottom: 10px; font-weight: bold;">📊 Macros atteintes</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px;">
+                <div>
+                    <div style="opacity: 0.8;">Protéines</div>
+                    <div style="font-weight: bold; font-size: 16px;">${macrosAtteintes.P}g / ${macrosCibles.P}g</div>
+                    <div style="font-size: 11px; opacity: 0.7;">${pctP}%</div>
+                </div>
+                <div>
+                    <div style="opacity: 0.8;">Glucides</div>
+                    <div style="font-weight: bold; font-size: 16px;">${macrosAtteintes.G}g / ${macrosCibles.G}g</div>
+                    <div style="font-size: 11px; opacity: 0.7;">${pctG}%</div>
+                </div>
+                <div>
+                    <div style="opacity: 0.8;">Lipides</div>
+                    <div style="font-weight: bold; font-size: 16px;">${macrosAtteintes.L}g / ${macrosCibles.L}g</div>
+                    <div style="font-size: 11px; opacity: 0.7;">${pctL}%</div>
+                </div>
+                <div>
+                    <div style="opacity: 0.8;">Calories</div>
+                    <div style="font-weight: bold; font-size: 16px;">${macrosAtteintes.kcal} / ${caloriesCible}</div>
+                    <div style="font-size: 11px; opacity: 0.7;">${pctCal}%</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="font-size: 18px; font-weight: bold; margin: 15px 0;">
+            Score: ${score}% ${emoji}
+        </div>
+
+        <button onclick="this.parentElement.nextSibling.remove(); this.parentElement.remove();"
+                style="margin-top: 15px; padding: 12px 30px; background: white; color: #667eea; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px;">
+            Bonne nuit ! 😴
+        </button>
+    `;
+
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 4999;';
+    overlay.onclick = () => {
+        notification.remove();
+        overlay.remove();
+    };
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(notification);
 }
 
 function verifierEtNotifierChangementSemaine() {
@@ -1216,26 +1574,107 @@ function afficherSaison() {
 
 function setDayType(type) {
     jourType = type;
-    localStorage.setItem('jourType', type);
+    const autoMode = localStorage.getItem('autoMode') !== 'false';
+    const dateToday = new Date().toISOString().split('T')[0];
+
+    if (autoMode) {
+        // Mode AUTO: enregistrer comme override manuel pour aujourd'hui
+        const manualOverrides = JSON.parse(localStorage.getItem('manualOverrides') || '{}');
+        manualOverrides[dateToday] = type;
+        localStorage.setItem('manualOverrides', JSON.stringify(manualOverrides));
+        updateAutoModeIndicator(true, true); // Afficher que override actif
+    } else {
+        // Mode MANUEL: sauvegarder normalement
+        localStorage.setItem('jourType', type);
+        updateAutoModeIndicator(false, false);
+    }
+
     document.getElementById('day-display').textContent = type === 'training' ? '🏋️ JOUR TRAINING' : '💤 JOUR REPOS';
-    
+
     const menu = MENUS_BASE[type];
     const config = PLAN_HYBRIDE.semaines[semaineActuelle];
-    
+
     document.getElementById('cal-total').textContent = config.calories[type];
     document.getElementById('prot-total').textContent = config.macros[type].P;
     document.getElementById('gluc-total').textContent = config.macros[type].G;
     document.getElementById('lip-total').textContent = config.macros[type].L;
-    
+
     afficherMenu();
     calculerProgression();
     showAutoSave();
 }
 
+// 🆕 DÉTECTION AUTO JOUR TRAINING/REPOS
+function detecterJourType() {
+    const today = new Date();
+    const dayOfWeek = today.getDay(); // 0=Dim, 1=Lun, 2=Mar, 3=Mer, 4=Jeu, 5=Ven, 6=Sam
+    // Lun(1), Mer(3), Ven(5) = Training, autres = Repos
+    return (dayOfWeek === 1 || dayOfWeek === 3 || dayOfWeek === 5) ? 'training' : 'repos';
+}
+
 function loadDayType() {
-    const saved = localStorage.getItem('jourType');
-    if (saved) jourType = saved;
+    const autoMode = localStorage.getItem('autoMode') !== 'false'; // Default: true
+    const dateToday = new Date().toISOString().split('T')[0];
+
+    if (autoMode) {
+        // Mode AUTO: utilise détection auto sauf si override manuel pour aujourd'hui
+        const manualOverrides = JSON.parse(localStorage.getItem('manualOverrides') || '{}');
+        if (manualOverrides[dateToday]) {
+            jourType = manualOverrides[dateToday];
+        } else {
+            jourType = detecterJourType();
+        }
+        updateAutoModeIndicator(true, manualOverrides[dateToday] ? true : false);
+    } else {
+        // Mode MANUEL: utilise la valeur sauvegardée
+        const saved = localStorage.getItem('jourType');
+        if (saved) jourType = saved;
+        updateAutoModeIndicator(false, false);
+    }
+
     document.getElementById('day-display').textContent = jourType === 'training' ? '🏋️ JOUR TRAINING' : '💤 JOUR REPOS';
+}
+
+function toggleAutoMode() {
+    const currentMode = localStorage.getItem('autoMode') !== 'false';
+    const newMode = !currentMode;
+    localStorage.setItem('autoMode', newMode.toString());
+
+    if (newMode) {
+        // Passer en mode AUTO: effacer les overrides et recharger
+        localStorage.removeItem('manualOverrides');
+        loadDayType();
+        afficherMenu();
+        calculerProgression();
+    } else {
+        // Passer en mode MANUEL: sauvegarder le type actuel
+        localStorage.setItem('jourType', jourType);
+        updateAutoModeIndicator(false, false);
+    }
+
+    showAutoSave();
+}
+
+function updateAutoModeIndicator(isAuto, hasOverride) {
+    const indicator = document.getElementById('auto-mode-indicator');
+    const btnToggle = document.getElementById('btn-toggle-auto');
+
+    if (isAuto) {
+        if (hasOverride) {
+            indicator.innerHTML = '🤖 Mode AUTO <span style="color: #ff6b6b;">(Override actif aujourd\'hui)</span>';
+            indicator.style.color = '#ff6b6b';
+        } else {
+            indicator.innerHTML = '🤖 Mode AUTO (Lun/Mer/Ven=Training)';
+            indicator.style.color = '#666';
+        }
+        btnToggle.innerHTML = '👆 Manuel';
+        btnToggle.style.background = '#e3f2fd';
+    } else {
+        indicator.innerHTML = '👆 Mode MANUEL';
+        indicator.style.color = '#666';
+        btnToggle.innerHTML = '🤖 Auto';
+        btnToggle.style.background = '#f0f0f0';
+    }
 }
 
 // 🆕 Fonction affichage menu MODIFIÉE avec suppléments et anti-inflammatoires
