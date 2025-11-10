@@ -198,6 +198,8 @@
             <button class="tab active" onclick="showTab('menu')">📋 MENU</button>
             <button class="tab" onclick="showTab('suivi10sem')">📊 SUIVI</button>
             <button class="tab" onclick="showTab('saison')">🍂 SAISON</button>
+            <button class="tab" onclick="showTab('supplements')">💊 STACK</button>
+            <button class="tab" onclick="showTab('ajustements')">⚙️ AJUST</button>
             <button class="tab" onclick="showTab('grignotages')">🍪 SNACKS</button>
             <button class="tab" onclick="showTab('export')">📤 EXPORT</button>
         </div>
@@ -243,6 +245,41 @@
             <div class="info-box"><strong>📅 Saison actuelle :</strong> <span id="season-name-detail">Automne</span> (mise à jour automatique)</div>
             <div class="progress-card"><h3>🍎 Fruits disponibles</h3><div id="fruits-saison" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;"></div></div>
             <div class="progress-card"><h3>🥦 Légumes disponibles</h3><div id="legumes-saison" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;"></div></div>
+        </div>
+
+        <!-- 🆕 NOUVEAU ONGLET STACK SUPPLÉMENTS -->
+        <div id="tab-supplements" class="tab-content">
+            <h2 style="color: #667eea; margin-bottom: 15px;">💊 Stack Suppléments Complet</h2>
+
+            <div class="alert-box alert-info">
+                <strong>📊 COÛT TOTAL MENSUEL</strong><br>
+                • Stack Basique : 207€/mois (~6.90€/jour)<br>
+                • Avec Berbérine (diabète) : 222€/mois<br>
+                • Stack Complet Diabète : 247€/mois<br>
+                • Maximum avec cholestérol : 272€/mois (~9€/jour)
+            </div>
+
+            <div id="stack-basique-container"></div>
+            <div id="stack-diabete-container"></div>
+            <div id="stack-cholesterol-container"></div>
+        </div>
+
+        <!-- 🆕 NOUVEAU ONGLET AJUSTEMENTS MACROS -->
+        <div id="tab-ajustements" class="tab-content">
+            <h2 style="color: #667eea; margin-bottom: 15px;">⚙️ Ajustements Macros</h2>
+
+            <div class="alert-box alert-warning">
+                <strong>⚠️ QUAND UTILISER CES AJUSTEMENTS ?</strong><br>
+                Les menus standards donnent ~200g P / 320g G / 65g L<br>
+                Si ta perte de poids stagne >2 semaines, utilise ces ajustements pour respecter STRICTEMENT les macros cibles (240P / 250G / 75L)
+            </div>
+
+            <div id="ajustements-container"></div>
+
+            <div class="progress-card">
+                <h3 style="color: #667eea; margin-bottom: 15px;">💡 Détails Nutritionnels par Aliment</h3>
+                <div id="details-nutritionnels-container"></div>
+            </div>
         </div>
 
         <div id="tab-grignotages" class="tab-content">
@@ -787,6 +824,225 @@ const MENUS_BASE = {
                 ]
             }
         ]
+    }
+};
+
+// 🆕 DÉTAILS NUTRITIONNELS COMPLETS PAR ALIMENT
+const DETAILS_NUTRITIONNELS = {
+    training: {
+        repas1: {
+            cout: '~2.50€',
+            total: {P: 78, G: 141, L: 22, kcal: 1060},
+            aliments: {
+                poulet_250g: {P: 60, G: 0, L: 5, kcal: 280},
+                riz_90g: {P: 7, G: 76, L: 1, kcal: 340},
+                legumes_350g: {P: 9, G: 18, L: 1, kcal: 115},
+                huile_15ml: {P: 0, G: 0, L: 15, kcal: 135},
+                banane_120g: {P: 1, G: 27, L: 0, kcal: 110},
+                pomme_150g: {P: 1, G: 20, L: 0, kcal: 80}
+            }
+        },
+        repas2: {
+            cout: '~2.80€',
+            total: {P: 62, G: 148, L: 5, kcal: 860},
+            aliments: {
+                whey_60g: {P: 51, G: 3, L: 1, kcal: 220},
+                bananes_360g: {P: 4, G: 81, L: 1, kcal: 330},
+                flocons_40g: {P: 5, G: 24, L: 3, kcal: 150},
+                jus_cerise_150ml: {P: 1, G: 20, L: 0, kcal: 80},
+                myrtilles_100g: {P: 1, G: 12, L: 0, kcal: 50},
+                miel_10g: {P: 0, G: 8, L: 0, kcal: 30}
+            }
+        },
+        repas3: {
+            cout: '~3.50€',
+            total: {P: 46, G: 54, L: 34, kcal: 715},
+            aliments: {
+                saumon_180g: {P: 35, G: 0, L: 12, kcal: 250},
+                riz_50g: {P: 4, G: 42, L: 0, kcal: 185},
+                salade_300g: {P: 4, G: 12, L: 1, kcal: 70},
+                huile_15ml: {P: 0, G: 0, L: 15, kcal: 135},
+                graines_lin_15g: {P: 3, G: 0, L: 6, kcal: 75}
+            }
+        },
+        repas3_vendredi: {
+            cout: '~2.50€',
+            total: {P: 73, G: 76, L: 30, kcal: 875},
+            aliments: {
+                salade_200g: {P: 2, G: 4, L: 0, kcal: 25},
+                viande_250g: {P: 60, G: 0, L: 8, kcal: 320},
+                frites_350g: {P: 8, G: 70, L: 10, kcal: 390},
+                huile_10ml: {P: 0, G: 0, L: 10, kcal: 90},
+                graines_lin_15g: {P: 3, G: 0, L: 6, kcal: 75}
+            },
+            note: '⚠️ SURPLUS +160 kcal → Compenser Lun/Mer (-80 kcal chaque)'
+        }
+    },
+    repos: {
+        repas1: {
+            cout: '~2.30€',
+            total: {P: 76, G: 100, L: 27, kcal: 935},
+            aliments: {
+                poulet_250g: {P: 60, G: 0, L: 5, kcal: 280},
+                riz_70g: {P: 5, G: 59, L: 1, kcal: 265},
+                legumes_400g: {P: 10, G: 21, L: 1, kcal: 130},
+                huile_20ml: {P: 0, G: 0, L: 20, kcal: 180},
+                pomme_150g: {P: 1, G: 20, L: 0, kcal: 80}
+            }
+        },
+        collation: {
+            cout: '~1.80€',
+            total: {P: 30, G: 49, L: 11, kcal: 405}
+        },
+        repas3: {
+            cout: '~3.20€',
+            total: {P: 47, G: 55, L: 39, kcal: 765}
+        }
+    }
+};
+
+// 🆕 OPTIONS AJUSTEMENT MACROS (si plateau perte poids)
+const AJUSTEMENTS_MACROS = {
+    training: {
+        optionA: {
+            nom: 'Option A - Équilibré (Recommandé)',
+            description: 'Ajustements légers pour approcher objectifs',
+            repas1: {
+                modifications: [
+                    '🍗 Poulet : 300g cru → 240g cuit (+20g protéines)',
+                    '🍚 Riz : 80g cru → 240g cuit (-8g glucides)',
+                    'Reste inchangé'
+                ],
+                macros: {P: 90, G: 125, L: 22, kcal: 1050}
+            },
+            repas2: {
+                modifications: ['Inchangé'],
+                macros: {P: 62, G: 148, L: 5, kcal: 860}
+            },
+            repas3: {
+                modifications: [
+                    '🐟 Saumon : 200g cru → 160g cuit (+3g protéines)',
+                    '🍚 Riz : 40g cru → 120g cuit (-8g glucides)',
+                    'Reste inchangé'
+                ],
+                macros: {P: 48, G: 48, L: 35, kcal: 685}
+            },
+            total: {P: 200, G: 321, L: 62, kcal: 2595},
+            note: '✅ Proche objectifs, bon compromis satiété/performance'
+        },
+        optionB: {
+            nom: 'Option B - Strict Macros (Si plateau)',
+            description: 'Ajustements stricts pour respecter EXACTEMENT macros',
+            repas1: {
+                modifications: [
+                    '🍗 Poulet : 300g cru → 240g cuit',
+                    '🍚 Riz : 70g cru → 210g cuit (-17g glucides)',
+                    '🫒 Huile : 10ml (-5ml = -5g lipides)',
+                    '🍌 Banane : SUPPRIMÉE (-27g glucides)'
+                ],
+                macros: {P: 90, G: 114, L: 17, kcal: 945}
+            },
+            repas2: {
+                modifications: [
+                    '🍌 Bananes : 2 au lieu de 3 (-27g glucides)',
+                    '🥣 Flocons : 30g au lieu 40g (-6g glucides)',
+                    'Reste inchangé'
+                ],
+                macros: {P: 62, G: 107, L: 4, kcal: 700}
+            },
+            repas3: {
+                modifications: [
+                    '🐟 Saumon : 200g cru (+3g protéines)',
+                    '🍚 Riz : SUPPRIMÉ (-42g glucides)',
+                    '🍠 Patate douce : 150g (+30g glucides)',
+                    '🫒 Huile : 20ml (+5ml = +5g lipides)'
+                ],
+                macros: {P: 50, G: 42, L: 48, kcal: 740}
+            },
+            total: {P: 202, G: 263, L: 69, kcal: 2385},
+            note: '⚠️ Plus restrictif, utiliser SI perte stagne >2 semaines'
+        }
+    }
+};
+
+// 🆕 STACK SUPPLÉMENTS COMPLET AVEC COÛTS ET BÉNÉFICES DIABÈTE
+const STACK_SUPPLEMENTS_COMPLET = {
+    basique: {
+        articulations: {
+            glucosamine: {dose: '1500mg', prix: '15€/mois', diabete: '✅ Neutre'},
+            chondroitine: {dose: '1200mg', prix: '12€/mois', diabete: '✅ Neutre'},
+            msm: {dose: '2000mg', prix: '10€/mois', diabete: '✅ Neutre', effet: '-82% inflammation'},
+            acide_hyaluronique: {dose: '200mg', prix: '18€/mois', diabete: '✅ Neutre'},
+            boswellia: {dose: '1000mg', prix: '15€/mois', diabete: '✅✅ Positif', effet: '-60% inflammation'}
+        },
+        performance: {
+            creatine: {dose: '5g/j', prix: '8€/mois', diabete: '✅ Neutre'},
+            whey: {dose: '60-90g/j', prix: '40€/mois', diabete: '✅ Neutre'},
+            omega3: {dose: '2-4g/j', prix: '20€/mois', diabete: '✅✅ Positif', effet: 'Cardio + inflamm'},
+            collagene: {dose: '15g/j', prix: '25€/mois', diabete: '✅ Neutre', effet: 'Tendons/peau'}
+        },
+        sante: {
+            vitamine_d3: {dose: '5000 UI', prix: '8€/mois', diabete: '✅✅ Positif'},
+            magnesium: {dose: '400mg', prix: '10€/mois', diabete: '✅✅ Positif', effet: 'Insuline ↑'},
+            zinc: {dose: '30mg', prix: '8€/mois', diabete: '✅✅ Positif'},
+            vitamine_c: {dose: '1000mg', prix: '6€/mois', diabete: '✅ Positif'},
+            glycine: {dose: '5g', prix: '12€/mois', diabete: '✅ Neutre', effet: 'Sommeil +15%'}
+        },
+        total_mensuel: '207€/mois (~6.90€/jour)'
+    },
+    diabete: {
+        titre: '🩸 AJOUTS SPÉCIFIQUES GLYCÉMIE 1.09 g/L',
+        berbérine: {
+            dose: '500mg 3×/jour (avec repas)',
+            prix: '15€/mois',
+            effet: 'Glycémie -20%, Insuline +30%',
+            note: 'PRIORITÉ #1 - "Metformine naturelle"'
+        },
+        chrome_picolinate: {
+            dose: '200mcg 2×/jour',
+            prix: '5€/mois',
+            effet: 'Régulation glucose',
+            note: 'Recommandé'
+        },
+        acide_alpha_lipoique: {
+            dose: '600mg 1×/jour',
+            prix: '20€/mois',
+            effet: 'Antioxydant + sensibilité insuline',
+            note: 'Optionnel'
+        },
+        total_diabete: '40€/mois additionnel',
+        minimum_recommande: 'Berbérine seule = 15€/mois'
+    },
+    cholesterol: {
+        titre: '🫀 CHOLESTÉROL - Déjà couvert par stack basique',
+        deja_present: [
+            'Oméga-3 4g : Réduit LDL, augmente HDL ✅',
+            'Curcuma : Effet hypocholestérol ✅',
+            'Saumon 3-5×/sem : Oméga-3 naturel ✅'
+        ],
+        optionnels: {
+            levure_riz_rouge: {
+                dose: '1200mg/jour',
+                prix: '15€/mois',
+                effet: 'LDL -20% (statine naturelle)',
+                note: '⚠️ Consulter médecin si statines chimiques'
+            },
+            psyllium: {
+                dose: '5g 2×/jour',
+                prix: '10€/mois',
+                effet: 'Cholestérol -10%, Transit',
+                note: 'Recommandé'
+            }
+        },
+        recommandation: 'Tester stack 10 sem + perte 6kg → Prise sang sem 10 → Ajuster si besoin'
+    },
+    cout_total: {
+        stack_basique: '207€/mois',
+        avec_diabete_minimum: '222€/mois (+15€ Berbérine)',
+        avec_diabete_complet: '247€/mois (+40€)',
+        avec_cholesterol_optionnel: '+25€/mois',
+        maximum_total: '272€/mois (~9€/jour)',
+        note: 'Investissement santé 44 ans : Articulations + Métabolisme + Performance'
     }
 };
 
@@ -1859,15 +2115,13 @@ function showAutoSave() {
     setTimeout(() => indicator.classList.remove('show'), 2000);
 }
 
+// 🆕 FONCTION AFFICHAGE ONGLETS MODIFIÉE
 function showTab(tabName) {
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active
-
-                                                                              function showTab(tabName) {
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.getElementById('tab-' + tabName).classList.add('active');
     event.target.classList.add('active');
-    
+
     if (tabName === 'suivi10sem') {
         afficherCarteSemaine();
         afficherGraphiquePoids();
@@ -1875,6 +2129,205 @@ function showTab(tabName) {
         afficherAlertes();
     }
     if (tabName === 'saison') afficherSaison();
+
+    // 🆕 Nouveaux onglets
+    if (tabName === 'supplements') afficherStackSupplements();
+    if (tabName === 'ajustements') afficherAjustementsMacros();
+}
+
+// 🆕 FONCTION AFFICHAGE STACK SUPPLÉMENTS
+function afficherStackSupplements() {
+    const stack = STACK_SUPPLEMENTS_COMPLET;
+
+    // Stack basique
+    let htmlBasique = '<div class="week-card"><h3 style="color: #667eea;">💊 Stack Basique - 207€/mois</h3>';
+
+    // Articulations
+    htmlBasique += '<div class="progress-card"><h4 style="color: #667eea; margin-bottom: 10px;">🦴 Articulations (70€/mois)</h4>';
+    htmlBasique += '<div style="display: grid; gap: 10px;">';
+    Object.entries(stack.basique.articulations).forEach(([nom, data]) => {
+        if (nom === 'total_mensuel') return;
+        htmlBasique += `<div style="background: #f8f9fa; padding: 10px; border-radius: 8px; border-left: 4px solid #51cf66;">
+            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
+            <small>📦 Dose: ${data.dose} | 💰 ${data.prix}</small><br>
+            <small>🩸 Diabète: ${data.diabete}</small>
+            ${data.effet ? `<br><small>✨ ${data.effet}</small>` : ''}
+        </div>`;
+    });
+    htmlBasique += '</div></div>';
+
+    // Performance
+    htmlBasique += '<div class="progress-card"><h4 style="color: #667eea; margin-bottom: 10px;">💪 Performance (93€/mois)</h4>';
+    htmlBasique += '<div style="display: grid; gap: 10px;">';
+    Object.entries(stack.basique.performance).forEach(([nom, data]) => {
+        htmlBasique += `<div style="background: #f8f9fa; padding: 10px; border-radius: 8px; border-left: 4px solid #667eea;">
+            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
+            <small>📦 Dose: ${data.dose} | 💰 ${data.prix}</small><br>
+            <small>🩸 Diabète: ${data.diabete}</small>
+            ${data.effet ? `<br><small>✨ ${data.effet}</small>` : ''}
+        </div>`;
+    });
+    htmlBasique += '</div></div>';
+
+    // Santé
+    htmlBasique += '<div class="progress-card"><h4 style="color: #667eea; margin-bottom: 10px;">🌿 Santé Générale (44€/mois)</h4>';
+    htmlBasique += '<div style="display: grid; gap: 10px;">';
+    Object.entries(stack.basique.sante).forEach(([nom, data]) => {
+        htmlBasique += `<div style="background: #f8f9fa; padding: 10px; border-radius: 8px; border-left: 4px solid #ffc107;">
+            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
+            <small>📦 Dose: ${data.dose} | 💰 ${data.prix}</small><br>
+            <small>🩸 Diabète: ${data.diabete}</small>
+            ${data.effet ? `<br><small>✨ ${data.effet}</small>` : ''}
+        </div>`;
+    });
+    htmlBasique += '</div></div>';
+    htmlBasique += '</div>';
+
+    document.getElementById('stack-basique-container').innerHTML = htmlBasique;
+
+    // Stack diabète
+    let htmlDiabete = `<div class="week-card" style="border-left-color: #ff6b6b;">
+        <h3 style="color: #ff6b6b;">🩸 ${stack.diabete.titre}</h3>
+        <div class="alert-box alert-danger">
+            <strong>💰 Coût additionnel :</strong> ${stack.diabete.total_diabete}<br>
+            <strong>🎯 Minimum recommandé :</strong> ${stack.diabete.minimum_recommande}
+        </div>`;
+
+    ['berbérine', 'chrome_picolinate', 'acide_alpha_lipoique'].forEach(nom => {
+        const data = stack.diabete[nom];
+        htmlDiabete += `<div style="background: #ffebee; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #ff6b6b;">
+            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
+            <small>📦 Dose: ${data.dose}</small><br>
+            <small>💰 Prix: ${data.prix}</small><br>
+            <small>✨ Effet: ${data.effet}</small><br>
+            <small style="background: #fff; padding: 3px 6px; border-radius: 4px; display: inline-block; margin-top: 5px;">💡 ${data.note}</small>
+        </div>`;
+    });
+    htmlDiabete += '</div>';
+
+    document.getElementById('stack-diabete-container').innerHTML = htmlDiabete;
+
+    // Cholestérol
+    let htmlCholesterol = `<div class="week-card" style="border-left-color: #ffc107;">
+        <h3 style="color: #ffc107;">🫀 ${stack.cholesterol.titre}</h3>
+        <div class="alert-box alert-success">
+            <strong>✅ Déjà couvert :</strong><br>
+            ${stack.cholesterol.deja_present.map(item => `• ${item}`).join('<br>')}
+        </div>`;
+
+    htmlCholesterol += '<h4 style="margin-top: 15px;">Optionnels (si besoin):</h4>';
+    Object.entries(stack.cholesterol.optionnels).forEach(([nom, data]) => {
+        htmlCholesterol += `<div style="background: #fff9e6; padding: 15px; border-radius: 8px; margin: 10px 0;">
+            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
+            <small>📦 ${data.dose} | 💰 ${data.prix}</small><br>
+            <small>✨ ${data.effet}</small><br>
+            <small style="color: #666;">💡 ${data.note}</small>
+        </div>`;
+    });
+
+    htmlCholesterol += `<div class="info-box" style="margin-top: 15px;">
+        <strong>📋 Recommandation :</strong> ${stack.cholesterol.recommandation}
+    </div></div>`;
+
+    document.getElementById('stack-cholesterol-container').innerHTML = htmlCholesterol;
+}
+
+// 🆕 FONCTION AFFICHAGE AJUSTEMENTS MACROS
+function afficherAjustementsMacros() {
+    const ajust = AJUSTEMENTS_MACROS.training;
+    const details = DETAILS_NUTRITIONNELS;
+
+    let html = '';
+
+    // Option A
+    html += `<div class="week-card moderee">
+        <div class="week-header">
+            <div class="week-title">${ajust.optionA.nom}</div>
+            <div class="phase-badge moderee">✅ RECOMMANDÉ</div>
+        </div>
+        <p style="color: #666; margin: 10px 0;">${ajust.optionA.description}</p>`;
+
+    ['repas1', 'repas2', 'repas3'].forEach(repas => {
+        const r = ajust.optionA[repas];
+        html += `<div class="meal" style="margin: 10px 0;">
+            <strong style="color: #667eea;">${repas.toUpperCase()}</strong>
+            <div class="meal-foods">
+                <ul>${r.modifications.map(m => `<li>${m}</li>`).join('')}</ul>
+            </div>
+            <div style="background: #f0f4ff; padding: 8px; border-radius: 6px; margin-top: 8px; font-size: 12px;">
+                P: ${r.macros.P}g | G: ${r.macros.G}g | L: ${r.macros.L}g | ${r.macros.kcal} kcal
+            </div>
+        </div>`;
+    });
+
+    html += `<div class="stats-grid" style="margin-top: 15px;">
+        <div class="stat-item"><div class="stat-label">Protéines</div><div class="stat-value">${ajust.optionA.total.P}g</div></div>
+        <div class="stat-item"><div class="stat-label">Glucides</div><div class="stat-value">${ajust.optionA.total.G}g</div></div>
+        <div class="stat-item"><div class="stat-label">Lipides</div><div class="stat-value">${ajust.optionA.total.L}g</div></div>
+        <div class="stat-item"><div class="stat-label">Calories</div><div class="stat-value">${ajust.optionA.total.kcal}</div></div>
+    </div>
+    <div class="alert-box alert-success" style="margin-top: 15px;">${ajust.optionA.note}</div>
+    </div>`;
+
+    // Option B
+    html += `<div class="week-card agressive">
+        <div class="week-header">
+            <div class="week-title">${ajust.optionB.nom}</div>
+            <div class="phase-badge agressive">⚠️ STRICT</div>
+        </div>
+        <p style="color: #666; margin: 10px 0;">${ajust.optionB.description}</p>`;
+
+    ['repas1', 'repas2', 'repas3'].forEach(repas => {
+        const r = ajust.optionB[repas];
+        html += `<div class="meal" style="margin: 10px 0;">
+            <strong style="color: #ff6b6b;">${repas.toUpperCase()}</strong>
+            <div class="meal-foods">
+                <ul>${r.modifications.map(m => `<li>${m}</li>`).join('')}</ul>
+            </div>
+            <div style="background: #ffebee; padding: 8px; border-radius: 6px; margin-top: 8px; font-size: 12px;">
+                P: ${r.macros.P}g | G: ${r.macros.G}g | L: ${r.macros.L}g | ${r.macros.kcal} kcal
+            </div>
+        </div>`;
+    });
+
+    html += `<div class="stats-grid" style="margin-top: 15px;">
+        <div class="stat-item"><div class="stat-label">Protéines</div><div class="stat-value">${ajust.optionB.total.P}g</div></div>
+        <div class="stat-item"><div class="stat-label">Glucides</div><div class="stat-value">${ajust.optionB.total.G}g</div></div>
+        <div class="stat-item"><div class="stat-label">Lipides</div><div class="stat-value">${ajust.optionB.total.L}g</div></div>
+        <div class="stat-item"><div class="stat-label">Calories</div><div class="stat-value">${ajust.optionB.total.kcal}</div></div>
+    </div>
+    <div class="alert-box alert-warning" style="margin-top: 15px;">${ajust.optionB.note}</div>
+    </div>`;
+
+    document.getElementById('ajustements-container').innerHTML = html;
+
+    // Détails nutritionnels
+    let htmlDetails = `<div class="info-box"><strong>💡 Astuce :</strong> Ces détails montrent les macros PRÉCISES de chaque aliment pour t'aider à ajuster tes portions si besoin.</div>`;
+
+    htmlDetails += '<h4 style="margin-top: 15px; color: #667eea;">🏋️ Jours TRAINING</h4>';
+
+    ['repas1', 'repas2', 'repas3', 'repas3_vendredi'].forEach(repas => {
+        const r = details.training[repas];
+        if (!r) return;
+
+        htmlDetails += `<div style="background: #f8f9fa; padding: 12px; border-radius: 8px; margin: 10px 0;">
+            <strong>${repas.toUpperCase()}</strong> - 💰 ${r.cout}<br>
+            <small style="color: #667eea; font-weight: bold;">Total: P${r.total.P}g | G${r.total.G}g | L${r.total.L}g | ${r.total.kcal} kcal</small>
+            <div style="margin-top: 8px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 5px;">`;
+
+        Object.entries(r.aliments).forEach(([nom, macros]) => {
+            htmlDetails += `<div style="background: white; padding: 6px; border-radius: 4px; font-size: 11px;">
+                <strong>${nom.replace(/_/g, ' ')}</strong><br>
+                P:${macros.P}g G:${macros.G}g L:${macros.L}g | ${macros.kcal}kcal
+            </div>`;
+        });
+
+        htmlDetails += '</div>';
+        if (r.note) htmlDetails += `<div style="background: #fff9e6; padding: 6px; border-radius: 4px; margin-top: 5px; font-size: 11px;">${r.note}</div>`;
+        htmlDetails += '</div>';
+    });
+
+    document.getElementById('details-nutritionnels-container').innerHTML = htmlDetails;
 }
     </script>
 </body>
