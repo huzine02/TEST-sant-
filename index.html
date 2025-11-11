@@ -47,14 +47,14 @@
             /* 🌲 BACKGROUND ILLUSTRÉ NATURE directement sur body */
             background:
                 /* Collines arrière-plan */
-                radial-gradient(ellipse 800px 300px at 50% 120%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse 600px 250px at 20% 100%, rgba(118, 75, 162, 0.12) 0%, transparent 50%),
-                radial-gradient(ellipse 700px 280px at 80% 110%, rgba(16, 185, 129, 0.10) 0%, transparent 50%),
+                radial-gradient(ellipse 800px 300px at 50% 120%, rgba(102, 126, 234, 0.25) 0%, transparent 50%),
+                radial-gradient(ellipse 600px 250px at 20% 100%, rgba(118, 75, 162, 0.22) 0%, transparent 50%),
+                radial-gradient(ellipse 700px 280px at 80% 110%, rgba(16, 185, 129, 0.18) 0%, transparent 50%),
                 /* "Lac" central clair */
-                radial-gradient(ellipse 500px 400px at 50% 50%, rgba(255, 255, 255, 0.5) 0%, transparent 70%),
+                radial-gradient(ellipse 500px 400px at 50% 50%, rgba(255, 255, 255, 0.6) 0%, transparent 70%),
                 /* Collines avant */
-                radial-gradient(ellipse 900px 200px at 30% 90%, rgba(102, 126, 234, 0.08) 0%, transparent 60%),
-                radial-gradient(ellipse 800px 180px at 70% 95%, rgba(118, 75, 162, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 900px 200px at 30% 90%, rgba(102, 126, 234, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse 800px 180px at 70% 95%, rgba(118, 75, 162, 0.15) 0%, transparent 60%),
                 var(--bg-primary);
             background-attachment: fixed;
             min-height: 100vh;
@@ -666,6 +666,14 @@
             .timeline-item {padding: 2px;}
             .timeline-dot {width: 30px; height: 30px; font-size: 10px;}
             .timeline-label, .timeline-phase {font-size: 9px;}
+            /* Fix pour section ajustements */
+            .stat-item {padding: 8px; font-size: 11px;}
+            .stat-value {font-size: 18px;}
+            .stat-label {font-size: 9px;}
+            .week-card {padding: 12px;}
+            .meal {font-size: 12px;}
+            .meal-foods ul {padding-left: 15px; font-size: 11px;}
+            input[type="text"], input[type="number"], textarea {max-width: 100%; font-size: 14px;}
         }
     </style>
 </head>
@@ -678,19 +686,19 @@
         </defs>
 
         <!-- Feuilles dispersées -->
-        <use href="#leaf" x="5%" y="15%" transform="rotate(-20)" fill="#10b981" opacity="0.3"/>
-        <use href="#leaf" x="92%" y="25%" transform="rotate(45)" fill="#667eea" opacity="0.25"/>
-        <use href="#leaf" x="8%" y="70%" transform="rotate(15)" fill="#764ba2" opacity="0.2"/>
-        <use href="#leaf" x="88%" y="85%" transform="rotate(-30)" fill="#10b981" opacity="0.28"/>
+        <use href="#leaf" x="5%" y="15%" transform="rotate(-20)" fill="#10b981" opacity="0.7"/>
+        <use href="#leaf" x="92%" y="25%" transform="rotate(45)" fill="#667eea" opacity="0.65"/>
+        <use href="#leaf" x="8%" y="70%" transform="rotate(15)" fill="#764ba2" opacity="0.6"/>
+        <use href="#leaf" x="88%" y="85%" transform="rotate(-30)" fill="#10b981" opacity="0.68"/>
 
         <!-- Vagues eau (lac) -->
-        <path d="M0,300 Q150,280 300,300 T600,300 T900,300 L900,400 L0,400 Z" fill="#667eea" opacity="0.08"/>
-        <path d="M0,320 Q180,305 360,320 T720,320 T1080,320 L1080,400 L0,400 Z" fill="#764ba2" opacity="0.06"/>
+        <path d="M0,300 Q150,280 300,300 T600,300 T900,300 L900,400 L0,400 Z" fill="#667eea" opacity="0.15"/>
+        <path d="M0,320 Q180,305 360,320 T720,320 T1080,320 L1080,400 L0,400 Z" fill="#764ba2" opacity="0.12"/>
 
         <!-- Collines stylisées -->
-        <ellipse cx="20%" cy="95%" rx="300" ry="80" fill="#10b981" opacity="0.12"/>
-        <ellipse cx="75%" cy="92%" rx="350" ry="90" fill="#667eea" opacity="0.10"/>
-        <ellipse cx="50%" cy="98%" rx="400" ry="100" fill="#764ba2" opacity="0.08"/>
+        <ellipse cx="20%" cy="95%" rx="300" ry="80" fill="#10b981" opacity="0.20"/>
+        <ellipse cx="75%" cy="92%" rx="350" ry="90" fill="#667eea" opacity="0.18"/>
+        <ellipse cx="50%" cy="98%" rx="400" ry="100" fill="#764ba2" opacity="0.15"/>
     </svg>
 
     <div class="auto-save-indicator" id="auto-save-indicator">✅ Sauvegardé</div>
