@@ -139,8 +139,37 @@
             <span class="version-badge">v5.0 SÈCHE • Hocine 44 ans</span>
             <span class="version-badge season-badge" id="season-badge">🍂 AUTOMNE</span>
         </div>
-        <div class="header-info">93.4kg • 105cm taille • Objectif 88kg en 10 semaines • Phase de sèche maximale</div>
-        
+        <!-- 🆕 SECTION MES MESURES ÉDITABLE -->
+        <div class="week-card" style="margin-bottom: 20px; background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);">
+            <h3 style="color: #51cf66; margin-bottom: 15px; cursor: pointer;" onclick="toggleMesuresEdit()">📊 MES MESURES <span style="font-size: 12px;">(cliquer pour éditer)</span></h3>
+
+            <div id="mesures-display" style="text-align: center; font-size: 15px; color: #333;">
+                <strong id="display-poids">93.4</strong>kg •
+                <strong id="display-taille">105</strong>cm taille •
+                Objectif <strong id="display-objectif">88</strong>kg en 10 semaines
+            </div>
+
+            <div id="mesures-edit" style="display: none; animation: fadeIn 0.3s;">
+                <div class="form-row" style="gap: 10px;">
+                    <div class="form-group" style="margin: 5px 0;">
+                        <label class="form-label" style="font-size: 12px;">⚖️ Poids actuel (kg)</label>
+                        <input type="number" step="0.1" class="form-input" id="input-poids-actuel" value="93.4" oninput="updateMesures()">
+                    </div>
+                    <div class="form-group" style="margin: 5px 0;">
+                        <label class="form-label" style="font-size: 12px;">📏 Tour taille (cm)</label>
+                        <input type="number" step="0.5" class="form-input" id="input-taille-actuel" value="105" oninput="updateMesures()">
+                    </div>
+                    <div class="form-group" style="margin: 5px 0;">
+                        <label class="form-label" style="font-size: 12px;">🎯 Objectif (kg)</label>
+                        <input type="number" step="0.1" class="form-input" id="input-objectif" value="88" oninput="updateMesures()">
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 10px; color: #51cf66; font-size: 12px;">
+                    ✅ Sauvegarde automatique • Perte visée: <strong id="perte-visee">5.4</strong>kg
+                </div>
+            </div>
+        </div>
+
         <div class="timeline-container">
             <div style="text-align: center; margin-bottom: 15px; font-weight: bold; color: #667eea;">PROGRESSION 10 SEMAINES</div>
             <div class="timeline">
@@ -247,6 +276,16 @@
 
             <div id="alertes-container"></div>
 
+            <!-- 🆕 GRAPHIQUE PROGRESSION POIDS -->
+            <div class="week-card" style="background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%); margin-bottom: 20px;">
+                <h3 style="color: #667eea; margin-bottom: 15px;">📈 COURBE DE PROGRESSION</h3>
+                <canvas id="graph-progression" style="width: 100%; height: 250px;"></canvas>
+                <div style="text-align: center; margin-top: 15px; font-size: 13px; color: #666;">
+                    Perte moyenne: <strong id="perte-moyenne">-0.5kg</strong>/sem •
+                    Restant: <strong id="kg-restant">5.4kg</strong>
+                </div>
+            </div>
+
             <div class="progress-card">
                 <h3 style="color: #667eea; margin-bottom: 15px;">📋 Historique Pesées</h3>
                 <button class="btn btn-primary" style="width: 100%; margin-bottom: 15px;" onclick="ouvrirFormulairePesee()">⚖️ Nouvelle pesée (Vendredi/Samedi)</button>
@@ -281,6 +320,47 @@
         <!-- 🆕 NOUVEAU ONGLET AJUSTEMENTS MACROS -->
         <div id="tab-ajustements" class="tab-content">
             <h2 style="color: #667eea; margin-bottom: 15px;">⚙️ Ajustements Macros</h2>
+
+            <!-- 🆕 CALCULATEUR INTERACTIF -->
+            <div class="week-card" style="background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);">
+                <h3 style="color: #667eea; margin-bottom: 15px;">🧮 CALCULATEUR MACROS LIVE</h3>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #667eea;">
+                        🥩 Protéines: <span id="calc-p-value">240</span>g
+                    </label>
+                    <input type="range" min="180" max="280" value="240" step="5" style="width: 100%;"
+                           oninput="updateCalculMacros()" id="calc-p-slider">
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #ff9800;">
+                        🍚 Glucides: <span id="calc-g-value">250</span>g
+                    </label>
+                    <input type="range" min="150" max="350" value="250" step="10" style="width: 100%;"
+                           oninput="updateCalculMacros()" id="calc-g-slider">
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #51cf66;">
+                        🥑 Lipides: <span id="calc-l-value">75</span>g
+                    </label>
+                    <input type="range" min="50" max="100" value="75" step="5" style="width: 100%;"
+                           oninput="updateCalculMacros()" id="calc-l-slider">
+                </div>
+
+                <div style="background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <div style="font-size: 32px; font-weight: bold; color: #667eea; margin-bottom: 5px;">
+                        <span id="calc-total-kcal">2395</span> kcal
+                    </div>
+                    <div style="font-size: 12px; color: #999;">TOTAL JOURNALIER</div>
+                    <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #eee; font-size: 13px; color: #666;">
+                        P: <strong id="calc-p-kcal">960</strong>kcal •
+                        G: <strong id="calc-g-kcal">1000</strong>kcal •
+                        L: <strong id="calc-l-kcal">675</strong>kcal
+                    </div>
+                </div>
+            </div>
 
             <div class="alert-box alert-warning">
                 <strong>⚠️ QUAND UTILISER CES AJUSTEMENTS ?</strong><br>
@@ -3255,6 +3335,138 @@ function afficherAjustementsMacros() {
 
     document.getElementById('details-nutritionnels-container').innerHTML = htmlDetails;
 }
+
+// 🆕 FONCTIONS MESURES ÉDITABLES
+function toggleMesuresEdit() {
+    const display = document.getElementById('mesures-display');
+    const edit = document.getElementById('mesures-edit');
+
+    if (edit.style.display === 'none') {
+        display.style.display = 'none';
+        edit.style.display = 'block';
+    } else {
+        display.style.display = 'block';
+        edit.style.display = 'none';
+    }
+}
+
+function updateMesures() {
+    const poids = parseFloat(document.getElementById('input-poids-actuel').value) || 93.4;
+    const taille = parseFloat(document.getElementById('input-taille-actuel').value) || 105;
+    const objectif = parseFloat(document.getElementById('input-objectif').value) || 88;
+
+    document.getElementById('display-poids').textContent = poids.toFixed(1);
+    document.getElementById('display-taille').textContent = taille.toFixed(0);
+    document.getElementById('display-objectif').textContent = objectif.toFixed(1);
+
+    const perteVisee = poids - objectif;
+    document.getElementById('perte-visee').textContent = perteVisee.toFixed(1);
+    document.getElementById('kg-restant').textContent = perteVisee.toFixed(1);
+
+    // Sauvegarde
+    localStorage.setItem('mesures', JSON.stringify({poids, taille, objectif}));
+    showAutoSave();
+}
+
+// 🆕 FONCTION CALCULATEUR MACROS LIVE
+function updateCalculMacros() {
+    const p = parseInt(document.getElementById('calc-p-slider').value);
+    const g = parseInt(document.getElementById('calc-g-slider').value);
+    const l = parseInt(document.getElementById('calc-l-slider').value);
+
+    document.getElementById('calc-p-value').textContent = p;
+    document.getElementById('calc-g-value').textContent = g;
+    document.getElementById('calc-l-value').textContent = l;
+
+    const pKcal = p * 4;
+    const gKcal = g * 4;
+    const lKcal = l * 9;
+    const total = pKcal + gKcal + lKcal;
+
+    document.getElementById('calc-p-kcal').textContent = pKcal;
+    document.getElementById('calc-g-kcal').textContent = gKcal;
+    document.getElementById('calc-l-kcal').textContent = lKcal;
+    document.getElementById('calc-total-kcal').textContent = total;
+}
+
+// 🆕 FONCTION DESSIN GRAPHIQUE (simplifié avec canvas)
+function drawGraph() {
+    const canvas = document.getElementById('graph-progression');
+    if (!canvas || !canvas.getContext) return;
+
+    const ctx = canvas.getContext('2d');
+    const width = canvas.offsetWidth;
+    const height = 250;
+    canvas.width = width;
+    canvas.height = height;
+
+    // Données exemple
+    const data = [93.4, 92.8, 92.3, 91.9, 91.5, 91.0, 90.5, 90.0, 89.5, 89.0, 88.5];
+    const objectif = 88;
+
+    // Fond
+    ctx.fillStyle = '#f8f9fa';
+    ctx.fillRect(0, 0, width, height);
+
+    // Ligne objectif
+    const objY = height - 30;
+    ctx.strokeStyle = '#51cf66';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 5]);
+    ctx.beginPath();
+    ctx.moveTo(40, objY);
+    ctx.lineTo(width - 20, objY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Courbe progression
+    ctx.strokeStyle = '#667eea';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+
+    const stepX = (width - 60) / (data.length - 1);
+    const maxVal = Math.max(...data);
+    const minVal = objectif - 1;
+    const range = maxVal - minVal;
+
+    data.forEach((val, i) => {
+        const x = 40 + i * stepX;
+        const y = height - 40 - ((val - minVal) / range * (height - 80));
+
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+
+        // Points
+        ctx.fillStyle = '#667eea';
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+    });
+    ctx.stroke();
+
+    // Texte
+    ctx.fillStyle = '#666';
+    ctx.font = '12px Arial';
+    ctx.fillText('Départ', 40, height - 10);
+    ctx.fillText('Objectif', width - 70, height - 10);
+    ctx.fillStyle = '#51cf66';
+    ctx.fillText(objectif + 'kg', 10, objY + 5);
+}
+
+// 🆕 CHARGER MESURES AU DÉMARRAGE
+window.addEventListener('load', function() {
+    const saved = localStorage.getItem('mesures');
+    if (saved) {
+        const {poids, taille, objectif} = JSON.parse(saved);
+        document.getElementById('input-poids-actuel').value = poids;
+        document.getElementById('input-taille-actuel').value = taille;
+        document.getElementById('input-objectif').value = objectif;
+        updateMesures();
+    }
+
+    // Dessiner graphique si onglet suivi visible
+    setTimeout(drawGraph, 500);
+});
     </script>
 </body>
 </html>
