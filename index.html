@@ -637,12 +637,23 @@
 <body>
     <div class="auto-save-indicator" id="auto-save-indicator">✅ Sauvegardé</div>
     <div class="container">
-        <h1>🔥 PLAN SÈCHE 10 SEMAINES</h1>
-        <div style="text-align: center;">
-            <span class="version-badge">v5.0 SÈCHE • Hocine 44 ans</span>
-            <span class="version-badge season-badge" id="season-badge">🍂 AUTOMNE</span>
+        <!-- 🎯 HEADER MODERNE -->
+        <div class="app-header">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-sm);">
+                <div>
+                    <h1>🔥 Nutri-Track</h1>
+                    <div style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">Plan Sèche 10 Semaines</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 24px; font-weight: 800; color: var(--primary);">93.4<span style="font-size: 14px; font-weight: 600;">kg</span></div>
+                    <div style="font-size: 11px; color: var(--text-tertiary);">→ 88kg</div>
+                </div>
+            </div>
+            <div class="header-info">
+                <span class="version-badge">Hocine • 44 ans</span>
+                <span class="version-badge season-badge" id="season-badge">🍂 AUTOMNE</span>
+            </div>
         </div>
-        <div class="header-info">93.4kg • 105cm taille • Objectif 88kg en 10 semaines • Phase de sèche maximale</div>
         
         <div class="timeline-container">
             <div style="text-align: center; margin-bottom: 15px; font-weight: bold; color: #667eea;">PROGRESSION 10 SEMAINES</div>
@@ -713,14 +724,36 @@
             </div>
         </div>
 
-        <div class="tabs">
-            <button class="tab active" onclick="showTab('menu')">📋 MENU</button>
-            <button class="tab" onclick="showTab('suivi10sem')">📊 SUIVI</button>
-            <button class="tab" onclick="showTab('saison')">🍂 SAISON</button>
-            <button class="tab" onclick="showTab('supplements')">💊 STACK</button>
-            <button class="tab" onclick="showTab('ajustements')">⚙️ AJUST</button>
-            <button class="tab" onclick="showTab('grignotages')">🍪 SNACKS</button>
-            <button class="tab" onclick="showTab('export')">📤 EXPORT</button>
+        <!-- 🗂️ BOTTOM NAVIGATION MODERNE -->
+        <div class="bottom-nav">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('menu')">
+                    <span class="tab-icon">🍽️</span>
+                    <span>Menu</span>
+                </button>
+                <button class="tab" onclick="showTab('suivi10sem')">
+                    <span class="tab-icon">📊</span>
+                    <span>Suivi</span>
+                </button>
+                <button class="tab" onclick="showTab('saison')">
+                    <span class="tab-icon">🍂</span>
+                    <span>Saison</span>
+                </button>
+                <button class="tab" onclick="showTab('supplements')">
+                    <span class="tab-icon">💊</span>
+                    <span>Stack</span>
+                </button>
+                <button class="tab" onclick="showTab('grignotages')">
+                    <span class="tab-icon">🍪</span>
+                    <span>Plus</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabs cachés pour ajustements et export (accessibles via "Plus") -->
+        <div id="more-tabs" style="display: none;">
+            <button class="tab" onclick="showTab('ajustements')">⚙️ Ajustements</button>
+            <button class="tab" onclick="showTab('export')">📤 Export</button>
         </div>
 
         <div id="tab-menu" class="tab-content active">
@@ -791,7 +824,10 @@
 
         <!-- 🆕 NOUVEAU ONGLET AJUSTEMENTS MACROS -->
         <div id="tab-ajustements" class="tab-content">
-            <h2 style="color: #667eea; margin-bottom: 15px;">⚙️ Ajustements Macros</h2>
+            <div style="display: flex; align-items: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-lg);">
+                <button onclick="showTab('grignotages')" class="btn btn-secondary" style="padding: var(--spacing-xs);">‹ Retour</button>
+                <h2 style="color: var(--text-primary); margin: 0; font-size: 18px; font-weight: 700;">⚙️ Ajustements Macros</h2>
+            </div>
 
             <!-- 🆕 SECTION MODULATION MACROS PAR SEMAINE -->
             <div class="progress-card" style="margin-bottom: 20px;">
@@ -827,15 +863,63 @@
             </div>
         </div>
 
+        <!-- 🍪 ONGLET PLUS (Menu additionnel) -->
         <div id="tab-grignotages" class="tab-content">
-            <h2 style="color: #667eea; margin-bottom: 15px;">🍪 Grignotages</h2>
+            <h2 style="color: var(--text-primary); margin-bottom: var(--spacing-lg); font-size: 18px; font-weight: 700;">Plus d'options</h2>
+
+            <!-- Menu Cards -->
+            <div style="display: grid; gap: var(--spacing-sm);">
+                <div class="week-card" onclick="showTab('snacks-detail')" style="cursor: pointer; margin: 0;">
+                    <div style="display: flex; align-items: center; gap: var(--spacing-md);">
+                        <span style="font-size: 32px;">🍪</span>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 700; font-size: 16px; color: var(--text-primary);">Grignotages</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">Tracker tes snacks quotidiens</div>
+                        </div>
+                        <span style="color: var(--text-tertiary);">›</span>
+                    </div>
+                </div>
+
+                <div class="week-card" onclick="showTab('ajustements')" style="cursor: pointer; margin: 0;">
+                    <div style="display: flex; align-items: center; gap: var(--spacing-md);">
+                        <span style="font-size: 32px;">⚙️</span>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 700; font-size: 16px; color: var(--text-primary);">Ajustements</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">Personnaliser tes macros</div>
+                        </div>
+                        <span style="color: var(--text-tertiary);">›</span>
+                    </div>
+                </div>
+
+                <div class="week-card" onclick="showTab('export')" style="cursor: pointer; margin: 0;">
+                    <div style="display: flex; align-items: center; gap: var(--spacing-md);">
+                        <span style="font-size: 32px;">📤</span>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 700; font-size: 16px; color: var(--text-primary);">Export & Backup</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">Sauvegarder tes données</div>
+                        </div>
+                        <span style="color: var(--text-tertiary);">›</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Snacks détail (sous-page) -->
+        <div id="tab-snacks-detail" class="tab-content">
+            <div style="display: flex; align-items: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-lg);">
+                <button onclick="showTab('grignotages')" class="btn btn-secondary" style="padding: var(--spacing-xs);">‹ Retour</button>
+                <h2 style="color: var(--text-primary); margin: 0; font-size: 18px; font-weight: 700;">🍪 Grignotages</h2>
+            </div>
             <button class="btn btn-primary" style="width: 100%; margin-bottom: 15px;" onclick="openGrignotageModal()">+ Ajouter grignotage</button>
             <div class="grignotage-section" id="liste-grignotages"><p style="color: #999; text-align: center;">Aucun grignotage aujourd'hui 👍</p></div>
             <div class="progress-card"><h3>Total grignotages : <span id="total-grignotages" style="color: #ffc107;">+0 kcal</span></h3></div>
         </div>
 
         <div id="tab-export" class="tab-content">
-            <h2 style="color: #667eea; margin-bottom: 15px;">📤 Export & Sauvegarde</h2>
+            <div style="display: flex; align-items: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-lg);">
+                <button onclick="showTab('grignotages')" class="btn btn-secondary" style="padding: var(--spacing-xs);">‹ Retour</button>
+                <h2 style="color: var(--text-primary); margin: 0; font-size: 18px; font-weight: 700;">📤 Export & Sauvegarde</h2>
+            </div>
             
             <div class="alert-box alert-info" style="margin-bottom: 20px;">
                 <strong>💾 SAUVEGARDE TES DONNÉES !</strong><br>
