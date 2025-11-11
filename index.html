@@ -674,6 +674,28 @@
         .option-selector {background: #f8f9fa; padding: 12px; border-radius: 8px; margin: 10px 0;}
         .option-btn {padding: 8px 16px; background: white; border: 2px solid #e0e0e0; border-radius: 8px; margin: 4px; cursor: pointer; font-size: 12px; font-weight: bold; transition: all 0.3s;}
         .option-btn.active {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-color: #667eea;}
+
+        /* Macros Summary */
+        .macros-summary {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            overflow-x: auto;
+        }
+        .macro-line {
+            margin: 5px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+        .macro-values {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
         @media (max-width: 600px) {
             .container {padding: 12px;}
             h1 {font-size: 22px;}
@@ -700,6 +722,11 @@
             .day-emoji {font-size: 22px;}
             .day-text {font-size: 15px; line-height: 1.1;}
             #auto-mode-indicator {font-size: 9px !important; padding: 0 5px;}
+            /* Fix macros summary training/repos */
+            .macros-summary {padding: 8px; margin-top: 10px; font-size: 11px;}
+            .macro-line {gap: 5px; font-size: 11px; line-height: 1.4;}
+            .macro-line strong {font-size: 10px;}
+            .macro-values {font-size: 10px; display: block; margin-left: 0; padding-left: 15px;}
         }
     </style>
 </head>
@@ -2906,9 +2933,13 @@ function afficherCarteSemaine() {
                 <div class="stat-value">${config.perteVisee}kg</div>
             </div>
         </div>
-        <div style="background: #f8f9fa; padding: 12px; border-radius: 8px; margin-top: 15px;">
-            <strong>📊 Macros Training :</strong> P${config.macros.training.P}g / G${config.macros.training.G}g / L${config.macros.training.L}g<br>
-            <strong>📊 Macros Repos :</strong> P${config.macros.repos.P}g / G${config.macros.repos.G}g / L${config.macros.repos.L}g
+        <div class="macros-summary">
+            <div class="macro-line">
+                <strong>📊 Training:</strong> <span class="macro-values">P${config.macros.training.P}g / G${config.macros.training.G}g / L${config.macros.training.L}g</span>
+            </div>
+            <div class="macro-line">
+                <strong>📊 Repos:</strong> <span class="macro-values">P${config.macros.repos.P}g / G${config.macros.repos.G}g / L${config.macros.repos.L}g</span>
+            </div>
         </div>`;
     
     if (pesee) {
