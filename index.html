@@ -12,15 +12,28 @@
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background:
-                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3), transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(102, 126, 234, 0.3), transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(118, 75, 162, 0.2), transparent 50%),
+                url('data:image/svg+xml;utf8,<svg width="1920" height="1080" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="leaf1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%2351cf66;stop-opacity:0.3"/><stop offset="100%" style="stop-color:%2337b24d;stop-opacity:0.1"/></linearGradient><linearGradient id="leaf2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%2366d9e8;stop-opacity:0.25"/><stop offset="100%" style="stop-color:%2338bdf8;stop-opacity:0.1"/></linearGradient></defs><ellipse cx="150" cy="100" rx="80" ry="40" fill="url(%23leaf1)" transform="rotate(-25 150 100)"/><ellipse cx="150" cy="100" rx="80" ry="40" fill="url(%23leaf1)" transform="rotate(25 150 100)"/><path d="M150,60 Q150,100 150,140" stroke="%2351cf66" stroke-width="3" fill="none" opacity="0.3"/><ellipse cx="1750" cy="950" rx="100" ry="50" fill="url(%23leaf2)" transform="rotate(35 1750 950)"/><ellipse cx="1750" cy="950" rx="100" ry="50" fill="url(%23leaf2)" transform="rotate(-35 1750 950)"/><path d="M1750,900 Q1750,950 1750,1000" stroke="%2338bdf8" stroke-width="4" fill="none" opacity="0.25"/><circle cx="300" cy="900" r="35" fill="%23ff6b6b" opacity="0.2"/><circle cx="295" cy="895" r="30" fill="%23ff8787" opacity="0.15"/><circle cx="310" cy="905" r="8" fill="%23ffffff" opacity="0.4"/><ellipse cx="1600" cy="200" rx="45" ry="60" fill="%23ffd93d" opacity="0.2"/><ellipse cx="1595" cy="195" rx="40" ry="55" fill="%23ffeb3b" opacity="0.15"/><path d="M1600,140 Q1600,170 1600,200" stroke="%23ff9800" stroke-width="3" fill="none" opacity="0.2"/><path d="M800,50 Q850,100 900,80 T1000,60" stroke="%2351cf66" stroke-width="2" fill="none" opacity="0.15"/><path d="M100,500 Q150,550 200,530 T300,510" stroke="%2366d9e8" stroke-width="2" fill="none" opacity="0.12"/><circle cx="1200" cy="850" r="25" fill="%23a78bfa" opacity="0.18"/><circle cx="1205" cy="845" r="20" fill="%23c4b5fd" opacity="0.12"/><circle cx="450" cy="300" r="30" fill="%23fb923c" opacity="0.15"/><ellipse cx="1400" cy="600" rx="35" ry="50" fill="%23f472b6" opacity="0.12" transform="rotate(20 1400 600)"/></svg>'),
+                radial-gradient(circle at 20% 50%, rgba(81, 207, 102, 0.15), transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(102, 126, 234, 0.2), transparent 55%),
+                radial-gradient(circle at 40% 20%, rgba(255, 107, 107, 0.12), transparent 50%),
+                radial-gradient(circle at 90% 10%, rgba(255, 217, 61, 0.15), transparent 45%),
                 linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             background-attachment: fixed;
+            background-size: cover, 400% 400%, 300% 300%, 350% 350%, 320% 320%, cover;
+            animation: gradientShift 20s ease infinite;
             min-height: 100vh;
             padding: 20px;
             color: #1a1a2e;
             overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                background-position: center, 0% 50%, 50% 50%, 50% 50%, 50% 50%, center;
+            }
+            50% {
+                background-position: center, 100% 50%, 0% 50%, 100% 50%, 0% 50%, center;
+            }
         }
 
         .container {
@@ -474,33 +487,135 @@
             <span class="version-badge">v5.0 SÈCHE • Hocine 44 ans</span>
             <span class="version-badge season-badge" id="season-badge">🍂 AUTOMNE</span>
         </div>
-        <!-- 🆕 SECTION MES MESURES ÉDITABLE -->
-        <div class="week-card" style="margin-bottom: 20px; background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);">
-            <h3 style="color: #51cf66; margin-bottom: 15px; cursor: pointer;" onclick="toggleMesuresEdit()">📊 MES MESURES <span style="font-size: 12px;">(cliquer pour éditer)</span></h3>
+        <!-- 🆕 SECTION MES MESURES ÉDITABLE PREMIUM -->
+        <div class="week-card" style="margin-bottom: 25px; background: linear-gradient(135deg, rgba(81, 207, 102, 0.08) 0%, rgba(56, 178, 77, 0.05) 100%); border-left: 6px solid #51cf66; position: relative; overflow: hidden;">
 
-            <div id="mesures-display" style="text-align: center; font-size: 15px; color: #333;">
-                <strong id="display-poids">93.4</strong>kg •
-                <strong id="display-taille">105</strong>cm taille •
-                Objectif <strong id="display-objectif">88</strong>kg en 10 semaines
+            <!-- Décorations SVG -->
+            <div style="position: absolute; top: -20px; right: -20px; opacity: 0.08;">
+                <svg width="150" height="150" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="75" cy="75" r="60" fill="#51cf66"/>
+                    <path d="M75,35 L85,55 L105,55 L90,70 L95,90 L75,75 L55,90 L60,70 L45,55 L65,55 Z" fill="white"/>
+                </svg>
             </div>
 
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; cursor: pointer;" onclick="toggleMesuresEdit()">
+                <div style="background: linear-gradient(135deg, #51cf66, #37b24d); width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(81, 207, 102, 0.3);">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 6L16 18M12 9V18M8 13V18M20 6C20 7.10457 16.4183 8 12 8C7.58172 8 4 7.10457 4 6M20 6C20 4.89543 16.4183 4 12 4C7.58172 4 4 4.89543 4 6M20 6V18C20 19.1046 16.4183 20 12 20C7.58172 20 4 19.1046 4 18V6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div style="flex: 1;">
+                    <h3 style="color: #51cf66; margin: 0; font-size: 18px; font-weight: 700; letter-spacing: -0.3px;">MES DONNÉES PHYSIQUES</h3>
+                    <p style="margin: 4px 0 0 0; font-size: 12px; color: #999; font-weight: 500;">Cliquer pour modifier vos mesures</p>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 5H6C4.89543 5 4 5.89543 4 7V18C4 19.1046 4.89543 20 6 20H17C18.1046 20 19 19.1046 19 18V13M17.5858 3.58579C18.3668 2.80474 19.6332 2.80474 20.4142 3.58579C21.1953 4.36683 21.1953 5.63316 20.4142 6.41421L11.8284 15H9L9 12.1716L17.5858 3.58579Z" stroke="#51cf66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+
+            <!-- Affichage Mode -->
+            <div id="mesures-display">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                    <!-- Poids Actuel -->
+                    <div style="background: white; padding: 18px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.3s;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                            <div style="background: linear-gradient(135deg, #667eea, #764ba2); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 9H21M7 3V5M17 3V5M6.2 21H17.8C18.9201 21 19.4802 21 19.908 20.782C20.2843 20.5903 20.5903 20.2843 20.782 19.908C21 19.4802 21 18.9201 21 17.8V8.2C21 7.07989 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.07989 3 8.2V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.07989 21 6.2 21Z" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span style="font-size: 11px; color: #999; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Poids actuel</span>
+                        </div>
+                        <div style="font-size: 32px; font-weight: 800; color: #667eea; letter-spacing: -1px;">
+                            <span id="display-poids">93.4</span><span style="font-size: 18px; font-weight: 600; color: #999; margin-left: 4px;">kg</span>
+                        </div>
+                    </div>
+
+                    <!-- Tour de Taille -->
+                    <div style="background: white; padding: 18px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.3s;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                            <div style="background: linear-gradient(135deg, #ff9800, #f57c00); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="9" stroke="white" stroke-width="2"/>
+                                    <path d="M12 3V12L16 16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span style="font-size: 11px; color: #999; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Tour taille</span>
+                        </div>
+                        <div style="font-size: 32px; font-weight: 800; color: #ff9800; letter-spacing: -1px;">
+                            <span id="display-taille">105</span><span style="font-size: 18px; font-weight: 600; color: #999; margin-left: 4px;">cm</span>
+                        </div>
+                    </div>
+
+                    <!-- Objectif -->
+                    <div style="background: white; padding: 18px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.3s;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                            <div style="background: linear-gradient(135deg, #51cf66, #37b24d); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="9" stroke="white" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="5" stroke="white" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="1" fill="white"/>
+                                </svg>
+                            </div>
+                            <span style="font-size: 11px; color: #999; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Objectif</span>
+                        </div>
+                        <div style="font-size: 32px; font-weight: 800; color: #51cf66; letter-spacing: -1px;">
+                            <span id="display-objectif">88</span><span style="font-size: 18px; font-weight: 600; color: #999; margin-left: 4px;">kg</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats ligne -->
+                <div style="margin-top: 15px; padding: 15px; background: rgba(81, 207, 102, 0.08); border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 12L10 17L20 7" stroke="#51cf66" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span style="font-size: 13px; color: #51cf66; font-weight: 600;">10 semaines • Perte visée : <strong id="perte-visee-display">5.4</strong>kg</span>
+                    </div>
+                    <div style="font-size: 12px; color: #999;">≈ 0.5kg/semaine</div>
+                </div>
+            </div>
+
+            <!-- Mode Édition -->
             <div id="mesures-edit" style="display: none; animation: fadeIn 0.3s;">
-                <div class="form-row" style="gap: 10px;">
-                    <div class="form-group" style="margin: 5px 0;">
-                        <label class="form-label" style="font-size: 12px;">⚖️ Poids actuel (kg)</label>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label" style="font-size: 12px; display: flex; align-items: center; gap: 8px; color: #667eea;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 9H21M7 3V5M17 3V5M6 21H18C19.1046 21 20 20.1046 20 19V7C20 5.89543 19.1046 5 18 5H6C4.89543 5 4 5.89543 4 7V19C4 20.1046 4.89543 21 6 21Z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            Poids actuel (kg)
+                        </label>
                         <input type="number" step="0.1" class="form-input" id="input-poids-actuel" value="93.4" oninput="updateMesures()">
                     </div>
-                    <div class="form-group" style="margin: 5px 0;">
-                        <label class="form-label" style="font-size: 12px;">📏 Tour taille (cm)</label>
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label" style="font-size: 12px; display: flex; align-items: center; gap: 8px; color: #ff9800;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            Tour taille (cm)
+                        </label>
                         <input type="number" step="0.5" class="form-input" id="input-taille-actuel" value="105" oninput="updateMesures()">
                     </div>
-                    <div class="form-group" style="margin: 5px 0;">
-                        <label class="form-label" style="font-size: 12px;">🎯 Objectif (kg)</label>
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label" style="font-size: 12px; display: flex; align-items: center; gap: 8px; color: #51cf66;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="12" r="1" fill="currentColor"/>
+                            </svg>
+                            Objectif (kg)
+                        </label>
                         <input type="number" step="0.1" class="form-input" id="input-objectif" value="88" oninput="updateMesures()">
                     </div>
                 </div>
-                <div style="text-align: center; margin-top: 10px; color: #51cf66; font-size: 12px;">
-                    ✅ Sauvegarde automatique • Perte visée: <strong id="perte-visee">5.4</strong>kg
+                <div style="text-align: center; margin-top: 15px; padding: 12px; background: rgba(81, 207, 102, 0.1); border-radius: 10px;">
+                    <div style="display: inline-flex; align-items: center; gap: 8px; color: #51cf66; font-size: 13px; font-weight: 600;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Sauvegarde automatique • Perte visée: <strong id="perte-visee">5.4</strong>kg
+                    </div>
                 </div>
             </div>
         </div>
@@ -3696,7 +3811,10 @@ function updateMesures() {
 
     const perteVisee = poids - objectif;
     document.getElementById('perte-visee').textContent = perteVisee.toFixed(1);
-    document.getElementById('kg-restant').textContent = perteVisee.toFixed(1);
+    const perteDisplay = document.getElementById('perte-visee-display');
+    if (perteDisplay) perteDisplay.textContent = perteVisee.toFixed(1);
+    const kgRestant = document.getElementById('kg-restant');
+    if (kgRestant) kgRestant.textContent = perteVisee.toFixed(1);
 
     // Sauvegarde
     localStorage.setItem('mesures', JSON.stringify({poids, taille, objectif}));
