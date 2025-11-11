@@ -6,8 +6,17 @@
     <title>Nutri-Track Sèche 10 Sem - Hocine</title>
     <style>
         * {margin: 0; padding: 0; box-sizing: border-box;}
-        body {font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 15px; color: #333;}
-        .container {max-width: 950px; margin: 0 auto; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background:
+                linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%),
+                url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect fill="%23667eea" width="100" height="100" opacity="0.05"/><circle cx="25" cy="25" r="20" fill="%23764ba2" opacity="0.1"/><circle cx="75" cy="75" r="20" fill="%23764ba2" opacity="0.1"/><path d="M30,10 Q40,20 50,10 T70,10" stroke="%2351cf66" fill="none" opacity="0.15" stroke-width="2"/><path d="M10,50 Q20,60 30,50 T50,50" stroke="%2351cf66" fill="none" opacity="0.15" stroke-width="2"/></svg>');
+            background-size: cover, 100px 100px;
+            min-height: 100vh;
+            padding: 15px;
+            color: #333;
+        }
+        .container {max-width: 950px; margin: 0 auto; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);}
         h1 {text-align: center; color: #667eea; margin-bottom: 5px; font-size: 26px;}
         .version-badge {text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; margin: 5px;}
         .gas-badge {background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);}
@@ -1875,11 +1884,59 @@ function loadDayType() {
 function afficherMenu() {
     const menu = MENUS_BASE[jourType];
     const config = PLAN_HYBRIDE.semaines[semaineActuelle];
-    
+
     document.getElementById('semaine-actuelle-label').textContent = `${semaineActuelle} - ${config.nom.toUpperCase()}`;
-    
+
     let html = '';
-    
+
+    // 🆕 Conseil expert du jour
+    const conseilsExperts = {
+        training: [
+            "💪 <strong>Focus training :</strong> Glucides autour de l'entraînement pour maximiser la performance et la récupération.",
+            "🏋️ <strong>Astuce pro :</strong> Prendre la Créatine le matin améliore la saturation musculaire progressive.",
+            "⚡ <strong>Performance :</strong> Le pic d'insuline post-training avec glucides rapides favorise l'anabolisme.",
+            "🔥 <strong>Astuce :</strong> MSM + Collagène au repas 1 protègent les articulations pendant la sèche intensive."
+        ],
+        repos: [
+            "😴 <strong>Récupération :</strong> Le repos est aussi important que l'entraînement pour la perte de graisse.",
+            "🧘 <strong>Astuce pro :</strong> Magnésium le soir améliore sommeil et sensibilité à l'insuline.",
+            "🌿 <strong>Focus :</strong> Profitez du jour de repos pour optimiser votre hydratation (3-4L d'eau).",
+            "💚 <strong>Conseil :</strong> Les jours de repos favorisent la réparation musculaire et la récupération hormonale."
+        ]
+    };
+
+    const dayOfWeek = new Date().getDay();
+    const conseilIndex = dayOfWeek % conseilsExperts[jourType].length;
+    const conseilDuJour = conseilsExperts[jourType][conseilIndex];
+
+    html += `<div class="alert-box alert-success" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-left: 5px solid #51cf66; margin-bottom: 20px; animation: slideIn 0.5s;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="font-size: 32px;">💡</div>
+            <div style="flex: 1;">
+                <div style="font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Conseil Expert du Jour</div>
+                <div style="font-size: 14px; line-height: 1.5;">${conseilDuJour}</div>
+            </div>
+        </div>
+    </div>`;
+
+    // 🆕 Astuce nutritionnelle selon la semaine
+    const astucesNutri = {
+        S1: "🌟 Semaine 1 : Votre corps s'adapte au déficit. Restez hydraté et respectez les macros !",
+        S2: "📊 Semaine 2 : Les premiers résultats apparaissent. Prenez photos et mensurations !",
+        S3: "🔥 Semaine 3 : Phase intensive. Le MSM et Collagène protègent vos articulations.",
+        S4: "💪 Semaine 4 : Mi-parcours ! Ajustez selon vos résultats visuels.",
+        S5: "⚡ Semaine 5 : Maintien de l'intensité. La Berbérine optimise votre glycémie.",
+        S6: "🎯 Semaine 6 : Phase critique. Ne lâchez rien, les Oméga-3 soutiennent votre métabolisme.",
+        S7: "🚀 Semaine 7 : Le sprint final commence. Votre discipline paie !",
+        S8: "💎 Semaine 8 : La définition musculaire devient visible. Restez focus !",
+        S9: "🏆 Semaine 9 : Avant-dernière semaine. Poussez jusqu'au bout !",
+        S10: "👑 Semaine 10 : Dernière ligne droite. Transformation complète en vue !"
+    };
+
+    html += `<div class="alert-box alert-warning" style="background: linear-gradient(135deg, #fff9e6 0%, #ffe9a3 100%); border-left: 5px solid #ffc107; margin-bottom: 20px;">
+        <div style="font-size: 13px; font-weight: bold; color: #f57c00;">${astucesNutri[semaineActuelle]}</div>
+    </div>`;
+
     menu.repas.forEach(repas => {
         const valide = isRepasValide(repas.id);
         
@@ -1916,23 +1973,23 @@ function afficherMenu() {
 
             // 🆕 Affichage des macros de la variante (style Foodvisor moderne)
             if (optionChoisie.macros) {
-                html += `<div style="background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%); padding: 15px; border-radius: 12px; margin: 12px 0; border-left: 4px solid #667eea; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);">
-                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center;">
-                        <div style="background: rgba(102, 126, 234, 0.1); padding: 10px; border-radius: 8px;">
-                            <div style="font-size: 20px; font-weight: bold; color: #667eea; margin-bottom: 2px;">${optionChoisie.macros.P}g</div>
-                            <div style="font-size: 10px; color: #667eea; text-transform: uppercase; font-weight: 600;">Protéines</div>
+                html += `<div style="background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%); padding: 12px; border-radius: 12px; margin: 12px 0; border-left: 4px solid #667eea; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);">
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; text-align: center;">
+                        <div style="background: rgba(102, 126, 234, 0.1); padding: 8px; border-radius: 8px;">
+                            <div style="font-size: 18px; font-weight: bold; color: #667eea; margin-bottom: 2px;">${optionChoisie.macros.P}g</div>
+                            <div style="font-size: 9px; color: #667eea; text-transform: uppercase; font-weight: 600;">Protéines</div>
                         </div>
-                        <div style="background: rgba(255, 152, 0, 0.1); padding: 10px; border-radius: 8px;">
-                            <div style="font-size: 20px; font-weight: bold; color: #ff9800; margin-bottom: 2px;">${optionChoisie.macros.G}g</div>
-                            <div style="font-size: 10px; color: #ff9800; text-transform: uppercase; font-weight: 600;">Glucides</div>
+                        <div style="background: rgba(255, 152, 0, 0.1); padding: 8px; border-radius: 8px;">
+                            <div style="font-size: 18px; font-weight: bold; color: #ff9800; margin-bottom: 2px;">${optionChoisie.macros.G}g</div>
+                            <div style="font-size: 9px; color: #ff9800; text-transform: uppercase; font-weight: 600;">Glucides</div>
                         </div>
-                        <div style="background: rgba(81, 207, 102, 0.1); padding: 10px; border-radius: 8px;">
-                            <div style="font-size: 20px; font-weight: bold; color: #51cf66; margin-bottom: 2px;">${optionChoisie.macros.L}g</div>
-                            <div style="font-size: 10px; color: #51cf66; text-transform: uppercase; font-weight: 600;">Lipides</div>
+                        <div style="background: rgba(81, 207, 102, 0.1); padding: 8px; border-radius: 8px;">
+                            <div style="font-size: 18px; font-weight: bold; color: #51cf66; margin-bottom: 2px;">${optionChoisie.macros.L}g</div>
+                            <div style="font-size: 9px; color: #51cf66; text-transform: uppercase; font-weight: 600;">Lipides</div>
                         </div>
-                        <div style="background: rgba(255, 217, 61, 0.1); padding: 10px; border-radius: 8px;">
-                            <div style="font-size: 20px; font-weight: bold; color: #f59f00; margin-bottom: 2px;">${optionChoisie.macros.kcal}</div>
-                            <div style="font-size: 10px; color: #f59f00; text-transform: uppercase; font-weight: 600;">Calories</div>
+                        <div style="background: rgba(255, 217, 61, 0.1); padding: 8px; border-radius: 8px;">
+                            <div style="font-size: 18px; font-weight: bold; color: #f59f00; margin-bottom: 2px;">${optionChoisie.macros.kcal}</div>
+                            <div style="font-size: 9px; color: #f59f00; text-transform: uppercase; font-weight: 600;">Calories</div>
                         </div>
                     </div>
                 </div>`;
