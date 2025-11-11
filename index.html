@@ -674,6 +674,11 @@
             .meal {font-size: 12px;}
             .meal-foods ul {padding-left: 15px; font-size: 11px;}
             input[type="text"], input[type="number"], textarea {max-width: 100%; font-size: 14px;}
+            /* Fix boutons jour training/repos */
+            .day-tracker {padding: 16px 12px;}
+            .day-controls {gap: 6px;}
+            .day-controls .btn {padding: 8px 12px; font-size: 12px;}
+            .day-display {font-size: 20px;}
         }
     </style>
 </head>
@@ -707,7 +712,25 @@
         <div class="app-header">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-sm);">
                 <div>
-                    <h1>🔥 Nutri-Track</h1>
+                    <h1 style="display: flex; align-items: center; gap: 8px;">
+                        <svg width="28" height="28" viewBox="0 0 24 24" style="flex-shrink: 0;">
+                            <defs>
+                                <linearGradient id="leafGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M17 8C15.5 4 12 3 12 3S8.5 4 7 8C5.5 12 7 16 10 18C8 19 7 21 7 21H17C17 21 16 19 14 18C17 16 18.5 12 17 8Z"
+                                  fill="url(#leafGradient)"
+                                  stroke="#047857"
+                                  stroke-width="0.5"/>
+                            <path d="M12 3C12 3 12 8 12 13"
+                                  stroke="#047857"
+                                  stroke-width="1.5"
+                                  stroke-linecap="round"/>
+                        </svg>
+                        <span>Nutri-Track</span>
+                    </h1>
                     <div style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">Plan Sèche 10 Semaines</div>
                 </div>
                 <div style="text-align: right;">
