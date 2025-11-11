@@ -30,6 +30,11 @@
         .day-controls {display: flex; gap: 8px; justify-content: center; margin-top: 10px; flex-wrap: wrap;}
         .auto-save-indicator {position: fixed; top: 20px; right: 20px; background: #51cf66; color: white; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: bold; opacity: 0; transition: opacity 0.3s; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);}
         .auto-save-indicator.show {opacity: 1;}
+        .custom-notification {position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 3000; max-width: 400px; text-align: center; cursor: pointer;}
+        .custom-notification.success {border-left: 6px solid #51cf66;}
+        .custom-notification.error {border-left: 6px solid #ff6b6b;}
+        .custom-notification.warning {border-left: 6px solid #ffc107;}
+        .notification-overlay {position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2999; cursor: pointer;}
         .tabs {display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; margin-bottom: 20px;}
         .tab {padding: 12px 8px; background: #f0f0f0; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; transition: all 0.3s; font-size: 12px;}
         .tab.active {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);}
@@ -966,83 +971,146 @@ const AJUSTEMENTS_MACROS = {
 };
 
 // 🆕 STACK SUPPLÉMENTS COMPLET AVEC COÛTS ET BÉNÉFICES DIABÈTE
+// 🆕 STACK SIMPLIFIÉ - 8 SUPPLÉMENTS ESSENTIELS AVEC TIMING OPTIMISÉ
 const STACK_SUPPLEMENTS_COMPLET = {
-    basique: {
-        articulations: {
-            glucosamine: {dose: '1500mg', prix: '15€/mois', diabete: '✅ Neutre'},
-            chondroitine: {dose: '1200mg', prix: '12€/mois', diabete: '✅ Neutre'},
-            msm: {dose: '2000mg', prix: '10€/mois', diabete: '✅ Neutre', effet: '-82% inflammation'},
-            acide_hyaluronique: {dose: '200mg', prix: '18€/mois', diabete: '✅ Neutre'},
-            boswellia: {dose: '1000mg', prix: '15€/mois', diabete: '✅✅ Positif', effet: '-60% inflammation'}
-        },
-        performance: {
-            creatine: {dose: '5g/j', prix: '8€/mois', diabete: '✅ Neutre'},
-            whey: {dose: '60-90g/j', prix: '40€/mois', diabete: '✅ Neutre'},
-            omega3: {dose: '2-4g/j', prix: '20€/mois', diabete: '✅✅ Positif', effet: 'Cardio + inflamm'},
-            collagene: {dose: '15g/j', prix: '25€/mois', diabete: '✅ Neutre', effet: 'Tendons/peau'}
-        },
-        sante: {
-            vitamine_d3: {dose: '5000 UI', prix: '8€/mois', diabete: '✅✅ Positif'},
-            magnesium: {dose: '400mg', prix: '10€/mois', diabete: '✅✅ Positif', effet: 'Insuline ↑'},
-            zinc: {dose: '30mg', prix: '8€/mois', diabete: '✅✅ Positif'},
-            vitamine_c: {dose: '1000mg', prix: '6€/mois', diabete: '✅ Positif'},
-            glycine: {dose: '5g', prix: '12€/mois', diabete: '✅ Neutre', effet: 'Sommeil +15%'}
-        },
-        total_mensuel: '207€/mois (~6.90€/jour)'
-    },
-    diabete: {
-        titre: '🩸 AJOUTS SPÉCIFIQUES GLYCÉMIE 1.09 g/L',
-        berbérine: {
-            dose: '500mg 3×/jour (avec repas)',
+    liste_complete: {
+        berberine: {
+            nom: 'Berbérine',
+            emoji: '🩸',
+            objectif: 'Diabète / Glycémie',
+            dose: '500mg',
             prix: '15€/mois',
             effet: 'Glycémie -20%, Insuline +30%',
-            note: 'PRIORITÉ #1 - "Metformine naturelle"'
-        },
-        chrome_picolinate: {
-            dose: '200mcg 2×/jour',
-            prix: '5€/mois',
-            effet: 'Régulation glucose',
-            note: 'Recommandé'
-        },
-        acide_alpha_lipoique: {
-            dose: '600mg 1×/jour',
-            prix: '20€/mois',
-            effet: 'Antioxydant + sensibilité insuline',
-            note: 'Optionnel'
-        },
-        total_diabete: '40€/mois additionnel',
-        minimum_recommande: 'Berbérine seule = 15€/mois'
-    },
-    cholesterol: {
-        titre: '🫀 CHOLESTÉROL - Déjà couvert par stack basique',
-        deja_present: [
-            'Oméga-3 4g : Réduit LDL, augmente HDL ✅',
-            'Curcuma : Effet hypocholestérol ✅',
-            'Saumon 3-5×/sem : Oméga-3 naturel ✅'
-        ],
-        optionnels: {
-            levure_riz_rouge: {
-                dose: '1200mg/jour',
-                prix: '15€/mois',
-                effet: 'LDL -20% (statine naturelle)',
-                note: '⚠️ Consulter médecin si statines chimiques'
-            },
-            psyllium: {
-                dose: '5g 2×/jour',
-                prix: '10€/mois',
-                effet: 'Cholestérol -10%, Transit',
-                note: 'Recommandé'
+            timing: {
+                training: [
+                    {moment: 'REPAS 1 (12h00)', dose: '500mg (avec repas)'},
+                    {moment: 'REPAS 3 (19h30)', dose: '500mg (avec repas)'}
+                ],
+                repos: [
+                    {moment: 'REPAS 1 (12h00)', dose: '500mg (avec repas)'},
+                    {moment: 'REPAS 3 (19h30)', dose: '500mg (avec repas)'}
+                ]
             }
         },
-        recommandation: 'Tester stack 10 sem + perte 6kg → Prise sang sem 10 → Ajuster si besoin'
+        omega3: {
+            nom: 'Oméga-3 EPA/DHA',
+            emoji: '🐟',
+            objectif: 'Inflammation / Cardio',
+            dose: '2-4g/jour',
+            prix: '20€/mois',
+            effet: 'Anti-inflammatoire, santé cardiovasculaire',
+            timing: {
+                training: [
+                    {moment: 'SOIR (22h00)', dose: '4g (4 capsules)', note: '⚠️ 2g si saumon au dîner'}
+                ],
+                repos: [
+                    {moment: 'SOIR (22h00)', dose: '4g (4 capsules)', note: '⚠️ 2g si saumon/poisson gras au dîner'}
+                ]
+            }
+        },
+        collagene: {
+            nom: 'Collagène',
+            emoji: '🦴',
+            objectif: 'Articulations / Tendons',
+            dose: '15g/jour',
+            prix: '25€/mois',
+            effet: 'Santé articulations, tendons, peau',
+            timing: {
+                training: [
+                    {moment: 'REPAS 1 (12h00)', dose: '10g (dans café/thé chaud)'},
+                    {moment: 'SOIR (22h00)', dose: '5g (dans eau chaude)'}
+                ],
+                repos: [
+                    {moment: 'REPAS 1 (12h00)', dose: '10g (dans café/thé chaud)'},
+                    {moment: 'SOIR (22h00)', dose: '5g (dans eau chaude)'}
+                ]
+            }
+        },
+        creatine: {
+            nom: 'Créatine',
+            emoji: '💪',
+            objectif: 'Performance / Force',
+            dose: '5g/jour',
+            prix: '8€/mois',
+            effet: 'Force +10-15%, récupération musculaire',
+            timing: {
+                training: [
+                    {moment: 'REPAS 1 (12h00)', dose: '5g (dans eau/thé)', note: 'Avant training'}
+                ],
+                repos: [
+                    {moment: 'MATIN (7h30)', dose: '5g (dans eau/café)', note: 'À jeun ou avec petit déjeuner'}
+                ]
+            }
+        },
+        vitamine_d3: {
+            nom: 'Vitamine D3',
+            emoji: '☀️',
+            objectif: 'Hormones / Immunité',
+            dose: '5000 UI/jour',
+            prix: '8€/mois',
+            effet: 'Testostérone, immunité, santé osseuse',
+            timing: {
+                training: [
+                    {moment: 'MATIN (7h30, à jeun)', dose: '5000 UI (1 capsule)'}
+                ],
+                repos: [
+                    {moment: 'MATIN (7h30, à jeun)', dose: '5000 UI (1 capsule)'}
+                ]
+            }
+        },
+        magnesium: {
+            nom: 'Magnésium Bisglycinate',
+            emoji: '😴',
+            objectif: 'Sommeil / Insuline',
+            dose: '400mg/jour',
+            prix: '10€/mois',
+            effet: 'Sommeil, relaxation, sensibilité insuline +30%',
+            timing: {
+                training: [
+                    {moment: 'SOIR (22h00, avant coucher)', dose: '400mg'}
+                ],
+                repos: [
+                    {moment: 'SOIR (22h00, avant coucher)', dose: '400mg'}
+                ]
+            }
+        },
+        msm: {
+            nom: 'MSM',
+            emoji: '🦴',
+            objectif: 'Articulations / Anti-inflammatoire',
+            dose: '2000mg/jour',
+            prix: '10€/mois',
+            effet: 'Inflammation -82%, soufre pour cartilages',
+            timing: {
+                training: [
+                    {moment: 'REPAS 1 (12h00)', dose: '2000mg (2 gélules avec repas)'}
+                ],
+                repos: [
+                    {moment: 'REPAS 1 (12h00)', dose: '2000mg (2 gélules avec repas)'}
+                ]
+            }
+        },
+        whey: {
+            nom: 'Whey Isolate',
+            emoji: '🥤',
+            objectif: 'Protéines / Récupération',
+            dose: '60-90g/jour (selon objectif)',
+            prix: '40€/mois',
+            effet: 'Apport protéique optimisé, récupération musculaire',
+            timing: {
+                training: [
+                    {moment: 'POST-TRAINING (15h45)', dose: '60g (shaker anti-inflammatoire)'}
+                ],
+                repos: [
+                    {moment: 'COLLATION (16h00)', dose: '30-40g (selon variante choisie)', note: 'Voir variantes collations'}
+                ]
+            }
+        }
     },
     cout_total: {
-        stack_basique: '207€/mois',
-        avec_diabete_minimum: '222€/mois (+15€ Berbérine)',
-        avec_diabete_complet: '247€/mois (+40€)',
-        avec_cholesterol_optionnel: '+25€/mois',
-        maximum_total: '272€/mois (~9€/jour)',
-        note: 'Investissement santé 44 ans : Articulations + Métabolisme + Performance'
+        mensuel: '136€/mois',
+        journalier: '~4.50€/jour',
+        note: 'Stack simplifié et optimisé - 8 suppléments essentiels'
     }
 };
 
@@ -1059,10 +1127,20 @@ let optionsSelectionnees = JSON.parse(localStorage.getItem('options-repas') || '
 
 window.onload = function() {
     updateSeasonDisplay();
-    semaineActuelle = getSemaineActuelle();
+
+    // 🆕 Charger semaine sauvegardée (priorité) ou calculer selon date
+    const savedSemaine = localStorage.getItem('semaineActuelle');
+    if (savedSemaine && savedSemaine.match(/^S([1-9]|10)$/)) {
+        semaineActuelle = savedSemaine;
+    } else {
+        semaineActuelle = getSemaineActuelle();
+        localStorage.setItem('semaineActuelle', semaineActuelle);
+    }
+
     derniereSemaineChargee = semaineActuelle;
     derniereDateChargee = new Date().toISOString().split('T')[0];
     loadDayType();
+    updateTimelineVisuel();  // 🆕 Mettre à jour la timeline visuelle
     afficherMenu();
     loadGrignotages();
     calculerProgression();
@@ -1413,11 +1491,22 @@ function calculerProgression() {
 
 function afficherSemaine(num) {
     semaineActuelle = 'S' + num;
+    localStorage.setItem('semaineActuelle', semaineActuelle);  // 🆕 Sauvegarde de la semaine
     afficherMenu();
     calculerProgression();
     afficherCarteSemaine();
     updateTimelineVisuel();
     showAutoSave();
+}
+
+// 🆕 Fonction pour charger la semaine sauvegardée
+function loadSemaineActuelle() {
+    const saved = localStorage.getItem('semaineActuelle');
+    if (saved && saved.match(/^S([1-9]|10)$/)) {
+        semaineActuelle = saved;
+        const num = parseInt(saved.substring(1));
+        updateTimelineVisuel();
+    }
 }
 
 // 🆕 Timeline étendue à 10 semaines
@@ -1518,7 +1607,7 @@ function enregistrerPesee() {
     const notes = document.getElementById('input-notes-pesee').value;
 
     if (!poids || !bf) {
-        alert('⚠️ Poids et % graisse obligatoires !');
+        showNotification('⚠️ Poids et % graisse obligatoires !', 'warning');
         return;
     }
 
@@ -1773,7 +1862,7 @@ function ajouterGrignotage() {
     const calories = document.getElementById('input-calories').value;
     
     if (!aliment || !quantite || !calories) {
-        alert('⚠️ Remplis tous les champs');
+        showNotification('⚠️ Remplis tous les champs', 'warning');
         return;
     }
 
@@ -1884,7 +1973,7 @@ function exportRapport() {
         rapport += `Évolution: ${dernierePesee.deltaKg > 0 ? '+' : ''}${dernierePesee.deltaKg}kg\n`;
     }
 
-    navigator.clipboard.writeText(rapport).then(() => alert('✅ Rapport copié !')).catch(() => alert('❌ Erreur copie'));
+    navigator.clipboard.writeText(rapport).then(() => showNotification('✅ Rapport copié !', 'success')).catch(() => showNotification('❌ Erreur copie', 'error'));
 }
 
 function exportRapportSemaine() {
@@ -1933,7 +2022,7 @@ function exportRapportSemaine() {
         rapport += `Penser à se peser ce vendredi/samedi !\n\n`;
     }
 
-    navigator.clipboard.writeText(rapport).then(() => alert('✅ Rapport semaine copié !')).catch(() => alert('❌ Erreur copie'));
+    navigator.clipboard.writeText(rapport).then(() => showNotification('✅ Rapport semaine copié !', 'success')).catch(() => showNotification('❌ Erreur copie', 'error'));
 }
 
 function resetJour() {
@@ -1945,7 +2034,7 @@ function resetJour() {
     afficherMenu();
     loadGrignotages();
     calculerProgression();
-    alert('✅ Journée réinitialisée');
+    showNotification('✅ Journée réinitialisée', 'success');
 }
 
 function resetSemaine() {
@@ -1980,7 +2069,7 @@ function resetSemaine() {
     afficherHistoriquePesees();
     updateTimelineVisuel();
     
-    alert('✅ Semaine réinitialisée');
+    showNotification('✅ Semaine réinitialisée', 'success');
 }
 
 function resetTout() {
@@ -2044,7 +2133,7 @@ function telechargerBackup() {
     localStorage.setItem('last-backup', new Date().toISOString());
     updateLastBackupDate();
     
-    alert(`✅ Backup téléchargé !\n\n📊 Contenu :\n- ${nbJours} jours de données\n- ${nbPesees} pesées\n- ${nbGrignotages} grignotages`);
+    showNotification(`✅ Backup téléchargé !<br><br>📊 Contenu :<br>- ${nbJours} jours de données<br>- ${nbPesees} pesées<br>- ${nbGrignotages} grignotages`, 'success');
 }
 
 function restaurerBackup(event) {
@@ -2085,12 +2174,12 @@ function restaurerBackup(event) {
                 localStorage.setItem('jourType', jourType);
             }
             
-            alert(`✅ Backup restauré !\n\n📊 Données importées :\n- ${backup.stats?.nbJours || 0} jours\n- ${backup.stats?.nbPesees || 0} pesées\n- ${backup.stats?.nbGrignotages || 0} grignotages`);
-            
-            location.reload();
-            
+            showNotification(`✅ Backup restauré !<br><br>📊 Données importées :<br>- ${backup.stats?.nbJours || 0} jours<br>- ${backup.stats?.nbPesees || 0} pesées<br>- ${backup.stats?.nbGrignotages || 0} grignotages`, 'success');
+
+            setTimeout(() => location.reload(), 2000);
+
         } catch (error) {
-            alert('❌ Erreur lors de la restauration !');
+            showNotification('❌ Erreur lors de la restauration !', 'error');
         }
     };
     
@@ -2115,6 +2204,39 @@ function showAutoSave() {
     setTimeout(() => indicator.classList.remove('show'), 2000);
 }
 
+// 🆕 Fonction notification personnalisée qui se ferme au clic
+function showNotification(message, type = 'success') {
+    // Supprimer notifications existantes
+    document.querySelectorAll('.notification-overlay, .custom-notification').forEach(el => el.remove());
+
+    // Créer overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'notification-overlay';
+
+    // Créer notification
+    const notification = document.createElement('div');
+    notification.className = `custom-notification ${type}`;
+    notification.innerHTML = `
+        <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">${message}</div>
+        <div style="font-size: 12px; color: #999; margin-top: 10px;">👆 Cliquez n'importe où pour fermer</div>
+    `;
+
+    // Fonction pour fermer
+    const fermer = () => {
+        notification.remove();
+        overlay.remove();
+    };
+
+    notification.onclick = fermer;
+    overlay.onclick = fermer;
+
+    // Auto-fermeture après 5 secondes
+    setTimeout(fermer, 5000);
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(notification);
+}
+
 // 🆕 FONCTION AFFICHAGE ONGLETS MODIFIÉE
 function showTab(tabName) {
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -2135,101 +2257,125 @@ function showTab(tabName) {
     if (tabName === 'ajustements') afficherAjustementsMacros();
 }
 
-// 🆕 FONCTION AFFICHAGE STACK SUPPLÉMENTS
+// 🆕 FONCTION AFFICHAGE STACK SUPPLÉMENTS SIMPLIFIÉ
 function afficherStackSupplements() {
     const stack = STACK_SUPPLEMENTS_COMPLET;
 
-    // Stack basique
-    let htmlBasique = '<div class="week-card"><h3 style="color: #667eea;">💊 Stack Basique - 207€/mois</h3>';
+    // Résumé coût
+    let html = `<div class="alert-box alert-info">
+        <strong>💰 COÛT TOTAL</strong><br>
+        • ${stack.cout_total.mensuel} (~${stack.cout_total.journalier})<br>
+        • ${stack.cout_total.note}
+    </div>`;
 
-    // Articulations
-    htmlBasique += '<div class="progress-card"><h4 style="color: #667eea; margin-bottom: 10px;">🦴 Articulations (70€/mois)</h4>';
-    htmlBasique += '<div style="display: grid; gap: 10px;">';
-    Object.entries(stack.basique.articulations).forEach(([nom, data]) => {
-        if (nom === 'total_mensuel') return;
-        htmlBasique += `<div style="background: #f8f9fa; padding: 10px; border-radius: 8px; border-left: 4px solid #51cf66;">
-            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
-            <small>📦 Dose: ${data.dose} | 💰 ${data.prix}</small><br>
-            <small>🩸 Diabète: ${data.diabete}</small>
-            ${data.effet ? `<br><small>✨ ${data.effet}</small>` : ''}
-        </div>`;
-    });
-    htmlBasique += '</div></div>';
+    // JOURS TRAINING
+    html += `<div class="week-card" style="border-left-color: #667eea;">
+        <h3 style="color: #667eea;">🏋️ TIMING JOURS TRAINING (Lun/Mer/Ven)</h3>`;
 
-    // Performance
-    htmlBasique += '<div class="progress-card"><h4 style="color: #667eea; margin-bottom: 10px;">💪 Performance (93€/mois)</h4>';
-    htmlBasique += '<div style="display: grid; gap: 10px;">';
-    Object.entries(stack.basique.performance).forEach(([nom, data]) => {
-        htmlBasique += `<div style="background: #f8f9fa; padding: 10px; border-radius: 8px; border-left: 4px solid #667eea;">
-            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
-            <small>📦 Dose: ${data.dose} | 💰 ${data.prix}</small><br>
-            <small>🩸 Diabète: ${data.diabete}</small>
-            ${data.effet ? `<br><small>✨ ${data.effet}</small>` : ''}
-        </div>`;
-    });
-    htmlBasique += '</div></div>';
+    // Organiser par moment de la journée
+    const momentsTraining = {
+        'MATIN (7h30, à jeun)': [],
+        'REPAS 1 (12h00)': [],
+        'POST-TRAINING (15h45)': [],
+        'REPAS 3 (19h30)': [],
+        'SOIR (22h00, avant coucher)': []
+    };
 
-    // Santé
-    htmlBasique += '<div class="progress-card"><h4 style="color: #667eea; margin-bottom: 10px;">🌿 Santé Générale (44€/mois)</h4>';
-    htmlBasique += '<div style="display: grid; gap: 10px;">';
-    Object.entries(stack.basique.sante).forEach(([nom, data]) => {
-        htmlBasique += `<div style="background: #f8f9fa; padding: 10px; border-radius: 8px; border-left: 4px solid #ffc107;">
-            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
-            <small>📦 Dose: ${data.dose} | 💰 ${data.prix}</small><br>
-            <small>🩸 Diabète: ${data.diabete}</small>
-            ${data.effet ? `<br><small>✨ ${data.effet}</small>` : ''}
-        </div>`;
-    });
-    htmlBasique += '</div></div>';
-    htmlBasique += '</div>';
-
-    document.getElementById('stack-basique-container').innerHTML = htmlBasique;
-
-    // Stack diabète
-    let htmlDiabete = `<div class="week-card" style="border-left-color: #ff6b6b;">
-        <h3 style="color: #ff6b6b;">🩸 ${stack.diabete.titre}</h3>
-        <div class="alert-box alert-danger">
-            <strong>💰 Coût additionnel :</strong> ${stack.diabete.total_diabete}<br>
-            <strong>🎯 Minimum recommandé :</strong> ${stack.diabete.minimum_recommande}
-        </div>`;
-
-    ['berbérine', 'chrome_picolinate', 'acide_alpha_lipoique'].forEach(nom => {
-        const data = stack.diabete[nom];
-        htmlDiabete += `<div style="background: #ffebee; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #ff6b6b;">
-            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
-            <small>📦 Dose: ${data.dose}</small><br>
-            <small>💰 Prix: ${data.prix}</small><br>
-            <small>✨ Effet: ${data.effet}</small><br>
-            <small style="background: #fff; padding: 3px 6px; border-radius: 4px; display: inline-block; margin-top: 5px;">💡 ${data.note}</small>
-        </div>`;
-    });
-    htmlDiabete += '</div>';
-
-    document.getElementById('stack-diabete-container').innerHTML = htmlDiabete;
-
-    // Cholestérol
-    let htmlCholesterol = `<div class="week-card" style="border-left-color: #ffc107;">
-        <h3 style="color: #ffc107;">🫀 ${stack.cholesterol.titre}</h3>
-        <div class="alert-box alert-success">
-            <strong>✅ Déjà couvert :</strong><br>
-            ${stack.cholesterol.deja_present.map(item => `• ${item}`).join('<br>')}
-        </div>`;
-
-    htmlCholesterol += '<h4 style="margin-top: 15px;">Optionnels (si besoin):</h4>';
-    Object.entries(stack.cholesterol.optionnels).forEach(([nom, data]) => {
-        htmlCholesterol += `<div style="background: #fff9e6; padding: 15px; border-radius: 8px; margin: 10px 0;">
-            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
-            <small>📦 ${data.dose} | 💰 ${data.prix}</small><br>
-            <small>✨ ${data.effet}</small><br>
-            <small style="color: #666;">💡 ${data.note}</small>
-        </div>`;
+    Object.entries(stack.liste_complete).forEach(([key, supp]) => {
+        supp.timing.training.forEach(timing => {
+            if (!momentsTraining[timing.moment]) momentsTraining[timing.moment] = [];
+            momentsTraining[timing.moment].push({
+                nom: supp.nom,
+                emoji: supp.emoji,
+                dose: timing.dose,
+                note: timing.note || '',
+                objectif: supp.objectif
+            });
+        });
     });
 
-    htmlCholesterol += `<div class="info-box" style="margin-top: 15px;">
-        <strong>📋 Recommandation :</strong> ${stack.cholesterol.recommandation}
-    </div></div>`;
+    Object.entries(momentsTraining).forEach(([moment, supps]) => {
+        if (supps.length === 0) return;
+        html += `<div class="progress-card">
+            <h4 style="color: #667eea; margin-bottom: 10px;">⏰ ${moment}</h4>
+            <div style="display: grid; gap: 8px;">`;
 
-    document.getElementById('stack-cholesterol-container').innerHTML = htmlCholesterol;
+        supps.forEach(supp => {
+            html += `<div style="background: #f0f4ff; padding: 10px; border-radius: 8px; border-left: 4px solid #667eea;">
+                <strong>${supp.emoji} ${supp.nom}</strong> • <small style="color: #999;">${supp.objectif}</small><br>
+                <small>📦 ${supp.dose}</small>
+                ${supp.note ? `<br><small style="color: #f57c00;">💡 ${supp.note}</small>` : ''}
+            </div>`;
+        });
+
+        html += '</div></div>';
+    });
+
+    html += '</div>';
+
+    // JOURS REPOS
+    html += `<div class="week-card" style="border-left-color: #51cf66;">
+        <h3 style="color: #51cf66;">💤 TIMING JOURS REPOS (Mar/Jeu/Sam/Dim)</h3>`;
+
+    const momentsRepos = {
+        'MATIN (7h30, à jeun)': [],
+        'REPAS 1 (12h00)': [],
+        'COLLATION (16h00)': [],
+        'REPAS 3 (19h30)': [],
+        'SOIR (22h00, avant coucher)': []
+    };
+
+    Object.entries(stack.liste_complete).forEach(([key, supp]) => {
+        supp.timing.repos.forEach(timing => {
+            if (!momentsRepos[timing.moment]) momentsRepos[timing.moment] = [];
+            momentsRepos[timing.moment].push({
+                nom: supp.nom,
+                emoji: supp.emoji,
+                dose: timing.dose,
+                note: timing.note || '',
+                objectif: supp.objectif
+            });
+        });
+    });
+
+    Object.entries(momentsRepos).forEach(([moment, supps]) => {
+        if (supps.length === 0) return;
+        html += `<div class="progress-card">
+            <h4 style="color: #51cf66; margin-bottom: 10px;">⏰ ${moment}</h4>
+            <div style="display: grid; gap: 8px;">`;
+
+        supps.forEach(supp => {
+            html += `<div style="background: #e8f5e9; padding: 10px; border-radius: 8px; border-left: 4px solid #51cf66;">
+                <strong>${supp.emoji} ${supp.nom}</strong> • <small style="color: #999;">${supp.objectif}</small><br>
+                <small>📦 ${supp.dose}</small>
+                ${supp.note ? `<br><small style="color: #f57c00;">💡 ${supp.note}</small>` : ''}
+            </div>`;
+        });
+
+        html += '</div></div>';
+    });
+
+    html += '</div>';
+
+    // Liste complète des suppléments avec détails
+    html += `<div class="week-card">
+        <h3 style="color: #667eea;">💊 LISTE COMPLÈTE - 8 SUPPLÉMENTS</h3>`;
+
+    Object.entries(stack.liste_complete).forEach(([key, supp]) => {
+        html += `<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #667eea;">
+            <strong>${supp.emoji} ${supp.nom}</strong><br>
+            <small style="color: #999;">🎯 ${supp.objectif}</small><br>
+            <small>📦 Dose: ${supp.dose}</small><br>
+            <small>💰 Prix: ${supp.prix}</small><br>
+            <small>✨ Effet: ${supp.effet}</small>
+        </div>`;
+    });
+
+    html += '</div>';
+
+    document.getElementById('stack-basique-container').innerHTML = html;
+    document.getElementById('stack-diabete-container').innerHTML = '';
+    document.getElementById('stack-cholesterol-container').innerHTML = '';
 }
 
 // 🆕 FONCTION AFFICHAGE AJUSTEMENTS MACROS
