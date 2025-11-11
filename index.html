@@ -233,6 +233,7 @@
             margin-bottom: var(--spacing-md);
             text-align: center;
             box-shadow: var(--shadow-lg);
+            overflow: hidden;
         }
 
         .day-display {
@@ -240,6 +241,23 @@
             font-weight: 700;
             margin: var(--spacing-sm) 0;
             letter-spacing: -0.5px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .day-emoji {
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .day-text {
+            line-height: 1.2;
+            text-align: center;
         }
 
         .day-controls {
@@ -675,10 +693,13 @@
             .meal-foods ul {padding-left: 15px; font-size: 11px;}
             input[type="text"], input[type="number"], textarea {max-width: 100%; font-size: 14px;}
             /* Fix boutons jour training/repos */
-            .day-tracker {padding: 16px 12px;}
-            .day-controls {gap: 6px;}
-            .day-controls .btn {padding: 8px 12px; font-size: 12px;}
-            .day-display {font-size: 20px;}
+            .day-tracker {padding: 14px 10px; max-width: 100%;}
+            .day-controls {gap: 5px; width: 100%; padding: 0 5px;}
+            .day-controls .btn {padding: 7px 10px; font-size: 11px; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+            .day-display {font-size: 16px; line-height: 1.2; padding: 0 5px; gap: 8px;}
+            .day-emoji {font-size: 22px;}
+            .day-text {font-size: 15px; line-height: 1.1;}
+            #auto-mode-indicator {font-size: 9px !important; padding: 0 5px;}
         }
     </style>
 </head>
@@ -804,8 +825,11 @@
 
         <div class="day-tracker">
             <div style="font-size: 14px; margin-bottom: 5px;">📅 <span id="semaine-actuelle-label">SEMAINE 1</span></div>
-            <div class="day-display" id="day-display">🏋️ JOUR TRAINING</div>
-            <div style="font-size: 11px; color: #666; margin: 5px 0; text-align: center;" id="auto-mode-indicator">🤖 Mode AUTO (Lun/Mer/Ven=Training)</div>
+            <div class="day-display" id="day-display">
+                <span class="day-emoji">🏋️</span>
+                <span class="day-text">JOUR<br>TRAINING</span>
+            </div>
+            <div style="font-size: 11px; color: rgba(255,255,255,0.85); margin: 5px 0; text-align: center; line-height: 1.3;" id="auto-mode-indicator">🤖 Mode AUTO<br>(Lun/Mer/Ven=Training)</div>
             <div class="day-controls">
                 <button class="btn btn-secondary" onclick="setDayType('training')">🏋️ Training</button>
                 <button class="btn btn-secondary" onclick="setDayType('repos')">💤 Repos</button>
@@ -2516,7 +2540,9 @@ function setDayType(type) {
         updateAutoModeIndicator(false, false);
     }
 
-    document.getElementById('day-display').textContent = type === 'training' ? '🏋️ JOUR TRAINING' : '💤 JOUR REPOS';
+    const emoji = type === 'training' ? '🏋️' : '💤';
+    const text = type === 'training' ? 'JOUR<br>TRAINING' : 'JOUR<br>REPOS';
+    document.getElementById('day-display').innerHTML = `<span class="day-emoji">${emoji}</span><span class="day-text">${text}</span>`;
 
     afficherMenu();
     calculerProgression(); // 🆕 calculerProgression() gère les macros custom
@@ -2551,7 +2577,9 @@ function loadDayType() {
         updateAutoModeIndicator(false, false);
     }
 
-    document.getElementById('day-display').textContent = jourType === 'training' ? '🏋️ JOUR TRAINING' : '💤 JOUR REPOS';
+    const emoji = jourType === 'training' ? '🏋️' : '💤';
+    const text = jourType === 'training' ? 'JOUR<br>TRAINING' : 'JOUR<br>REPOS';
+    document.getElementById('day-display').innerHTML = `<span class="day-emoji">${emoji}</span><span class="day-text">${text}</span>`;
 }
 
 function toggleAutoMode() {
