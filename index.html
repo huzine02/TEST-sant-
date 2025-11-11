@@ -727,6 +727,8 @@
             .macro-line {gap: 5px; font-size: 11px; line-height: 1.4;}
             .macro-line strong {font-size: 10px;}
             .macro-values {font-size: 10px; display: block; margin-left: 0; padding-left: 15px;}
+            /* Fix stats ajustements en colonne */
+            .ajustements-stats {grid-template-columns: 1fr !important; gap: 8px;}
         }
     </style>
 </head>
@@ -3869,7 +3871,7 @@ function afficherAjustementsMacros() {
         </div>`;
     });
 
-    html += `<div class="stats-grid" style="margin-top: 15px;">
+    html += `<div class="stats-grid ajustements-stats" style="margin-top: 15px;">
         <div class="stat-item"><div class="stat-label">Protéines</div><div class="stat-value">${ajust.optionA.total.P}g</div></div>
         <div class="stat-item"><div class="stat-label">Glucides</div><div class="stat-value">${ajust.optionA.total.G}g</div></div>
         <div class="stat-item"><div class="stat-label">Lipides</div><div class="stat-value">${ajust.optionA.total.L}g</div></div>
@@ -3899,7 +3901,7 @@ function afficherAjustementsMacros() {
         </div>`;
     });
 
-    html += `<div class="stats-grid" style="margin-top: 15px;">
+    html += `<div class="stats-grid ajustements-stats" style="margin-top: 15px;">
         <div class="stat-item"><div class="stat-label">Protéines</div><div class="stat-value">${ajust.optionB.total.P}g</div></div>
         <div class="stat-item"><div class="stat-label">Glucides</div><div class="stat-value">${ajust.optionB.total.G}g</div></div>
         <div class="stat-item"><div class="stat-label">Lipides</div><div class="stat-value">${ajust.optionB.total.L}g</div></div>
