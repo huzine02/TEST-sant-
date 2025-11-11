@@ -1174,18 +1174,16 @@ function afficherConseilDuJour() {
 
     if (!conseil) return;
 
-    // Attendre 2 secondes après le chargement
+    // Attendre 3 secondes après le chargement
     setTimeout(() => {
         const overlay = document.createElement('div');
         overlay.className = 'conseil-popup-overlay';
-        overlay.onclick = () => {
-            document.body.removeChild(overlay);
-            document.body.removeChild(popup);
-            localStorage.setItem('dernier-conseil-shown', today);
-        };
+        overlay.id = 'conseil-overlay';
+        overlay.onclick = fermerConseil;
 
         const popup = document.createElement('div');
         popup.className = 'conseil-popup';
+        popup.id = 'conseil-box';
         popup.innerHTML = `
             <div style="text-align: center; margin-bottom: 15px;">
                 <div style="font-size: 36px; margin-bottom: 10px;">💡</div>
@@ -1211,7 +1209,7 @@ function afficherConseilDuJour() {
                 <small style="color: #999; font-size: 11px;">📚 ${conseil.etude}</small>
             </div>
 
-            <button onclick="this.parentElement.parentElement.remove(); document.querySelector('.conseil-popup-overlay').remove(); localStorage.setItem('dernier-conseil-shown', '${today}');"
+            <button onclick="fermerConseil()"
                     class="btn btn-primary" style="width: 100%; margin-top: 15px; padding: 12px;">
                 ✅ Compris !
             </button>
@@ -1219,7 +1217,17 @@ function afficherConseilDuJour() {
 
         document.body.appendChild(overlay);
         document.body.appendChild(popup);
-    }, 2000);
+    }, 3000);
+}
+
+function fermerConseil() {
+    const overlay = document.getElementById('conseil-overlay');
+    const popup = document.getElementById('conseil-box');
+    const today = new Date().toISOString().split('T')[0];
+
+    if (overlay) overlay.remove();
+    if (popup) popup.remove();
+    localStorage.setItem('dernier-conseil-shown', today);
 }
 
 window.onload = function() {
@@ -1333,13 +1341,18 @@ function verifierChangementDate() {
 // 🆕 NOTIFICATION CHANGEMENT JOUR/SEMAINE
 function showDayChangeNotification(isWeekChange) {
     const today = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const dateStr = today.toLocaleDateString('fr-FR', options);
+    const dateStr = today.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+    const jourNom = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'][today.getDay()];
     const dayType = detecterJourType();
     const dayIcon = dayType === 'training' ? '🏋️' : '💤';
     const dayLabel = dayType === 'training' ? 'TRAINING' : 'REPOS';
 
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 4999;';
+    overlay.id = 'notif-overlay';
+
     const notification = document.createElement('div');
+    notification.id = 'notif-box';
     notification.style.cssText = `
         position: fixed;
         top: 50%;
@@ -1347,60 +1360,63 @@ function showDayChangeNotification(isWeekChange) {
         transform: translate(-50%, -50%);
         background: ${isWeekChange ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'white'};
         color: ${isWeekChange ? 'white' : '#333'};
-        padding: 30px 40px;
+        padding: 25px;
         border-radius: 20px;
         box-shadow: 0 10px 40px rgba(0,0,0,0.3);
         z-index: 5000;
-        max-width: 450px;
+        max-width: 350px;
+        width: 90%;
         text-align: center;
-        animation: modalPop 0.5s;
+        animation: modalPulse 0.5s;
     `;
 
     if (isWeekChange) {
         const config = PLAN_HYBRIDE.semaines[semaineActuelle];
         notification.innerHTML = `
-            <div style="font-size: 64px; margin-bottom: 15px;">📅</div>
-            <h2 style="margin-bottom: 10px; font-size: 28px;">Nouvelle Semaine !</h2>
-            <div style="font-size: 18px; margin-bottom: 15px; opacity: 0.95;">
+            <div style="font-size: 48px; margin-bottom: 10px;">🎯</div>
+            <h2 style="margin-bottom: 8px; font-size: 22px;">Nouvelle Semaine !</h2>
+            <div style="font-size: 16px; margin-bottom: 12px; opacity: 0.95; font-weight: bold;">
                 ${semaineActuelle} - ${config.nom}
             </div>
-            <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 12px; margin: 15px 0;">
-                <div style="font-size: 16px; margin-bottom: 8px;">${dateStr}</div>
-                <div style="font-size: 24px; font-weight: bold;">${dayIcon} Jour ${dayLabel}</div>
+            <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 10px; margin: 12px 0;">
+                <div style="font-size: 13px; margin-bottom: 5px;">${jourNom} ${dateStr}</div>
+                <div style="font-size: 20px; font-weight: bold;">${dayIcon} ${dayLabel}</div>
             </div>
-            <div style="font-size: 14px; margin-top: 15px; opacity: 0.9;">
-                Objectif: ${config.objectif}<br>
+            <div style="font-size: 13px; margin-top: 12px; opacity: 0.9;">
+                ${config.objectif}<br>
                 Perte visée: ${config.perteVisee} kg
             </div>
-            <button onclick="this.parentElement.nextSibling.remove(); this.parentElement.remove();"
-                    style="margin-top: 20px; padding: 12px 30px; background: white; color: #667eea; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px;">
+            <button onclick="fermerNotification()"
+                    style="margin-top: 15px; padding: 10px 25px; background: white; color: #667eea; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 15px;">
                 C'est parti ! 💪
             </button>
         `;
     } else {
         notification.innerHTML = `
-            <div style="font-size: 48px; margin-bottom: 15px;">📅</div>
-            <h3 style="color: #667eea; margin-bottom: 15px; font-size: 22px;">Nouveau Jour</h3>
-            <div style="background: #f0f4ff; padding: 15px; border-radius: 12px; margin: 15px 0;">
-                <div style="font-size: 14px; color: #666; margin-bottom: 8px;">${dateStr}</div>
-                <div style="font-size: 22px; font-weight: bold; color: #333;">${dayIcon} Jour ${dayLabel}</div>
+            <div style="font-size: 42px; margin-bottom: 12px;">📅</div>
+            <h3 style="color: #667eea; margin-bottom: 12px; font-size: 20px;">Nouveau Jour</h3>
+            <div style="background: #f0f4ff; padding: 12px; border-radius: 10px; margin: 12px 0;">
+                <div style="font-size: 13px; color: #666; margin-bottom: 5px;">${jourNom} ${dateStr}</div>
+                <div style="font-size: 20px; font-weight: bold; color: #333;">${dayIcon} ${dayLabel}</div>
             </div>
-            <button onclick="this.parentElement.nextSibling.remove(); this.parentElement.remove();"
-                    style="margin-top: 15px; padding: 10px 25px; background: #667eea; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">
+            <button onclick="fermerNotification()"
+                    style="margin-top: 12px; padding: 10px 25px; background: #667eea; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">
                 OK
             </button>
         `;
     }
 
-    const overlay = document.createElement('div');
-    overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 4999;';
-    overlay.onclick = () => {
-        notification.remove();
-        overlay.remove();
-    };
+    overlay.onclick = fermerNotification;
 
     document.body.appendChild(overlay);
     document.body.appendChild(notification);
+}
+
+function fermerNotification() {
+    const overlay = document.getElementById('notif-overlay');
+    const notif = document.getElementById('notif-box');
+    if (overlay) overlay.remove();
+    if (notif) notif.remove();
 }
 
 // 🆕 VÉRIFICATION ET ALERTE VALIDATION REPAS
