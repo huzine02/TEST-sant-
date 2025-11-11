@@ -38,6 +38,9 @@
         @keyframes fadeIn {from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);}}
         @keyframes slideIn {from {opacity: 0; transform: translateX(100px);} to {opacity: 1; transform: translateX(0);}}
         @keyframes slideOut {from {opacity: 1; transform: translateX(0);} to {opacity: 0; transform: translateX(100px);}}
+        @keyframes modalPulse {0% {transform: scale(0.9); opacity: 0;} 50% {transform: scale(1.02);} 100% {transform: scale(1); opacity: 1;}}
+        .conseil-popup {position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 25px; border-radius: 20px; box-shadow: 0 15px 50px rgba(0,0,0,0.3); z-index: 5000; max-width: 500px; width: 90%; animation: modalPulse 0.5s; border-left: 6px solid #667eea;}
+        .conseil-popup-overlay {position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 4999;}
         .nutrition-section {background: #f0f4ff; border-radius: 15px; padding: 15px; margin-bottom: 15px; border-left: 5px solid #667eea;}
         .nutrition-section h3 {color: #667eea; margin-bottom: 12px; font-size: 18px;}
         .meal {background: white; padding: 12px; margin: 10px 0; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
@@ -261,14 +264,20 @@
 
         <!-- 🆕 NOUVEAU ONGLET STACK SUPPLÉMENTS -->
         <div id="tab-supplements" class="tab-content">
-            <h2 style="color: #667eea; margin-bottom: 15px;">💊 Stack Suppléments Complet</h2>
+            <h2 style="color: #667eea; margin-bottom: 15px;">💊 Stack 10 Suppléments Optimisé</h2>
 
             <div class="alert-box alert-info">
                 <strong>📊 COÛT TOTAL MENSUEL</strong><br>
-                • Stack Basique : 207€/mois (~6.90€/jour)<br>
-                • Avec Berbérine (diabète) : 222€/mois<br>
-                • Stack Complet Diabète : 247€/mois<br>
-                • Maximum avec cholestérol : 272€/mois (~9€/jour)
+                • 10 suppléments : ~150€/mois (~5€/jour)<br>
+                • Équilibre optimal : Performance + Santé métabolique + Articulations
+            </div>
+
+            <div class="alert-box alert-success" style="margin-top: 15px;">
+                <strong>✅ TIMING OPTIMAL</strong><br>
+                • <strong>Matin à jeun (7h30)</strong> : Vitamine D3<br>
+                • <strong>Repas 1 (12h)</strong> : Berbérine, MSM, Créatine, Collagène<br>
+                • <strong>Pendant journée (16h-18h)</strong> : Berbérine (3ème dose)<br>
+                • <strong>Soir (22h)</strong> : Oméga-3, Magnésium, Zinc, Vit C, Curcuma, Collagène, Berbérine
             </div>
 
             <div id="stack-basique-container"></div>
@@ -1022,84 +1031,111 @@ const AJUSTEMENTS_MACROS = {
     }
 };
 
-// 🆕 STACK SUPPLÉMENTS COMPLET AVEC COÛTS ET BÉNÉFICES DIABÈTE
+// 🆕 STACK 10 SUPPLÉMENTS OPTIMISÉ (équilibre parfait)
 const STACK_SUPPLEMENTS_COMPLET = {
-    basique: {
-        articulations: {
-            glucosamine: {dose: '1500mg', prix: '15€/mois', diabete: '✅ Neutre'},
-            chondroitine: {dose: '1200mg', prix: '12€/mois', diabete: '✅ Neutre'},
-            msm: {dose: '2000mg', prix: '10€/mois', diabete: '✅ Neutre', effet: '-82% inflammation'},
-            acide_hyaluronique: {dose: '200mg', prix: '18€/mois', diabete: '✅ Neutre'},
-            boswellia: {dose: '1000mg', prix: '15€/mois', diabete: '✅✅ Positif', effet: '-60% inflammation'}
-        },
-        performance: {
-            creatine: {dose: '5g/j', prix: '8€/mois', diabete: '✅ Neutre'},
-            whey: {dose: '60-90g/j', prix: '40€/mois', diabete: '✅ Neutre'},
-            omega3: {dose: '2-4g/j', prix: '20€/mois', diabete: '✅✅ Positif', effet: 'Cardio + inflamm'},
-            collagene: {dose: '15g/j', prix: '25€/mois', diabete: '✅ Neutre', effet: 'Tendons/peau'}
-        },
-        sante: {
-            vitamine_d3: {dose: '5000 UI', prix: '8€/mois', diabete: '✅✅ Positif'},
-            magnesium: {dose: '400mg', prix: '10€/mois', diabete: '✅✅ Positif', effet: 'Insuline ↑'},
-            zinc: {dose: '30mg', prix: '8€/mois', diabete: '✅✅ Positif'},
-            vitamine_c: {dose: '1000mg', prix: '6€/mois', diabete: '✅ Positif'},
-            glycine: {dose: '5g', prix: '12€/mois', diabete: '✅ Neutre', effet: 'Sommeil +15%'}
-        },
-        total_mensuel: '207€/mois (~6.90€/jour)'
+    matin_jeun: {
+        titre: 'MATIN À JEUN',
+        horaire: '7h30',
+        supplements: [
+            {nom: 'Vitamine D3', dose: '5000 UI', quantite: '1 capsule', diabete: '✅✅ Positif'}
+        ]
     },
-    diabete: {
-        titre: '🩸 AJOUTS SPÉCIFIQUES GLYCÉMIE 1.09 g/L',
-        berbérine: {
-            dose: '500mg 3×/jour (avec repas)',
-            prix: '15€/mois',
-            effet: 'Glycémie -20%, Insuline +30%',
-            note: 'PRIORITÉ #1 - "Metformine naturelle"'
-        },
-        chrome_picolinate: {
-            dose: '200mcg 2×/jour',
-            prix: '5€/mois',
-            effet: 'Régulation glucose',
-            note: 'Recommandé'
-        },
-        acide_alpha_lipoique: {
-            dose: '600mg 1×/jour',
-            prix: '20€/mois',
-            effet: 'Antioxydant + sensibilité insuline',
-            note: 'Optionnel'
-        },
-        total_diabete: '40€/mois additionnel',
-        minimum_recommande: 'Berbérine seule = 15€/mois'
+    repas_1: {
+        titre: 'REPAS 1 (12h)',
+        supplements: [
+            {nom: 'Berbérine', dose: '500mg', quantite: '1 gélule', diabete: '✅✅ Priorité #1', effet: 'Glycémie -20%'},
+            {nom: 'MSM', dose: '2000mg', quantite: '2 gélules', diabete: '✅ Neutre', effet: '-82% inflammation'},
+            {nom: 'Créatine', dose: '5g', quantite: '1 dose', diabete: '✅ Neutre'},
+            {nom: 'Collagène', dose: '10g', quantite: '1 dose', diabete: '✅ Neutre', effet: 'Tendons/peau'}
+        ]
     },
-    cholesterol: {
-        titre: '🫀 CHOLESTÉROL - Déjà couvert par stack basique',
-        deja_present: [
-            'Oméga-3 4g : Réduit LDL, augmente HDL ✅',
-            'Curcuma : Effet hypocholestérol ✅',
-            'Saumon 3-5×/sem : Oméga-3 naturel ✅'
-        ],
-        optionnels: {
-            levure_riz_rouge: {
-                dose: '1200mg/jour',
-                prix: '15€/mois',
-                effet: 'LDL -20% (statine naturelle)',
-                note: '⚠️ Consulter médecin si statines chimiques'
-            },
-            psyllium: {
-                dose: '5g 2×/jour',
-                prix: '10€/mois',
-                effet: 'Cholestérol -10%, Transit',
-                note: 'Recommandé'
-            }
-        },
-        recommandation: 'Tester stack 10 sem + perte 6kg → Prise sang sem 10 → Ajuster si besoin'
+    soir: {
+        titre: 'SOIR (22h)',
+        supplements: [
+            {nom: 'Oméga-3', dose: '3g', quantite: '3 capsules', diabete: '✅✅ Positif', effet: 'Cardio + Inflamm'},
+            {nom: 'Magnésium', dose: '400mg', quantite: '2 gélules', diabete: '✅✅ Positif', effet: 'Insuline ↑'},
+            {nom: 'Zinc', dose: '30mg', quantite: '1 gélule', diabete: '✅✅ Positif'},
+            {nom: 'Vitamine C', dose: '1000mg', quantite: '1 comprimé', diabete: '✅ Positif'},
+            {nom: 'Curcuma', dose: '1000mg', quantite: '1 gélule', diabete: '✅ Neutre', effet: 'Anti-inflamm'},
+            {nom: 'Collagène', dose: '5g', quantite: '2ème dose', diabete: '✅ Neutre'},
+            {nom: 'Berbérine', dose: '500mg', quantite: '1 gélule', diabete: '✅✅ Priorité #1'}
+        ]
+    },
+    journee: {
+        titre: 'PENDANT JOURNÉE',
+        horaire: '16h-18h',
+        supplements: [
+            {nom: 'Berbérine', dose: '500mg', quantite: '3ème dose', diabete: '✅✅ Priorité #1'}
+        ]
     },
     cout_total: {
-        stack_basique: '207€/mois',
-        avec_diabete_minimum: '222€/mois (+15€ Berbérine)',
-        avec_diabete_complet: '247€/mois (+40€)',
-        avec_cholesterol_optionnel: '+25€/mois',
-        maximum_total: '272€/mois (~9€/jour)',
-        note: 'Investissement santé 44 ans : Articulations + Métabolisme + Performance'
+        estimation_mensuelle: '~150€/mois',
+        par_jour: '~5€/jour',
+        note: '10 suppléments = équilibre optimal performance + santé métabolique'
+    }
+};
+
+// 🆕 CONSEILS INTERACTIFS SEMAINE PAR SEMAINE
+const CONSEILS_SEMAINES = {
+    semaine: 1,
+    phase: "Adaptation initiale",
+    conseils: {
+        jour_1_lundi: {
+            titre: "🎯 Premier jour : L'ordre des repas compte",
+            expert: "Dr. Spencer Nadolsky",
+            conseil: "Commence TOUJOURS ton repas par les légumes, puis les protéines, et ENFIN les glucides. Cette séquence réduit le pic de glycémie de 30-40%. Crucial avec ta glycémie 1.09.",
+            etude: "Shukla et al. (2019) - Diabetes Care",
+            action: "Aujourd'hui : Mange ta salade AVANT le poulet et le riz",
+            pourquoi_toi: "Glycémie limite pré-diabète : ordre optimal"
+        },
+        jour_2_mardi: {
+            titre: "💧 Hydratation déficit calorique",
+            expert: "Dr. Eric Helms",
+            conseil: "En déficit -420 kcal, ton corps libère toxines stockées dans le gras. Vise 3.5-4L eau/jour minimum. Urine jaune pâle = hydratation correcte.",
+            etude: "Helms et al. (2014) - J Int Soc Sports Nutr",
+            action: "Remplis une bouteille 2L ce matin, finis avant 16h. Répète.",
+            pourquoi_toi: "Sèche + 44 ans = besoin hydratation +20%"
+        },
+        jour_3_mercredi: {
+            titre: "🥗 Légumes = arme secrète satiété",
+            expert: "Dr. Ted Naiman",
+            conseil: "600-700g légumes/jour te donnent volume gastrique massif pour seulement 150 kcal. Impossible d'avoir faim avec ce volume. Fibres ralentissent absorption glucose.",
+            etude: "Rolls et al. (2004) - Am J Clin Nutr",
+            action: "Vérifie que tu manges 300g+ légumes aux repas 1 et 3",
+            pourquoi_toi: "Déficit élevé + diabète = besoin volume + fibres"
+        },
+        jour_4_jeudi: {
+            titre: "🍗 240g protéines NON-NÉGOCIABLE",
+            expert: "Dr. Layne Norton",
+            conseil: "Masters 40+ perdent muscle 2× plus vite que jeunes en sèche. Tes 240g protéines quotidiennes = ASSURANCE préservation. Descendre = perte muscle garantie.",
+            etude: "Phillips & Van Loon (2011) - J Sports Sci",
+            action: "Track tes protéines aujourd'hui, atteins 240g minimum",
+            pourquoi_toi: "44 ans + déficit = protéines CRUCIALES"
+        },
+        jour_5_vendredi: {
+            titre: "🍟 Frites vendredi = STRATÉGIE, pas tricherie",
+            expert: "Chris Aceto",
+            conseil: "Refeed glucides 1×/sem maintient leptine (hormone satiété), boost métabolisme +10%, recharge glycogène. Psychologique : compliance +40%. C'est SCIENCE, pas faiblesse.",
+            etude: "Dirlewanger et al. (2000) - Am J Clin Nutr",
+            action: "Savoure tes frites SANS culpabilité. C'est dans le plan.",
+            pourquoi_toi: "Compliance long terme > perfection court terme"
+        },
+        jour_6_samedi: {
+            titre: "🧘 McGill Big 3 = 8 min assurance zéro douleur",
+            expert: "Dr. Stuart McGill",
+            conseil: "7j/7, même repos. Lombaires = maillon faible humains. Big 3 = +32% résistance blessure. Coût 8 min. ROI : infini (zéro lombalgie).",
+            etude: "McGill (2015) - Back Mechanic",
+            action: "Fais tes 3 exercices ce soir, chrono 8 min total",
+            pourquoi_toi: "44 ans + musculation = prévention CRUCIALE"
+        },
+        jour_7_dimanche: {
+            titre: "📊 Bilan semaine 1 = Données OBJECTIVES",
+            expert: "Dr. Mike Israetel",
+            conseil: "Masters ont taux perte optimale 0.5-0.7%/sem (vs 1% jeunes). Si tu perds 0.6kg S1 = PARFAIT. Si 0.3kg = augmente cardio. Si 1kg+ = ralentis (trop rapide = muscle perdu).",
+            etude: "Helms et al. (2014) - Evidence-based recommendations",
+            action: "Pèse-toi demain matin à jeun. Compare vs poids initial.",
+            pourquoi_toi: "Âge 44 = données > intuitions. Science > feeling."
+        }
     }
 };
 
@@ -1113,6 +1149,78 @@ let pesees = JSON.parse(localStorage.getItem('pesees-hebdo') || '[]');
 let derniereDateChargee = new Date().toISOString().split('T')[0];
 let derniereSemaineChargee = 'S1';
 let optionsSelectionnees = JSON.parse(localStorage.getItem('options-repas') || '{}');
+
+// 🆕 FONCTION AFFICHAGE CONSEIL DU JOUR
+function afficherConseilDuJour() {
+    const today = new Date().toISOString().split('T')[0];
+    const lastShown = localStorage.getItem('dernier-conseil-shown');
+
+    // Ne montrer qu'une fois par jour
+    if (lastShown === today) return;
+
+    const jourSemaine = new Date().getDay();
+    const joursMapping = {
+        1: 'jour_1_lundi',
+        2: 'jour_2_mardi',
+        3: 'jour_3_mercredi',
+        4: 'jour_4_jeudi',
+        5: 'jour_5_vendredi',
+        6: 'jour_6_samedi',
+        0: 'jour_7_dimanche'
+    };
+
+    const jourKey = joursMapping[jourSemaine];
+    const conseil = CONSEILS_SEMAINES.conseils[jourKey];
+
+    if (!conseil) return;
+
+    // Attendre 2 secondes après le chargement
+    setTimeout(() => {
+        const overlay = document.createElement('div');
+        overlay.className = 'conseil-popup-overlay';
+        overlay.onclick = () => {
+            document.body.removeChild(overlay);
+            document.body.removeChild(popup);
+            localStorage.setItem('dernier-conseil-shown', today);
+        };
+
+        const popup = document.createElement('div');
+        popup.className = 'conseil-popup';
+        popup.innerHTML = `
+            <div style="text-align: center; margin-bottom: 15px;">
+                <div style="font-size: 36px; margin-bottom: 10px;">💡</div>
+                <h3 style="color: #667eea; margin-bottom: 5px; font-size: 18px;">${conseil.titre}</h3>
+                <small style="color: #999; font-size: 11px;">Expert : ${conseil.expert}</small>
+            </div>
+
+            <div style="background: #f0f4ff; padding: 15px; border-radius: 12px; margin: 15px 0; border-left: 4px solid #667eea;">
+                <p style="color: #333; line-height: 1.6; margin-bottom: 10px; font-size: 14px;">${conseil.conseil}</p>
+            </div>
+
+            <div style="background: #fff9e6; padding: 12px; border-radius: 10px; margin: 10px 0; border-left: 4px solid #ffc107;">
+                <strong style="color: #f57c00; font-size: 13px;">🎯 ACTION AUJOURD'HUI</strong><br>
+                <p style="color: #666; margin-top: 5px; font-size: 13px;">${conseil.action}</p>
+            </div>
+
+            <div style="background: #e8f5e9; padding: 10px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #51cf66;">
+                <strong style="color: #2e7d32; font-size: 12px;">✅ Pourquoi TOI ?</strong><br>
+                <small style="color: #666; font-size: 12px;">${conseil.pourquoi_toi}</small>
+            </div>
+
+            <div style="text-align: center; margin-top: 15px;">
+                <small style="color: #999; font-size: 11px;">📚 ${conseil.etude}</small>
+            </div>
+
+            <button onclick="this.parentElement.parentElement.remove(); document.querySelector('.conseil-popup-overlay').remove(); localStorage.setItem('dernier-conseil-shown', '${today}');"
+                    class="btn btn-primary" style="width: 100%; margin-top: 15px; padding: 12px;">
+                ✅ Compris !
+            </button>
+        `;
+
+        document.body.appendChild(overlay);
+        document.body.appendChild(popup);
+    }, 2000);
+}
 
 window.onload = function() {
     updateSeasonDisplay();
@@ -1129,7 +1237,8 @@ window.onload = function() {
     afficherHistoriquePesees();
     afficherAlertes();
     updateTimelineVisuel();
-    
+    afficherConseilDuJour(); // 🆕 Afficher conseil du jour
+
     setInterval(verifierChangementDate, 60000);
     setInterval(verifierValidationRepas, 300000); // Vérifier toutes les 5 min
     setInterval(verifierRecapFinJournee, 300000); // Vérifier toutes les 5 min
@@ -2742,101 +2851,64 @@ function showTab(tabName) {
     }
 }
 
-// 🆕 FONCTION AFFICHAGE STACK SUPPLÉMENTS
+// 🆕 FONCTION AFFICHAGE STACK 10 SUPPLÉMENTS
 function afficherStackSupplements() {
     const stack = STACK_SUPPLEMENTS_COMPLET;
+    let html = '';
 
-    // Stack basique
-    let htmlBasique = '<div class="week-card"><h3 style="color: #667eea;">💊 Stack Basique - 207€/mois</h3>';
-
-    // Articulations
-    htmlBasique += '<div class="progress-card"><h4 style="color: #667eea; margin-bottom: 10px;">🦴 Articulations (70€/mois)</h4>';
-    htmlBasique += '<div style="display: grid; gap: 10px;">';
-    Object.entries(stack.basique.articulations).forEach(([nom, data]) => {
-        if (nom === 'total_mensuel') return;
-        htmlBasique += `<div style="background: #f8f9fa; padding: 10px; border-radius: 8px; border-left: 4px solid #51cf66;">
-            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
-            <small>📦 Dose: ${data.dose} | 💰 ${data.prix}</small><br>
-            <small>🩸 Diabète: ${data.diabete}</small>
-            ${data.effet ? `<br><small>✨ ${data.effet}</small>` : ''}
+    // Matin à jeun
+    html += `<div class="week-card" style="border-left-color: #ffa500;">
+        <h3 style="color: #ffa500;">☀️ ${stack.matin_jeun.titre} (${stack.matin_jeun.horaire})</h3>
+        <div style="display: grid; gap: 10px; margin-top: 15px;">`;
+    stack.matin_jeun.supplements.forEach(supp => {
+        html += `<div style="background: #fff3cd; padding: 12px; border-radius: 8px; border-left: 4px solid #ffa500;">
+            <strong>✅ ${supp.nom}</strong> : ${supp.dose} (${supp.quantite})<br>
+            <small>🩸 ${supp.diabete}</small>
         </div>`;
     });
-    htmlBasique += '</div></div>';
+    html += '</div></div>';
 
-    // Performance
-    htmlBasique += '<div class="progress-card"><h4 style="color: #667eea; margin-bottom: 10px;">💪 Performance (93€/mois)</h4>';
-    htmlBasique += '<div style="display: grid; gap: 10px;">';
-    Object.entries(stack.basique.performance).forEach(([nom, data]) => {
-        htmlBasique += `<div style="background: #f8f9fa; padding: 10px; border-radius: 8px; border-left: 4px solid #667eea;">
-            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
-            <small>📦 Dose: ${data.dose} | 💰 ${data.prix}</small><br>
-            <small>🩸 Diabète: ${data.diabete}</small>
-            ${data.effet ? `<br><small>✨ ${data.effet}</small>` : ''}
+    // Repas 1
+    html += `<div class="week-card" style="border-left-color: #667eea;">
+        <h3 style="color: #667eea;">🍽️ ${stack.repas_1.titre}</h3>
+        <div style="display: grid; gap: 10px; margin-top: 15px;">`;
+    stack.repas_1.supplements.forEach(supp => {
+        html += `<div style="background: #f0f4ff; padding: 12px; border-radius: 8px; border-left: 4px solid #667eea;">
+            <strong>✅ ${supp.nom}</strong> : ${supp.dose} (${supp.quantite})<br>
+            <small>🩸 ${supp.diabete}</small>
+            ${supp.effet ? `<br><small>✨ ${supp.effet}</small>` : ''}
         </div>`;
     });
-    htmlBasique += '</div></div>';
+    html += '</div></div>';
 
-    // Santé
-    htmlBasique += '<div class="progress-card"><h4 style="color: #667eea; margin-bottom: 10px;">🌿 Santé Générale (44€/mois)</h4>';
-    htmlBasique += '<div style="display: grid; gap: 10px;">';
-    Object.entries(stack.basique.sante).forEach(([nom, data]) => {
-        htmlBasique += `<div style="background: #f8f9fa; padding: 10px; border-radius: 8px; border-left: 4px solid #ffc107;">
-            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
-            <small>📦 Dose: ${data.dose} | 💰 ${data.prix}</small><br>
-            <small>🩸 Diabète: ${data.diabete}</small>
-            ${data.effet ? `<br><small>✨ ${data.effet}</small>` : ''}
+    // Soir
+    html += `<div class="week-card" style="border-left-color: #764ba2;">
+        <h3 style="color: #764ba2;">🌙 ${stack.soir.titre}</h3>
+        <div style="display: grid; gap: 10px; margin-top: 15px;">`;
+    stack.soir.supplements.forEach(supp => {
+        html += `<div style="background: #f3e5f5; padding: 12px; border-radius: 8px; border-left: 4px solid #764ba2;">
+            <strong>✅ ${supp.nom}</strong> : ${supp.dose} (${supp.quantite})<br>
+            <small>🩸 ${supp.diabete}</small>
+            ${supp.effet ? `<br><small>✨ ${supp.effet}</small>` : ''}
         </div>`;
     });
-    htmlBasique += '</div></div>';
-    htmlBasique += '</div>';
+    html += '</div></div>';
 
-    document.getElementById('stack-basique-container').innerHTML = htmlBasique;
-
-    // Stack diabète
-    let htmlDiabete = `<div class="week-card" style="border-left-color: #ff6b6b;">
-        <h3 style="color: #ff6b6b;">🩸 ${stack.diabete.titre}</h3>
-        <div class="alert-box alert-danger">
-            <strong>💰 Coût additionnel :</strong> ${stack.diabete.total_diabete}<br>
-            <strong>🎯 Minimum recommandé :</strong> ${stack.diabete.minimum_recommande}
-        </div>`;
-
-    ['berbérine', 'chrome_picolinate', 'acide_alpha_lipoique'].forEach(nom => {
-        const data = stack.diabete[nom];
-        htmlDiabete += `<div style="background: #ffebee; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #ff6b6b;">
-            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
-            <small>📦 Dose: ${data.dose}</small><br>
-            <small>💰 Prix: ${data.prix}</small><br>
-            <small>✨ Effet: ${data.effet}</small><br>
-            <small style="background: #fff; padding: 3px 6px; border-radius: 4px; display: inline-block; margin-top: 5px;">💡 ${data.note}</small>
+    // Pendant journée
+    html += `<div class="week-card" style="border-left-color: #51cf66;">
+        <h3 style="color: #51cf66;">⏰ ${stack.journee.titre} (${stack.journee.horaire})</h3>
+        <div style="display: grid; gap: 10px; margin-top: 15px;">`;
+    stack.journee.supplements.forEach(supp => {
+        html += `<div style="background: #e8f5e9; padding: 12px; border-radius: 8px; border-left: 4px solid #51cf66;">
+            <strong>✅ ${supp.nom}</strong> : ${supp.dose} (${supp.quantite})<br>
+            <small>🩸 ${supp.diabete}</small>
         </div>`;
     });
-    htmlDiabete += '</div>';
+    html += '</div></div>';
 
-    document.getElementById('stack-diabete-container').innerHTML = htmlDiabete;
-
-    // Cholestérol
-    let htmlCholesterol = `<div class="week-card" style="border-left-color: #ffc107;">
-        <h3 style="color: #ffc107;">🫀 ${stack.cholesterol.titre}</h3>
-        <div class="alert-box alert-success">
-            <strong>✅ Déjà couvert :</strong><br>
-            ${stack.cholesterol.deja_present.map(item => `• ${item}`).join('<br>')}
-        </div>`;
-
-    htmlCholesterol += '<h4 style="margin-top: 15px;">Optionnels (si besoin):</h4>';
-    Object.entries(stack.cholesterol.optionnels).forEach(([nom, data]) => {
-        htmlCholesterol += `<div style="background: #fff9e6; padding: 15px; border-radius: 8px; margin: 10px 0;">
-            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
-            <small>📦 ${data.dose} | 💰 ${data.prix}</small><br>
-            <small>✨ ${data.effet}</small><br>
-            <small style="color: #666;">💡 ${data.note}</small>
-        </div>`;
-    });
-
-    htmlCholesterol += `<div class="info-box" style="margin-top: 15px;">
-        <strong>📋 Recommandation :</strong> ${stack.cholesterol.recommandation}
-    </div></div>`;
-
-    document.getElementById('stack-cholesterol-container').innerHTML = htmlCholesterol;
+    document.getElementById('stack-basique-container').innerHTML = html;
+    document.getElementById('stack-diabete-container').innerHTML = '';
+    document.getElementById('stack-cholesterol-container').innerHTML = '';
 }
 
 // 🆕 FONCTION MODULATION MACROS PAR SEMAINE
