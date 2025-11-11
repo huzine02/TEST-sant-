@@ -6,24 +6,85 @@
     <title>Nutri-Track Sèche 10 Sem - Hocine</title>
     <style>
         * {margin: 0; padding: 0; box-sizing: border-box;}
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background:
-                linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%),
-                url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect fill="%23667eea" width="100" height="100" opacity="0.05"/><circle cx="25" cy="25" r="20" fill="%23764ba2" opacity="0.1"/><circle cx="75" cy="75" r="20" fill="%23764ba2" opacity="0.1"/><path d="M30,10 Q40,20 50,10 T70,10" stroke="%2351cf66" fill="none" opacity="0.15" stroke-width="2"/><path d="M10,50 Q20,60 30,50 T50,50" stroke="%2351cf66" fill="none" opacity="0.15" stroke-width="2"/></svg>');
-            background-size: cover, 100px 100px;
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3), transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(102, 126, 234, 0.3), transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(118, 75, 162, 0.2), transparent 50%),
+                linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-attachment: fixed;
             min-height: 100vh;
-            padding: 15px;
-            color: #333;
+            padding: 20px;
+            color: #1a1a2e;
+            overflow-x: hidden;
         }
-        .container {max-width: 950px; margin: 0 auto; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);}
-        h1 {text-align: center; color: #667eea; margin-bottom: 5px; font-size: 26px;}
-        .version-badge {text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; margin: 5px;}
-        .gas-badge {background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);}
-        .season-badge {background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%);}
-        .cholesterol-badge {background: linear-gradient(135deg, #fab005 0%, #f59f00 100%);}
-        .header-info {text-align: center; color: #666; margin-bottom: 15px; font-size: 13px;}
-        .timeline-container {background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px; border-radius: 15px; margin-bottom: 20px; overflow-x: auto;}
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 28px;
+            padding: 28px;
+            box-shadow:
+                0 30px 90px rgba(0, 0, 0, 0.25),
+                0 0 1px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            animation: containerFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes containerFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        h1 {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
+        }
+        .version-badge {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 5px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .gas-badge {background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%); box-shadow: 0 4px 15px rgba(81, 207, 102, 0.3);}
+        .season-badge {background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%); box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);}
+        .cholesterol-badge {background: linear-gradient(135deg, #fab005 0%, #f59f00 100%); box-shadow: 0 4px 15px rgba(250, 176, 5, 0.3);}
+
+        .header-info {text-align: center; color: #555; margin-bottom: 18px; font-size: 14px; font-weight: 500;}
+
+        .timeline-container {
+            background: linear-gradient(135deg, rgba(248, 249, 250, 0.9) 0%, rgba(233, 236, 239, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
         .timeline {display: flex; justify-content: space-between; align-items: center; position: relative; max-width: 100%;}
         .timeline-line {position: absolute; top: 50%; left: 5%; right: 5%; height: 4px; background: #dee2e6; z-index: 0; transform: translateY(-50%);}
         .timeline-progress {position: absolute; top: 50%; left: 5%; height: 4px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); z-index: 1; transform: translateY(-50%); transition: width 0.5s;}
@@ -44,9 +105,57 @@
         .custom-notification.error {border-left: 6px solid #ff6b6b;}
         .custom-notification.warning {border-left: 6px solid #ffc107;}
         .notification-overlay {position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2999; cursor: pointer;}
-        .tabs {display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; margin-bottom: 20px;}
-        .tab {padding: 12px 8px; background: #f0f0f0; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; transition: all 0.3s; font-size: 12px;}
-        .tab.active {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);}
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 10px;
+            margin-bottom: 25px;
+            padding: 6px;
+            background: rgba(248, 249, 250, 0.6);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab {
+            padding: 14px 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 12px;
+            color: #555;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .tab:hover::before {
+            left: 100%;
+        }
+
+        .tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
         .tab-content {display: none;}
         .tab-content.active {display: block; animation: fadeIn 0.4s;}
         @keyframes fadeIn {from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);}}
@@ -71,18 +180,127 @@
         .validation-checkbox input {width: 20px; height: 20px; cursor: pointer;}
         .validation-checkbox.validated {background: #c8e6c9;}
         .progress-card {background: white; padding: 15px; border-radius: 10px; margin: 10px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
-        .progress-bar-container {background: #e0e0e0; border-radius: 10px; height: 30px; margin: 10px 0; overflow: hidden;}
-        .progress-bar {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 100%; transition: width 0.5s; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px;}
+        .progress-bar-container {
+            background: linear-gradient(135deg, #e8e8e8 0%, #f0f0f0 100%);
+            border-radius: 15px;
+            height: 36px;
+            margin: 15px 0;
+            overflow: hidden;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        .progress-bar-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            100% {
+                left: 100%;
+            }
+        }
+
+        .progress-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShine 1.5s infinite;
+        }
+
+        @keyframes progressShine {
+            100% {
+                left: 100%;
+            }
+        }
         .macro-grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 15px 0;}
-        .macro-card {background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%); padding: 15px; border-radius: 10px; text-align: center;}
-        .macro-card.calories {background: linear-gradient(135deg, #ffd93d 0%, #ff9800 100%); color: white;}
-        .macro-card.proteines {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;}
-        .macro-card.glucides {background: linear-gradient(135deg, #ffa500 0%, #ff6347 100%); color: white;}
-        .macro-card.lipides {background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%); color: white;}
-        .macro-card.hydration {background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%); color: white;}
-        .macro-value {font-size: 28px; font-weight: bold; margin: 5px 0;}
-        .macro-label {font-size: 11px; opacity: 0.9; text-transform: uppercase;}
-        .week-card {background: white; border-radius: 15px; padding: 20px; margin: 15px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 6px solid #667eea;}
+        .macro-card {
+            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+            padding: 18px;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .macro-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .macro-card:hover::before {
+            opacity: 1;
+        }
+
+        .macro-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .macro-card.calories {background: linear-gradient(135deg, #ffd93d 0%, #ff9800 100%); color: white; box-shadow: 0 8px 25px rgba(255, 152, 0, 0.3);}
+        .macro-card.proteines {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);}
+        .macro-card.glucides {background: linear-gradient(135deg, #ffa500 0%, #ff6347 100%); color: white; box-shadow: 0 8px 25px rgba(255, 99, 71, 0.3);}
+        .macro-card.lipides {background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%); color: white; box-shadow: 0 8px 25px rgba(81, 207, 102, 0.3);}
+        .macro-card.hydration {background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%); color: white; box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);}
+
+        .macro-value {font-size: 32px; font-weight: 800; margin: 8px 0; letter-spacing: -1px;}
+        .macro-label {font-size: 11px; opacity: 0.95; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;}
+
+        .week-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 24px;
+            margin: 18px 0;
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.08),
+                0 0 1px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            border-left: 6px solid #667eea;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .week-card:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 15px 50px rgba(0, 0, 0, 0.12),
+                0 0 1px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
         .week-card.agressive {border-left-color: #ff6b6b;}
         .week-card.deload {border-left-color: #ffc107;}
         .week-card.moderee {border-left-color: #51cf66;}
@@ -100,8 +318,71 @@
         .chart-svg {width: 100%; height: 250px;}
         .form-group {margin: 15px 0;}
         .form-label {display: block; font-weight: bold; color: #667eea; margin-bottom: 8px; font-size: 14px;}
-        .form-input {width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; transition: border 0.3s;}
-        .form-input:focus {border-color: #667eea; outline: none;}
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid rgba(224, 224, 224, 0.6);
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .form-input:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        /* 🆕 Sliders premium */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #e0e0e0 0%, #f0f0f0 100%);
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        input[type="range"]:hover {
+            background: linear-gradient(90deg, #d0d0d0 0%, #e0e0e0 100%);
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            border: none;
+            transition: all 0.3s;
+        }
+
+        input[type="range"]::-moz-range-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
         .form-row {display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;}
         .alert-box {padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 14px; border-left: 4px solid;}
         .alert-success {background: #e8f5e9; border-color: #51cf66; color: #2e7d32;}
@@ -110,12 +391,66 @@
         .alert-info {background: #e3f2fd; border-color: #2196f3; color: #1565c0;}
         .grignotage-section {background: #fff9e6; border-left: 5px solid #ffc107; padding: 15px; border-radius: 15px; margin: 15px 0;}
         .grignotage-item {background: white; padding: 10px; margin: 8px 0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;}
-        .btn {padding: 10px 16px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.3s; font-size: 13px;}
-        .btn-primary {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;}
-        .btn-primary:hover {transform: scale(1.05); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);}
-        .btn-secondary {background: rgba(255,255,255,0.2); color: white; border: 2px solid white;}
-        .btn-danger {background: #ff6b6b; color: white;}
-        .btn-success {background: #51cf66; color: white;}
+        .btn {
+            padding: 13px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 14px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(81, 207, 102, 0.3);
+        }
         .modal {display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; overflow-y: auto;}
         .modal.show {display: flex;}
         .modal-content {background: white; padding: 30px; border-radius: 20px; max-width: 500px; width: 90%; margin: 20px; animation: modalPop 0.3s; max-height: 90vh; overflow-y: auto;}
