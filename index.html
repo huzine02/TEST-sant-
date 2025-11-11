@@ -729,6 +729,10 @@
             .macro-values {font-size: 10px; display: block; margin-left: 0; padding-left: 15px;}
             /* Fix stats ajustements en colonne */
             .ajustements-stats {grid-template-columns: 1fr !important; gap: 8px;}
+            /* Fix modulation macros en colonne */
+            .modulation-grid {grid-template-columns: 1fr !important; gap: 12px;}
+            .modulation-buttons {gap: 8px;}
+            .modulation-buttons .btn {padding: 8px 16px !important; font-size: 13px;}
         }
     </style>
 </head>
@@ -3673,7 +3677,7 @@ function afficherModulationMacros() {
 
     let html = `
         <div style="background: #f8f9ff; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+            <div class="modulation-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
                 <div>
                     <strong style="color: #667eea;">🏋️ JOUR TRAINING</strong>
                     ${creerInputsMacros('training', macrosSemaine.training, config.calories.training)}
@@ -3683,7 +3687,7 @@ function afficherModulationMacros() {
                     ${creerInputsMacros('repos', macrosSemaine.repos, config.calories.repos)}
                 </div>
             </div>
-            <div style="display: flex; gap: 10px; justify-content: center;">
+            <div class="modulation-buttons" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                 <button onclick="sauvegarderMacrosCustom()" class="btn btn-primary" style="padding: 10px 20px;">
                     💾 Sauvegarder les macros
                 </button>
