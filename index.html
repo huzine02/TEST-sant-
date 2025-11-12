@@ -2693,6 +2693,51 @@ function afficherMenu() {
         <div style="font-size: 13px; font-weight: bold; color: #f57c00;">${astucesNutri[semaineActuelle]}</div>
     </div>`;
 
+    // 🆕 SECTION PETIT DÉJEUNER / MATIN (7h30)
+    const couleurMatin = '#ffd93d';
+    const bgMatin = 'linear-gradient(135deg, rgba(255, 217, 61, 0.08) 0%, rgba(245, 159, 0, 0.05) 100%)';
+    const iconeMatin = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 8C17 10.7614 14.7614 13 12 13C9.23858 13 7 10.7614 7 8M12 3V4M18.3643 5.63574L17.6572 6.34285M5.63574 5.63574L6.34285 6.34285M21 8H20M4 8H3" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M6 13H18C19.1046 13 20 13.8954 20 15V16C20 17.1046 19.1046 18 18 18H6C4.89543 18 4 17.1046 4 16V15C4 13.8954 4.89543 13 6 13Z" fill="white"/></svg>';
+
+    html += `<div class="nutrition-section" style="background: ${bgMatin}; border: 1px solid ${couleurMatin}20; position: relative; overflow: hidden;">
+        <!-- Décor SVG -->
+        <div style="position: absolute; top: -15px; right: -15px; opacity: 0.06; pointer-events: none;">
+            <svg width="100" height="100">
+                <circle cx="50" cy="50" r="45" fill="${couleurMatin}"/>
+            </svg>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; position: relative; z-index: 1;">
+            <div style="background: linear-gradient(135deg, ${couleurMatin}, ${couleurMatin}dd); width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px ${couleurMatin}40;">
+                ${iconeMatin}
+            </div>
+            <h3 style="margin: 0; flex: 1;">7h30 - PETIT DÉJEUNER / MATIN</h3>
+        </div>
+        <div class="meal">
+            <div style="background: #fff9e6; padding: 12px; border-radius: 10px; margin-bottom: 10px;">
+                <strong style="color: #f59f00; font-size: 14px; margin-bottom: 8px; display: block;">☕ À jeun + Café noir</strong>
+                <div class="meal-foods">
+                    <ul>
+                        <li>☕ Café noir : 1-2 tasses (300mg caféine max)</li>
+                        <li>💧 Eau : 500ml (hydratation matinale)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="supplements-box">
+                <strong>💊 SUPPLÉMENTS MATIN :</strong>
+                <div style="margin-top: 8px;">
+                    <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7);">
+                        <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                        <span style="font-size: 12px; line-height: 1.3;">☀️ <strong>Vitamine D3</strong> : 5000 UI (1 capsule)</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
+                        <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                        <span style="font-size: 12px; line-height: 1.3;">💪 <strong>Créatine</strong> : 5g ${jourType === 'repos' ? '✅ (recommandé)' : '<small>(ou avec repas 1)</small>'}</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>`;
+
     menu.repas.forEach(repas => {
         const valide = isRepasValide(repas.id);
         
@@ -2812,7 +2857,68 @@ function afficherMenu() {
                 <ul style="margin-left: 10px; margin-top: 5px;">${repas.supplements.map(s => `<li style="margin: 3px 0;">${s}</li>`).join('')}</ul>
             </div>`;
         }
-        
+
+        // 🆕 Suppléments spécifiques au repas - INTÉGRÉS DANS CHAQUE REPAS
+        let supplementsHtml = '';
+
+        // REPAS 1 (12h00)
+        if (repas.nom.includes('REPAS 1') || repas.heure === '12h00') {
+            supplementsHtml = `<div style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%); padding: 12px; border-radius: 10px; margin: 12px 0; border-left: 4px solid #51cf66;">
+                <strong style="color: #51cf66; font-size: 13px; display: block; margin-bottom: 8px;">💊 SUPPLÉMENTS À PRENDRE MAINTENANT:</strong>
+                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7);">
+                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                    <span style="font-size: 12px; line-height: 1.3;">🦴 <strong>MSM</strong> : 2000mg</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
+                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                    <span style="font-size: 12px; line-height: 1.3;">🦴 <strong>Collagène</strong> : 10g</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
+                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                    <span style="font-size: 12px; line-height: 1.3;">🩸 <strong>Berbérine</strong> : 500mg <small>(contrôle glycémie)</small></span>
+                </label>
+                ${jourType === 'training' ? `<label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
+                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                    <span style="font-size: 12px; line-height: 1.3;">💪 <strong>Créatine</strong> : 5g <small>(si pas pris le matin)</small></span>
+                </label>` : ''}
+            </div>`;
+        }
+        // REPAS 2 (15h45, training only)
+        else if ((repas.nom.includes('REPAS 2') || repas.nom.includes('Post-Training')) && jourType === 'training') {
+            supplementsHtml = `<div style="background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 50%); padding: 12px; border-radius: 10px; margin: 12px 0; border-left: 4px solid #667eea;">
+                <strong style="color: #667eea; font-size: 13px; display: block; margin-bottom: 8px;">💊 SUPPLÉMENTS POST-TRAINING:</strong>
+                <div style="background: rgba(102, 126, 234, 0.1); padding: 8px; border-radius: 6px; font-size: 11px; color: #667eea;">
+                    ℹ️ <strong>Whey 60g</strong> déjà inclus dans ce shaker
+                </div>
+            </div>`;
+        }
+        // REPAS 3 / SOIR (19h30 ou 22h00)
+        else if (repas.nom.includes('REPAS 3') || repas.heure.includes('19h30') || repas.heure.includes('22h00')) {
+            supplementsHtml = `<div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%); padding: 12px; border-radius: 10px; margin: 12px 0; border-left: 4px solid #2196f3;">
+                <strong style="color: #2196f3; font-size: 13px; display: block; margin-bottom: 8px;">💊 SUPPLÉMENTS DU SOIR:</strong>
+                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7);">
+                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                    <span style="font-size: 12px; line-height: 1.3;">🐟 <strong>Oméga-3</strong> : 4g <small>(2g si saumon au repas)</small></span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
+                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                    <span style="font-size: 12px; line-height: 1.3;">😴 <strong>Magnésium</strong> : 400mg <small>(sommeil)</small></span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
+                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                    <span style="font-size: 12px; line-height: 1.3;">🦴 <strong>Collagène</strong> : 5g</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
+                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                    <span style="font-size: 12px; line-height: 1.3;">🩸 <strong>Berbérine</strong> : 500mg <small>(contrôle glycémie)</small></span>
+                </label>
+            </div>`;
+        }
+
+        if (supplementsHtml) {
+            html += supplementsHtml;
+        }
+
         // 🆕 Ajout anti-inflammatoires
         if (repas.antiInflammatoires && repas.antiInflammatoires.length > 0) {
             html += `<div class="anti-inflam-box">
@@ -2828,95 +2934,6 @@ function afficherMenu() {
         </div>
     </div>`;
     });
-    
-    // 🆕 Section suppléments essentiels - ORDRE CHRONOLOGIQUE
-    html += `<div class="nutrition-section" style="border-left-color: #667eea; background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.03) 100%);">
-        <h3 style="color: #667eea;">💊 SUPPLÉMENTS - Checklist Chronologique</h3>
-        <div class="meal">
-            <!-- 1. MATIN -->
-            <div style="background: linear-gradient(135deg, #fff9e6 0%, #ffe9a3 50%); padding: 12px; border-radius: 10px; margin-bottom: 8px; border-left: 4px solid #ffd93d;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <strong style="color: #f59f00; font-size: 13px;">☀️ 7h30 - MATIN</strong>
-                    <small style="color: #999; font-size: 11px;">À jeun + café</small>
-                </div>
-                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7);">
-                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
-                    <span style="font-size: 12px; line-height: 1.3;">☀️ <strong>Vit D3</strong> 5000 UI</span>
-                </label>
-                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
-                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
-                    <span style="font-size: 12px; line-height: 1.3;">💪 <strong>Créatine</strong> 5g ${jourType === 'repos' ? '✅' : '<small>(ou R1)</small>'}</span>
-                </label>
-            </div>
-
-            <!-- 2. REPAS 1 -->
-            <div style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%); padding: 12px; border-radius: 10px; margin-bottom: 8px; border-left: 4px solid #51cf66;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <strong style="color: #51cf66; font-size: 13px;">🍽️ 12h00 - REPAS 1</strong>
-                    <small style="color: #999; font-size: 11px;">Avec repas</small>
-                </div>
-                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7);">
-                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
-                    <span style="font-size: 12px; line-height: 1.3;">🦴 <strong>MSM</strong> 2000mg</span>
-                </label>
-                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
-                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
-                    <span style="font-size: 12px; line-height: 1.3;">🦴 <strong>Collagène</strong> 10g</span>
-                </label>
-                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
-                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
-                    <span style="font-size: 12px; line-height: 1.3;">🩸 <strong>Berbérine</strong> 500mg <small>(diabète)</small></span>
-                </label>
-                ${jourType === 'training' ? `<label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
-                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
-                    <span style="font-size: 12px; line-height: 1.3;">💪 <strong>Créatine</strong> 5g <small>(si pas matin)</small></span>
-                </label>` : ''}
-            </div>
-
-            ${jourType === 'training' ? `
-            <!-- 3. POST-TRAINING (uniquement jours training) -->
-            <div style="background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 50%); padding: 12px; border-radius: 10px; margin-bottom: 8px; border-left: 4px solid #667eea;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <strong style="color: #667eea; font-size: 13px;">💪 15h45 - POST-TRAINING</strong>
-                    <small style="color: #999; font-size: 11px;">Dans 30min</small>
-                </div>
-                <div style="background: rgba(102, 126, 234, 0.1); padding: 8px; border-radius: 6px; font-size: 11px; color: #667eea;">
-                    ℹ️ <strong>Whey 60g</strong> inclus dans shaker repas 2
-                </div>
-            </div>` : ''}
-
-            <!-- 4. SOIR -->
-            <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%); padding: 12px; border-radius: 10px; margin-bottom: 8px; border-left: 4px solid #2196f3;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <strong style="color: #2196f3; font-size: 13px;">🌙 22h00 - SOIR</strong>
-                    <small style="color: #999; font-size: 11px;">Avant coucher</small>
-                </div>
-                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7);">
-                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
-                    <span style="font-size: 12px; line-height: 1.3;">🐟 <strong>Oméga-3</strong> 4g <small>(2g si saumon)</small></span>
-                </label>
-                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
-                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
-                    <span style="font-size: 12px; line-height: 1.3;">😴 <strong>Magnésium</strong> 400mg</span>
-                </label>
-                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
-                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
-                    <span style="font-size: 12px; line-height: 1.3;">🦴 <strong>Collagène</strong> 5g</span>
-                </label>
-                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
-                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
-                    <span style="font-size: 12px; line-height: 1.3;">🩸 <strong>Berbérine</strong> 500mg <small>(diabète)</small></span>
-                </label>
-            </div>
-
-            <!-- Résumé -->
-            <div style="background: rgba(102, 126, 234, 0.08); padding: 10px; border-radius: 8px; margin-top: 10px; text-align: center;">
-                <div style="font-size: 11px; color: #667eea; font-weight: 600;">
-                    💰 Coût : ~4.50€/jour (136€/mois) • 8 suppléments essentiels
-                </div>
-            </div>
-        </div>
-    </div>`;
 
     document.getElementById('menu-container').innerHTML = html;
 }
