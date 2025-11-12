@@ -6,15 +6,98 @@
     <title>Nutri-Track Sèche 10 Sem - Hocine</title>
     <style>
         * {margin: 0; padding: 0; box-sizing: border-box;}
-        body {font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 15px; color: #333;}
-        .container {max-width: 950px; margin: 0 auto; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);}
-        h1 {text-align: center; color: #667eea; margin-bottom: 5px; font-size: 26px;}
-        .version-badge {text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; margin: 5px;}
-        .gas-badge {background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);}
-        .season-badge {background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%);}
-        .cholesterol-badge {background: linear-gradient(135deg, #fab005 0%, #f59f00 100%);}
-        .header-info {text-align: center; color: #666; margin-bottom: 15px; font-size: 13px;}
-        .timeline-container {background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px; border-radius: 15px; margin-bottom: 20px; overflow-x: auto;}
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background:
+                url('data:image/svg+xml;utf8,<svg width="1920" height="1080" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="leaf1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%2351cf66;stop-opacity:0.3"/><stop offset="100%" style="stop-color:%2337b24d;stop-opacity:0.1"/></linearGradient><linearGradient id="leaf2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%2366d9e8;stop-opacity:0.25"/><stop offset="100%" style="stop-color:%2338bdf8;stop-opacity:0.1"/></linearGradient></defs><ellipse cx="150" cy="100" rx="80" ry="40" fill="url(%23leaf1)" transform="rotate(-25 150 100)"/><ellipse cx="150" cy="100" rx="80" ry="40" fill="url(%23leaf1)" transform="rotate(25 150 100)"/><path d="M150,60 Q150,100 150,140" stroke="%2351cf66" stroke-width="3" fill="none" opacity="0.3"/><ellipse cx="1750" cy="950" rx="100" ry="50" fill="url(%23leaf2)" transform="rotate(35 1750 950)"/><ellipse cx="1750" cy="950" rx="100" ry="50" fill="url(%23leaf2)" transform="rotate(-35 1750 950)"/><path d="M1750,900 Q1750,950 1750,1000" stroke="%2338bdf8" stroke-width="4" fill="none" opacity="0.25"/><circle cx="300" cy="900" r="35" fill="%23ff6b6b" opacity="0.2"/><circle cx="295" cy="895" r="30" fill="%23ff8787" opacity="0.15"/><circle cx="310" cy="905" r="8" fill="%23ffffff" opacity="0.4"/><ellipse cx="1600" cy="200" rx="45" ry="60" fill="%23ffd93d" opacity="0.2"/><ellipse cx="1595" cy="195" rx="40" ry="55" fill="%23ffeb3b" opacity="0.15"/><path d="M1600,140 Q1600,170 1600,200" stroke="%23ff9800" stroke-width="3" fill="none" opacity="0.2"/><path d="M800,50 Q850,100 900,80 T1000,60" stroke="%2351cf66" stroke-width="2" fill="none" opacity="0.15"/><path d="M100,500 Q150,550 200,530 T300,510" stroke="%2366d9e8" stroke-width="2" fill="none" opacity="0.12"/><circle cx="1200" cy="850" r="25" fill="%23a78bfa" opacity="0.18"/><circle cx="1205" cy="845" r="20" fill="%23c4b5fd" opacity="0.12"/><circle cx="450" cy="300" r="30" fill="%23fb923c" opacity="0.15"/><ellipse cx="1400" cy="600" rx="35" ry="50" fill="%23f472b6" opacity="0.12" transform="rotate(20 1400 600)"/></svg>'),
+                radial-gradient(circle at 20% 50%, rgba(81, 207, 102, 0.15), transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(102, 126, 234, 0.2), transparent 55%),
+                radial-gradient(circle at 40% 20%, rgba(255, 107, 107, 0.12), transparent 50%),
+                radial-gradient(circle at 90% 10%, rgba(255, 217, 61, 0.15), transparent 45%),
+                linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-attachment: fixed;
+            background-size: cover, 400% 400%, 300% 300%, 350% 350%, 320% 320%, cover;
+            animation: gradientShift 20s ease infinite;
+            min-height: 100vh;
+            padding: 20px;
+            color: #1a1a2e;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                background-position: center, 0% 50%, 50% 50%, 50% 50%, 50% 50%, center;
+            }
+            50% {
+                background-position: center, 100% 50%, 0% 50%, 100% 50%, 0% 50%, center;
+            }
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 28px;
+            padding: 28px;
+            box-shadow:
+                0 30px 90px rgba(0, 0, 0, 0.25),
+                0 0 1px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            animation: containerFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes containerFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        h1 {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
+        }
+        .version-badge {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 5px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .gas-badge {background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%); box-shadow: 0 4px 15px rgba(81, 207, 102, 0.3);}
+        .season-badge {background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%); box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);}
+        .cholesterol-badge {background: linear-gradient(135deg, #fab005 0%, #f59f00 100%); box-shadow: 0 4px 15px rgba(250, 176, 5, 0.3);}
+
+        .header-info {text-align: center; color: #555; margin-bottom: 18px; font-size: 14px; font-weight: 500;}
+
+        .timeline-container {
+            background: linear-gradient(135deg, rgba(248, 249, 250, 0.9) 0%, rgba(233, 236, 239, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
         .timeline {display: flex; justify-content: space-between; align-items: center; position: relative; max-width: 100%;}
         .timeline-line {position: absolute; top: 50%; left: 5%; right: 5%; height: 4px; background: #dee2e6; z-index: 0; transform: translateY(-50%);}
         .timeline-progress {position: absolute; top: 50%; left: 5%; height: 4px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); z-index: 1; transform: translateY(-50%); transition: width 0.5s;}
@@ -30,9 +113,62 @@
         .day-controls {display: flex; gap: 8px; justify-content: center; margin-top: 10px; flex-wrap: wrap;}
         .auto-save-indicator {position: fixed; top: 20px; right: 20px; background: #51cf66; color: white; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: bold; opacity: 0; transition: opacity 0.3s; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);}
         .auto-save-indicator.show {opacity: 1;}
-        .tabs {display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; margin-bottom: 20px;}
-        .tab {padding: 12px 8px; background: #f0f0f0; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; transition: all 0.3s; font-size: 12px;}
-        .tab.active {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);}
+        .custom-notification {position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 3000; max-width: 400px; text-align: center; cursor: pointer;}
+        .custom-notification.success {border-left: 6px solid #51cf66;}
+        .custom-notification.error {border-left: 6px solid #ff6b6b;}
+        .custom-notification.warning {border-left: 6px solid #ffc107;}
+        .notification-overlay {position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2999; cursor: pointer;}
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 10px;
+            margin-bottom: 25px;
+            padding: 6px;
+            background: rgba(248, 249, 250, 0.6);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab {
+            padding: 14px 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 12px;
+            color: #555;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .tab:hover::before {
+            left: 100%;
+        }
+
+        .tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
         .tab-content {display: none;}
         .tab-content.active {display: block; animation: fadeIn 0.4s;}
         @keyframes fadeIn {from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);}}
@@ -57,18 +193,127 @@
         .validation-checkbox input {width: 20px; height: 20px; cursor: pointer;}
         .validation-checkbox.validated {background: #c8e6c9;}
         .progress-card {background: white; padding: 15px; border-radius: 10px; margin: 10px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
-        .progress-bar-container {background: #e0e0e0; border-radius: 10px; height: 30px; margin: 10px 0; overflow: hidden;}
-        .progress-bar {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 100%; transition: width 0.5s; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px;}
+        .progress-bar-container {
+            background: linear-gradient(135deg, #e8e8e8 0%, #f0f0f0 100%);
+            border-radius: 15px;
+            height: 36px;
+            margin: 15px 0;
+            overflow: hidden;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        .progress-bar-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            100% {
+                left: 100%;
+            }
+        }
+
+        .progress-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShine 1.5s infinite;
+        }
+
+        @keyframes progressShine {
+            100% {
+                left: 100%;
+            }
+        }
         .macro-grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 15px 0;}
-        .macro-card {background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%); padding: 15px; border-radius: 10px; text-align: center;}
-        .macro-card.calories {background: linear-gradient(135deg, #ffd93d 0%, #ff9800 100%); color: white;}
-        .macro-card.proteines {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;}
-        .macro-card.glucides {background: linear-gradient(135deg, #ffa500 0%, #ff6347 100%); color: white;}
-        .macro-card.lipides {background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%); color: white;}
-        .macro-card.hydration {background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%); color: white;}
-        .macro-value {font-size: 28px; font-weight: bold; margin: 5px 0;}
-        .macro-label {font-size: 11px; opacity: 0.9; text-transform: uppercase;}
-        .week-card {background: white; border-radius: 15px; padding: 20px; margin: 15px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 6px solid #667eea;}
+        .macro-card {
+            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+            padding: 18px;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .macro-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .macro-card:hover::before {
+            opacity: 1;
+        }
+
+        .macro-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .macro-card.calories {background: linear-gradient(135deg, #ffd93d 0%, #ff9800 100%); color: white; box-shadow: 0 8px 25px rgba(255, 152, 0, 0.3);}
+        .macro-card.proteines {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);}
+        .macro-card.glucides {background: linear-gradient(135deg, #ffa500 0%, #ff6347 100%); color: white; box-shadow: 0 8px 25px rgba(255, 99, 71, 0.3);}
+        .macro-card.lipides {background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%); color: white; box-shadow: 0 8px 25px rgba(81, 207, 102, 0.3);}
+        .macro-card.hydration {background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%); color: white; box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);}
+
+        .macro-value {font-size: 32px; font-weight: 800; margin: 8px 0; letter-spacing: -1px;}
+        .macro-label {font-size: 11px; opacity: 0.95; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;}
+
+        .week-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 24px;
+            margin: 18px 0;
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.08),
+                0 0 1px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            border-left: 6px solid #667eea;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .week-card:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 15px 50px rgba(0, 0, 0, 0.12),
+                0 0 1px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
         .week-card.agressive {border-left-color: #ff6b6b;}
         .week-card.deload {border-left-color: #ffc107;}
         .week-card.moderee {border-left-color: #51cf66;}
@@ -86,8 +331,71 @@
         .chart-svg {width: 100%; height: 250px;}
         .form-group {margin: 15px 0;}
         .form-label {display: block; font-weight: bold; color: #667eea; margin-bottom: 8px; font-size: 14px;}
-        .form-input {width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; transition: border 0.3s;}
-        .form-input:focus {border-color: #667eea; outline: none;}
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid rgba(224, 224, 224, 0.6);
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .form-input:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        /* 🆕 Sliders premium */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #e0e0e0 0%, #f0f0f0 100%);
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        input[type="range"]:hover {
+            background: linear-gradient(90deg, #d0d0d0 0%, #e0e0e0 100%);
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            border: none;
+            transition: all 0.3s;
+        }
+
+        input[type="range"]::-moz-range-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
         .form-row {display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;}
         .alert-box {padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 14px; border-left: 4px solid;}
         .alert-success {background: #e8f5e9; border-color: #51cf66; color: #2e7d32;}
@@ -96,12 +404,66 @@
         .alert-info {background: #e3f2fd; border-color: #2196f3; color: #1565c0;}
         .grignotage-section {background: #fff9e6; border-left: 5px solid #ffc107; padding: 15px; border-radius: 15px; margin: 15px 0;}
         .grignotage-item {background: white; padding: 10px; margin: 8px 0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;}
-        .btn {padding: 10px 16px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.3s; font-size: 13px;}
-        .btn-primary {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;}
-        .btn-primary:hover {transform: scale(1.05); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);}
-        .btn-secondary {background: rgba(255,255,255,0.2); color: white; border: 2px solid white;}
-        .btn-danger {background: #ff6b6b; color: white;}
-        .btn-success {background: #51cf66; color: white;}
+        .btn {
+            padding: 13px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 14px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(81, 207, 102, 0.3);
+        }
         .modal {display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; overflow-y: auto;}
         .modal.show {display: flex;}
         .modal-content {background: white; padding: 30px; border-radius: 20px; max-width: 500px; width: 90%; margin: 20px; animation: modalPop 0.3s; max-height: 90vh; overflow-y: auto;}
@@ -114,20 +476,496 @@
         .option-selector {background: #f8f9fa; padding: 12px; border-radius: 8px; margin: 10px 0;}
         .option-btn {padding: 8px 16px; background: white; border: 2px solid #e0e0e0; border-radius: 8px; margin: 4px; cursor: pointer; font-size: 12px; font-weight: bold; transition: all 0.3s;}
         .option-btn.active {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-color: #667eea;}
-        @media (max-width: 600px) {.container {padding: 12px;} h1 {font-size: 22px;} .macro-grid, .stats-grid {grid-template-columns: repeat(2, 1fr);} .timeline-item {padding: 2px;} .timeline-dot {width: 30px; height: 30px; font-size: 10px;} .timeline-label, .timeline-phase {font-size: 9px;}}
+
+        /* 🧭 MENU NAVIGATION FIXE */
+        .fixed-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(102, 126, 234, 0.15);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 12px 0;
+            animation: slideDown 0.4s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .nav-container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .nav-brand {
+            font-size: 14px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .nav-link {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #667eea;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1.5px solid transparent;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .content-wrapper {
+            padding-top: 70px;
+        }
+
+        /* 📱 OPTIMISATION MOBILE RESPONSIVE */
+        @media (max-width: 600px) {
+            /* Container et typographie */
+            .container {
+                padding: 10px;
+                border-radius: 20px;
+            }
+
+            h1 {
+                font-size: 20px !important;
+                margin-bottom: 12px;
+            }
+
+            h2 {
+                font-size: 18px !important;
+            }
+
+            h3 {
+                font-size: 15px !important;
+            }
+
+            /* Navigation mobile */
+            .nav-brand {
+                font-size: 11px !important;
+            }
+
+            .nav-links {
+                gap: 4px;
+            }
+
+            .nav-link {
+                padding: 5px 10px !important;
+                font-size: 10px !important;
+            }
+
+            .content-wrapper {
+                padding-top: 60px;
+            }
+
+            /* Grids responsive */
+            .macro-grid, .stats-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 8px;
+            }
+
+            /* Macro cards - réduire taille des valeurs pour éviter débordement */
+            .macro-card {
+                padding: 12px !important;
+            }
+
+            .macro-value {
+                font-size: 20px !important;
+                letter-spacing: -0.5px !important;
+                line-height: 1.2;
+                word-break: break-word;
+            }
+
+            .macro-label {
+                font-size: 9px !important;
+            }
+
+            /* Suppléments section mobile - texte plus compact */
+            .nutrition-section label span {
+                font-size: 11px !important;
+                line-height: 1.2 !important;
+            }
+
+            .nutrition-section label span small {
+                font-size: 9px !important;
+            }
+
+            .nutrition-section label {
+                padding: 4px !important;
+                gap: 6px !important;
+            }
+
+            .nutrition-section input[type="checkbox"] {
+                width: 14px !important;
+                height: 14px !important;
+            }
+
+            .nutrition-section > div > div {
+                padding: 10px !important;
+            }
+
+            /* Timeline mobile */
+            .timeline-item {
+                padding: 2px;
+            }
+
+            .timeline-dot {
+                width: 28px !important;
+                height: 28px !important;
+                font-size: 9px !important;
+            }
+
+            .timeline-label {
+                font-size: 9px !important;
+            }
+
+            .timeline-phase {
+                font-size: 8px !important;
+            }
+
+            /* Day tracker mobile */
+            .day-display {
+                font-size: 22px !important;
+            }
+
+            .day-tracker {
+                padding: 12px;
+            }
+
+            /* Tabs mobile */
+            .tabs {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
+                padding: 4px;
+            }
+
+            .tab {
+                padding: 10px 6px;
+                font-size: 11px;
+            }
+
+            /* Section repas mobile - icônes et layout */
+            .nutrition-section {
+                padding: 10px !important;
+                margin-bottom: 12px;
+            }
+
+            .nutrition-section h3 {
+                font-size: 14px !important;
+            }
+
+            /* Icônes food réduites sur mobile */
+            .nutrition-section > div:first-of-type > div:first-child {
+                width: 36px !important;
+                height: 36px !important;
+            }
+
+            .nutrition-section > div:first-of-type > div:first-child svg {
+                width: 22px !important;
+                height: 22px !important;
+            }
+
+            /* Cercle décoratif réduit */
+            .nutrition-section > div:first-of-type svg {
+                width: 70px !important;
+                height: 70px !important;
+            }
+
+            /* Meal details mobile */
+            .meal {
+                padding: 10px !important;
+                margin: 8px 0 !important;
+            }
+
+            .meal-details {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 6px;
+                font-size: 11px !important;
+            }
+
+            .detail-item {
+                padding: 6px !important;
+            }
+
+            /* Mes mesures section mobile */
+            .week-card {
+                padding: 12px !important;
+            }
+
+            /* Icône balance réduite */
+            .week-card > div:nth-child(2) > div:first-child {
+                width: 40px !important;
+                height: 40px !important;
+            }
+
+            .week-card > div:nth-child(2) > div:first-child svg {
+                width: 24px !important;
+                height: 24px !important;
+            }
+
+            /* Cards des mesures en colonne sur mobile */
+            .week-card > div:nth-child(3) {
+                grid-template-columns: 1fr !important;
+                gap: 10px;
+            }
+
+            /* Indicateurs et valeurs */
+            .week-card span[style*="font-size: 32px"] {
+                font-size: 24px !important;
+            }
+
+            .week-card span[style*="font-size: 20px"] {
+                font-size: 16px !important;
+            }
+
+            /* Progress bars mobile */
+            .progress-bar-container {
+                height: 28px !important;
+            }
+
+            /* Options selector mobile */
+            .option-btn {
+                padding: 6px 12px;
+                font-size: 11px;
+            }
+
+            /* Notifications mobile */
+            .custom-notification {
+                max-width: 90%;
+                padding: 20px;
+            }
+
+            /* Auto-save indicator */
+            .auto-save-indicator {
+                top: 10px;
+                right: 10px;
+                font-size: 10px;
+                padding: 6px 12px;
+            }
+
+            /* Version badges mobile */
+            .version-badge {
+                font-size: 10px !important;
+                padding: 4px 10px !important;
+            }
+
+            /* Sliders calculateur mobile */
+            input[type="range"] {
+                height: 6px;
+            }
+
+            input[type="range"]::-webkit-slider-thumb {
+                width: 20px !important;
+                height: 20px !important;
+            }
+
+            /* Canvas graph mobile */
+            #graph-progression {
+                max-height: 180px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="auto-save-indicator" id="auto-save-indicator">✅ Sauvegardé</div>
-    <div class="container">
+    <!-- 🧭 MENU NAVIGATION FIXE -->
+    <nav class="fixed-nav">
+        <div class="nav-container">
+            <div class="nav-brand">🔥 NUTRI-TRACK</div>
+            <div class="nav-links">
+                <a href="#progression" class="nav-link active">📊 Progression</a>
+                <a href="#mesures" class="nav-link">📏 Mesures</a>
+                <a href="#timeline" class="nav-link">⏰ Timeline</a>
+                <a href="#matin" class="nav-link">☀️ Matin</a>
+                <a href="#repas" class="nav-link">🍽️ Repas</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <div class="content-wrapper">
+        <div class="auto-save-indicator" id="auto-save-indicator">✅ Sauvegardé</div>
+        <div class="container">
         <h1>🔥 PLAN SÈCHE 10 SEMAINES</h1>
         <div style="text-align: center;">
             <span class="version-badge">v5.0 SÈCHE • Hocine 44 ans</span>
             <span class="version-badge season-badge" id="season-badge">🍂 AUTOMNE</span>
         </div>
-        <div class="header-info">93.4kg • 105cm taille • Objectif 88kg en 10 semaines • Phase de sèche maximale</div>
-        
-        <div class="timeline-container">
+        <!-- 🆕 SECTION MES MESURES ÉDITABLE PREMIUM -->
+        <div id="mesures" class="week-card" style="margin-bottom: 25px; background: linear-gradient(135deg, rgba(81, 207, 102, 0.08) 0%, rgba(56, 178, 77, 0.05) 100%); border-left: 6px solid #51cf66; position: relative; overflow: hidden;">
+
+            <!-- Décorations SVG -->
+            <div style="position: absolute; top: -20px; right: -20px; opacity: 0.08;">
+                <svg width="150" height="150" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="75" cy="75" r="60" fill="#51cf66"/>
+                    <path d="M75,35 L85,55 L105,55 L90,70 L95,90 L75,75 L55,90 L60,70 L45,55 L65,55 Z" fill="white"/>
+                </svg>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; cursor: pointer;" onclick="toggleMesuresEdit()">
+                <div style="background: linear-gradient(135deg, #51cf66, #37b24d); width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(81, 207, 102, 0.3);">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 6L16 18M12 9V18M8 13V18M20 6C20 7.10457 16.4183 8 12 8C7.58172 8 4 7.10457 4 6M20 6C20 4.89543 16.4183 4 12 4C7.58172 4 4 4.89543 4 6M20 6V18C20 19.1046 16.4183 20 12 20C7.58172 20 4 19.1046 4 18V6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div style="flex: 1;">
+                    <h3 style="color: #51cf66; margin: 0; font-size: 18px; font-weight: 700; letter-spacing: -0.3px;">MES DONNÉES PHYSIQUES</h3>
+                    <p style="margin: 4px 0 0 0; font-size: 12px; color: #999; font-weight: 500;">Cliquer pour modifier vos mesures</p>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 5H6C4.89543 5 4 5.89543 4 7V18C4 19.1046 4.89543 20 6 20H17C18.1046 20 19 19.1046 19 18V13M17.5858 3.58579C18.3668 2.80474 19.6332 2.80474 20.4142 3.58579C21.1953 4.36683 21.1953 5.63316 20.4142 6.41421L11.8284 15H9L9 12.1716L17.5858 3.58579Z" stroke="#51cf66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+
+            <!-- Affichage Mode -->
+            <div id="mesures-display">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                    <!-- Poids Actuel -->
+                    <div style="background: white; padding: 18px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.3s;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                            <div style="background: linear-gradient(135deg, #667eea, #764ba2); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 9H21M7 3V5M17 3V5M6.2 21H17.8C18.9201 21 19.4802 21 19.908 20.782C20.2843 20.5903 20.5903 20.2843 20.782 19.908C21 19.4802 21 18.9201 21 17.8V8.2C21 7.07989 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.07989 3 8.2V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.07989 21 6.2 21Z" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span style="font-size: 11px; color: #999; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Poids actuel</span>
+                        </div>
+                        <div style="font-size: 32px; font-weight: 800; color: #667eea; letter-spacing: -1px;">
+                            <span id="display-poids">93.4</span><span style="font-size: 18px; font-weight: 600; color: #999; margin-left: 4px;">kg</span>
+                        </div>
+                    </div>
+
+                    <!-- Tour de Taille -->
+                    <div style="background: white; padding: 18px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.3s;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                            <div style="background: linear-gradient(135deg, #ff9800, #f57c00); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="9" stroke="white" stroke-width="2"/>
+                                    <path d="M12 3V12L16 16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span style="font-size: 11px; color: #999; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Tour taille</span>
+                        </div>
+                        <div style="font-size: 32px; font-weight: 800; color: #ff9800; letter-spacing: -1px;">
+                            <span id="display-taille">105</span><span style="font-size: 18px; font-weight: 600; color: #999; margin-left: 4px;">cm</span>
+                        </div>
+                    </div>
+
+                    <!-- Objectif -->
+                    <div style="background: white; padding: 18px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.3s;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                            <div style="background: linear-gradient(135deg, #51cf66, #37b24d); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="9" stroke="white" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="5" stroke="white" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="1" fill="white"/>
+                                </svg>
+                            </div>
+                            <span style="font-size: 11px; color: #999; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Objectif</span>
+                        </div>
+                        <div style="font-size: 32px; font-weight: 800; color: #51cf66; letter-spacing: -1px;">
+                            <span id="display-objectif">88</span><span style="font-size: 18px; font-weight: 600; color: #999; margin-left: 4px;">kg</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats ligne -->
+                <div style="margin-top: 15px; padding: 15px; background: rgba(81, 207, 102, 0.08); border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 12L10 17L20 7" stroke="#51cf66" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span style="font-size: 13px; color: #51cf66; font-weight: 600;">10 semaines • Perte visée : <strong id="perte-visee-display">5.4</strong>kg</span>
+                    </div>
+                    <div style="font-size: 12px; color: #999;">≈ 0.5kg/semaine</div>
+                </div>
+            </div>
+
+            <!-- Mode Édition -->
+            <div id="mesures-edit" style="display: none; animation: fadeIn 0.3s;">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label" style="font-size: 12px; display: flex; align-items: center; gap: 8px; color: #667eea;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 9H21M7 3V5M17 3V5M6 21H18C19.1046 21 20 20.1046 20 19V7C20 5.89543 19.1046 5 18 5H6C4.89543 5 4 5.89543 4 7V19C4 20.1046 4.89543 21 6 21Z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            Poids actuel (kg)
+                        </label>
+                        <input type="number" step="0.1" class="form-input" id="input-poids-actuel" value="93.4" oninput="updateMesures()">
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label" style="font-size: 12px; display: flex; align-items: center; gap: 8px; color: #ff9800;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            Tour taille (cm)
+                        </label>
+                        <input type="number" step="0.5" class="form-input" id="input-taille-actuel" value="105" oninput="updateMesures()">
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label" style="font-size: 12px; display: flex; align-items: center; gap: 8px; color: #51cf66;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="12" r="1" fill="currentColor"/>
+                            </svg>
+                            Objectif (kg)
+                        </label>
+                        <input type="number" step="0.1" class="form-input" id="input-objectif" value="88" oninput="updateMesures()">
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 15px; padding: 12px; background: rgba(81, 207, 102, 0.1); border-radius: 10px;">
+                    <div style="display: inline-flex; align-items: center; gap: 8px; color: #51cf66; font-size: 13px; font-weight: 600;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Sauvegarde automatique • Perte visée: <strong id="perte-visee">5.4</strong>kg
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="timeline" class="timeline-container">
             <div style="text-align: center; margin-bottom: 15px; font-weight: bold; color: #667eea;">PROGRESSION 10 SEMAINES</div>
             <div class="timeline">
                 <div class="timeline-line"></div>
@@ -205,7 +1043,7 @@
         </div>
 
         <div id="tab-menu" class="tab-content active">
-            <div class="progress-card">
+            <div id="progression" class="progress-card">
                 <h3 style="color: #667eea; margin-bottom: 10px;">📊 Progression du jour</h3>
                 <div class="progress-bar-container"><div class="progress-bar" id="progress-bar" style="width: 0%">0%</div></div>
                 <div class="macro-grid">
@@ -215,7 +1053,45 @@
                     <div class="macro-card lipides"><div class="macro-label">Lipides</div><div class="macro-value"><span id="lip-actuel">0</span>/<span id="lip-total">75</span>g</div></div>
                 </div>
             </div>
-            <div id="menu-container"></div>
+
+            <!-- 🎯 CONSEIL DU JOUR -->
+            <div id="conseil-jour" class="progress-card" style="background: linear-gradient(135deg, rgba(255, 217, 61, 0.08) 0%, rgba(245, 159, 0, 0.05) 100%); border-left: 4px solid #ffd93d; position: relative; overflow: hidden; margin-top: 20px;">
+                <div style="position: absolute; top: -20px; right: -20px; opacity: 0.06;">
+                    <svg width="120" height="120">
+                        <circle cx="60" cy="60" r="50" fill="#ffd93d"/>
+                    </svg>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px; position: relative; z-index: 1;">
+                    <div style="background: linear-gradient(135deg, #ffd93d, #f59f00); width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(255, 217, 61, 0.3);">
+                        <span style="font-size: 22px;">🎯</span>
+                    </div>
+                    <div style="flex: 1;">
+                        <h3 style="color: #f59f00; margin: 0; font-size: 16px; font-weight: 700;" id="conseil-titre">Conseil du Jour</h3>
+                        <p style="margin: 2px 0 0 0; font-size: 11px; color: #999; font-weight: 500;" id="conseil-expert">Dr. Expert</p>
+                    </div>
+                    <button onclick="toggleConseilDetail()" style="background: rgba(255, 217, 61, 0.15); border: 1.5px solid #ffd93d; color: #f59f00; padding: 6px 12px; border-radius: 18px; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                        📊 Voir étude
+                    </button>
+                </div>
+                <div style="background: white; padding: 14px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: relative; z-index: 1;">
+                    <p id="conseil-texte" style="margin: 0; font-size: 13px; line-height: 1.6; color: #333;">
+                        Chargement du conseil quotidien...
+                    </p>
+                    <div id="conseil-action" style="background: rgba(255, 217, 61, 0.1); padding: 10px; border-radius: 8px; margin-top: 10px; border-left: 3px solid #ffd93d;">
+                        <strong style="color: #f59f00; font-size: 12px;">✅ Action aujourd'hui :</strong>
+                        <p style="margin: 4px 0 0 0; font-size: 12px; color: #555;">...</p>
+                    </div>
+                </div>
+                <div id="conseil-detail" style="display: none; background: #f8f9fa; padding: 12px; border-radius: 8px; margin-top: 10px; position: relative; z-index: 1;">
+                    <strong style="color: #667eea; font-size: 12px;">📚 Étude scientifique :</strong>
+                    <p id="conseil-etude" style="margin: 4px 0; font-size: 11px; color: #555; font-style: italic;">...</p>
+                    <p id="conseil-pourquoi" style="margin: 8px 0 0 0; font-size: 11px; color: #666;">...</p>
+                </div>
+            </div>
+
+            <div id="repas">
+                <div id="menu-container"></div>
+            </div>
             <textarea class="notes-area" id="notes-jour" placeholder="📝 Notes du jour (énergie, sensations, digestion...)" oninput="showAutoSave()"></textarea>
         </div>
 
@@ -232,6 +1108,16 @@
             </div>
 
             <div id="alertes-container"></div>
+
+            <!-- 🆕 GRAPHIQUE PROGRESSION POIDS -->
+            <div class="week-card" style="background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%); margin-bottom: 20px;">
+                <h3 style="color: #667eea; margin-bottom: 15px;">📈 COURBE DE PROGRESSION</h3>
+                <canvas id="graph-progression" style="width: 100%; height: 250px;"></canvas>
+                <div style="text-align: center; margin-top: 15px; font-size: 13px; color: #666;">
+                    Perte moyenne: <strong id="perte-moyenne">-0.5kg</strong>/sem •
+                    Restant: <strong id="kg-restant">5.4kg</strong>
+                </div>
+            </div>
 
             <div class="progress-card">
                 <h3 style="color: #667eea; margin-bottom: 15px;">📋 Historique Pesées</h3>
@@ -267,6 +1153,47 @@
         <!-- 🆕 NOUVEAU ONGLET AJUSTEMENTS MACROS -->
         <div id="tab-ajustements" class="tab-content">
             <h2 style="color: #667eea; margin-bottom: 15px;">⚙️ Ajustements Macros</h2>
+
+            <!-- 🆕 CALCULATEUR INTERACTIF -->
+            <div class="week-card" style="background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);">
+                <h3 style="color: #667eea; margin-bottom: 15px;">🧮 CALCULATEUR MACROS LIVE</h3>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #667eea;">
+                        🥩 Protéines: <span id="calc-p-value">240</span>g
+                    </label>
+                    <input type="range" min="180" max="280" value="240" step="5" style="width: 100%;"
+                           oninput="updateCalculMacros()" id="calc-p-slider">
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #ff9800;">
+                        🍚 Glucides: <span id="calc-g-value">250</span>g
+                    </label>
+                    <input type="range" min="150" max="350" value="250" step="10" style="width: 100%;"
+                           oninput="updateCalculMacros()" id="calc-g-slider">
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #51cf66;">
+                        🥑 Lipides: <span id="calc-l-value">75</span>g
+                    </label>
+                    <input type="range" min="50" max="100" value="75" step="5" style="width: 100%;"
+                           oninput="updateCalculMacros()" id="calc-l-slider">
+                </div>
+
+                <div style="background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <div style="font-size: 32px; font-weight: bold; color: #667eea; margin-bottom: 5px;">
+                        <span id="calc-total-kcal">2395</span> kcal
+                    </div>
+                    <div style="font-size: 12px; color: #999;">TOTAL JOURNALIER</div>
+                    <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #eee; font-size: 13px; color: #666;">
+                        P: <strong id="calc-p-kcal">960</strong>kcal •
+                        G: <strong id="calc-g-kcal">1000</strong>kcal •
+                        L: <strong id="calc-l-kcal">675</strong>kcal
+                    </div>
+                </div>
+            </div>
 
             <div class="alert-box alert-warning">
                 <strong>⚠️ QUAND UTILISER CES AJUSTEMENTS ?</strong><br>
@@ -406,6 +1333,51 @@
 // 🆕 Saisons simplifiées
 const SAISONS={automne:{mois:[9,10,11],nom:'Automne',emoji:'🍂',fruits:['Pomme','Poire','Raisin'],legumes:['Courge','Potimarron','Carottes','Courgettes','Brocoli','Haricots verts','Épinards']},hiver:{mois:[12,1,2],nom:'Hiver',emoji:'❄️',fruits:['Pomme','Poire','Orange','Kiwi'],legumes:['Carottes','Courge','Épinards','Brocoli']},printemps:{mois:[3,4,5],nom:'Printemps',emoji:'🌸',fruits:['Fraise','Cerise','Pomme'],legumes:['Carottes','Haricots verts','Épinards','Asperges']},ete:{mois:[6,7,8],nom:'Été',emoji:'☀️',fruits:['Pêche','Abricot','Melon'],legumes:['Courgettes','Haricots verts','Carottes','Tomate']}};
 
+// 🎯 SYSTÈME CONSEILS EXPERTS - 70 conseils quotidiens
+const CONSEILS_QUOTIDIENS = {
+    S1: [
+        {titre:"🎯 L'ordre des repas compte",expert:"Dr. Spencer Nadolsky",conseil:"Commence TOUJOURS ton repas par les légumes, puis les protéines, et ENFIN les glucides. Cette séquence réduit le pic de glycémie de 30-40%. Crucial avec ta glycémie 1.09.",etude:"Shukla et al. (2019) - Diabetes Care",action:"Aujourd'hui : Mange ta salade AVANT le poulet et le riz",pourquoi:"Glycémie limite pré-diabète : ordre optimal"},
+        {titre:"💧 Hydratation déficit calorique",expert:"Dr. Eric Helms",conseil:"En déficit -420 kcal, ton corps libère toxines stockées dans le gras. Vise 3.5-4L eau/jour minimum. Urine jaune pâle = hydratation correcte.",etude:"Helms et al. (2014) - J Int Soc Sports Nutr",action:"Remplis une bouteille 2L ce matin, finis avant 16h. Répète.",pourquoi:"Sèche + 44 ans = besoin hydratation +20%"},
+        {titre:"🥗 Légumes = arme secrète satiété",expert:"Dr. Ted Naiman",conseil:"600-700g légumes/jour te donnent volume gastrique massif pour seulement 150 kcal. Impossible d'avoir faim avec ce volume. Fibres ralentissent absorption glucose.",etude:"Rolls et al. (2004) - Am J Clin Nutr",action:"Vérifie que tu manges 300g+ légumes aux repas 1 et 3",pourquoi:"Déficit élevé + diabète = besoin volume + fibres"},
+        {titre:"🍗 240g protéines NON-NÉGOCIABLE",expert:"Dr. Layne Norton",conseil:"Masters 40+ perdent muscle 2× plus vite que jeunes en sèche. Tes 240g protéines quotidiennes = ASSURANCE préservation. Descendre = perte muscle garantie.",etude:"Phillips & Van Loon (2011) - J Sports Sci",action:"Track tes protéines aujourd'hui, atteins 240g minimum",pourquoi:"44 ans + déficit = protéines CRUCIALES"},
+        {titre:"🍟 Frites vendredi = STRATÉGIE",expert:"Chris Aceto",conseil:"Refeed glucides 1×/sem maintient leptine (hormone satiété), boost métabolisme +10%, recharge glycogène. Psychologique : compliance +40%. C'est SCIENCE.",etude:"Dirlewanger et al. (2000) - Am J Clin Nutr",action:"Savoure tes frites SANS culpabilité. C'est dans le plan.",pourquoi:"Compliance long terme > perfection court terme"},
+        {titre:"🧘 McGill Big 3 = 8 min protection dos",expert:"Dr. Stuart McGill",conseil:"7j/7, même repos. Lombaires = maillon faible humains. Big 3 = +32% résistance blessure. Coût 8 min. ROI : infini (zéro lombalgie).",etude:"McGill (2015) - Back Mechanic",action:"Fais ton McGill Big 3 avant ton premier café",pourquoi:"Prévention > guérison. 44 ans = vulnérabilité accrue"},
+        {titre:"📊 Semaine 1 accomplie",expert:"Dr. Eric Helms",conseil:"Semaine 1 = la plus dure (adaptation). Si tu l'as finie, probabilité de compléter 10 sem = 78%. Échec habituel = semaine 1-2. Tu viens de passer le cap.",etude:"Helms et al. (2014) - Systematic review",action:"Meal prep dimanche soir : 2 jours de poulet/riz. Momentum.",pourquoi:"Discipline semaine 1 prédit succès total"}
+    ],
+    S2: [
+        {titre:"⏰ IF 16/8 : La magie des 16h",expert:"Dr. Rhonda Patrick",conseil:"Entre 12-16h de jeûne, ton corps switche métabolisme glucose → gras. Autophagie cellulaire active. HGH +300-500%. Sensibilité insuline optimale. 16h = sweet spot.",etude:"Mattson et al. (2017) - Ageing Res Rev",action:"Dernier repas 20h max. Premier repas 12h minimum = 16h",pourquoi:"Glycémie 1.09 + gras à perdre = IF optimal"},
+        {titre:"🫒 Lipides : 85g sont MINIMUM",expert:"Dr. Eric Helms",conseil:"Masters 40+ : testostérone baisse 1-2%/an. Lipides < 0.8g/kg = chute testo -15%. Tes 85g = 0.91g/kg = juste au-dessus minimum. Descendre = catastrophe hormonale.",etude:"Volek et al. (1997) - J Appl Physiol",action:"Assure-toi d'avoir tes 30ml huile olive + 20g noix aujourd'hui",pourquoi:"44 ans = hormones fragiles, lipides protecteurs"},
+        {titre:"🍌 Post-training : Fenêtre anabolique",expert:"Dr. Layne Norton",conseil:"Ton shaker 67P/104G dans 45 min post-training = timing optimal. Sensibilité insuline +60% post-effort. Synthèse protéique +250%. Muscle = éponge.",etude:"Aragon & Schoenfeld (2013) - J Int Soc Sports Nutr",action:"Shaker prêt AVANT training. Bois dans vestiaire 15h45 pile.",pourquoi:"Déficit calorique = fenêtre anabolique critique"},
+        {titre:"🥤 Berbérine : Arme anti-diabète #1",expert:"Dr. Spencer Nadolsky",conseil:"1500mg/jour berbérine = équivalent 1500mg metformine (diabète). Glycémie -18-20%. HbA1c -0.7%. DOIT être pris AVEC repas (absorption optimale). Jamais à jeun.",etude:"Yin et al. (2008) - Metabolism",action:"Vérifie que tu prends berbérine 500mg × 3 PENDANT repas",pourquoi:"Glycémie 1.09 = berbérine NON-NÉGOCIABLE"},
+        {titre:"🍚 Riz basmati vs blanc",expert:"Dr. Ted Naiman",conseil:"Basmati IG 58 vs blanc IG 73. Pour diabète, chaque point IG compte. Basmati ralentit absorption 25%, pic glucose -30%. Toujours privilégier basmati.",etude:"Foster-Powell et al. (2002) - Am J Clin Nutr",action:"Vérifie tes courses : 100% riz BASMATI. Jamais blanc.",pourquoi:"Glycémie limite = IG bas obligatoire"},
+        {titre:"❄️ Protocole Viking : Science froide",expert:"Dr. Susanna Søberg",conseil:"2-5 min eau 10-15°C = noradrénaline +200-300%. DOMS -65%. Inflammation -41%. Métabolisme +15% (4-6h). Minimum 11 min/semaine total efficace.",etude:"Søberg et al. (2021) - Int J Circumpolar Health",action:"Ta piscine froide 3-5 min ce matin = boost journée entière",pourquoi:"Récupération optimale = résultats maximaux"},
+        {titre:"📈 Adaptation métabolique complète",expert:"Dr. Layne Norton",conseil:"Après 14 jours déficit, ton corps a adapté enzymes oxydation graisses +40%. Tu brûles maintenant gras efficacement. Résultats physiques visibles J18-21 (semaine 3).",etude:"Jeukendrup et al. (1998) - Am J Physiol",action:"Pèse-toi demain matin : -1.2 à -1.8kg attendu",pourquoi:"Déficit -613 kcal/jour = perte 0.6-0.7kg/sem"}
+    ],
+    S3: [
+        {titre:"🔬 Collagène : Pas du marketing",expert:"Dr. Eric Helms",conseil:"Études : 10-15g collagène/jour = tendons +15% résistance, cartilage +25% production, peau +28% élasticité. Masters 40+ production collagène = 50% vs 20 ans. Supplémentation essentielle.",etude:"Shaw et al. (2017) - Nutrients",action:"Tes 15g quotidiens (10g matin + 5g soir) : non-négociables",pourquoi:"44 ans + training intense = tendons sous stress"},
+        {titre:"🥑 Oméga-3 : 4g = dosage thérapeutique",expert:"Dr. Rhonda Patrick",conseil:"Dose 'maintenance' = 1-2g. Dose 'anti-inflammatoire' = 3-4g. Tu es en sèche + training intense + 44 ans = inflammation élevée. 4g = thérapeutique.",etude:"Calder (2013) - Br J Clin Pharmacol",action:"Si saumon dîner : 2g seulement. Si poulet : 4g complets.",pourquoi:"Déficit + training = inflammation systémique élevée"},
+        {titre:"⚡ Créatine en sèche",expert:"Dr. Layne Norton",conseil:"Mythe : 'Créatine fait gonfler'. Faux. Eau intra-musculaire (muscle plein). Sèche : force -10-15% normal. Créatine maintient 95-98%. Préservation muscle maximale.",etude:"Cribb et al. (2007) - Med Sci Sports Exerc",action:"Tes 5g quotidiens : garde-les TOUTE la sèche. Crucial.",pourquoi:"Déficit calorique = créatine compense perte force"},
+        {titre:"🎯 Patate douce > Riz (repos)",expert:"Dr. Ted Naiman",conseil:"Repos = sensibilité insuline basse vs post-training. Patate douce IG 63 vs riz 58, MAIS +fibres +micronutriments +satiété. Meilleur choix repos.",etude:"Bahado-Singh et al. (2011) - J Nutr Metab",action:"Jours repos : privilégie patate douce vs riz",pourquoi:"Glycémie + repos = besoin IG extra-bas"},
+        {titre:"🍽️ Refeed : Psychologie > Physiologie",expert:"Chris Aceto",conseil:"Impact leptine refeed = modeste (+10% 24h). MAIS impact psychologique = ÉNORME. Études : compliance +40% avec 1 refeed/sem. Abandon -60%. C'est outil mental.",etude:"Dulloo et al. (1997) - Am J Clin Nutr",action:"Frites aujourd'hui : profite À FOND. Zéro culpabilité.",pourquoi:"10 semaines = marathon. 1 refeed/sem = carburant mental"},
+        {titre:"📊 Premiers résultats visuels",expert:"Dr. Layne Norton",conseil:"95% personnes voient premiers changements J18-21. Miroir + photos : compare J1 vs J21. Perte eau/glycogène finie, perte gras pure commence. Vrai changement démarre.",etude:"Hall (2008) - Am J Clin Nutr",action:"Prends photos comparaison aujourd'hui vs semaine 1",pourquoi:"-2 à -2.5kg déjà perdus, transformation visible"},
+        {titre:"🧠 Sommeil : Arme secrète sèche",expert:"Dr. Matthew Walker",conseil:"<6h sommeil = perte MUSCLE > gras (ratio 60/40 vs 20/80 optimal). Ghreline +15% (faim). Leptine -15% (satiété). Performance -10%. Sommeil = non-négociable.",etude:"Nedeltcheva et al. (2010) - Ann Intern Med",action:"Couché 22h30 max. Magnésium 22h. Chambre fraîche 18°C.",pourquoi:"44 ans + déficit = sommeil CRITIQUE récupération"}
+    ]
+};
+
+// 🎯 CONSEILS HEBDOMADAIRES (10 semaines)
+const CONSEILS_HEBDOMADAIRES = [
+    {semaine:1,titre:"🎯 Le premier kilo ne compte pas",expert:"Dr. Layne Norton",message:"Semaine 1 : perte 1-1.5kg. 80% = eau + glycogène, pas gras. Ne sois pas euphorique. Vraie perte gras = à partir semaine 2. Patience = clé.",objectif:"Établir routine solide"},
+    {semaine:2,titre:"⚖️ Pesée intelligente",expert:"Dr. Eric Helms",message:"Pèse-toi tous les jours, même heure (matin à jeun). Fais moyenne hebdomadaire. Variations quotidiennes normales (±0.5-1kg). Seule la TENDANCE compte.",objectif:"Perte 0.6-0.8kg (moyenne)"},
+    {semaine:3,titre:"📸 Photos > Balance",expert:"Chris Aceto",message:"Balance = un chiffre. Photos = composition. Tu peux stagner poids mais perdre gras + gagner définition. Photos hebdo identiques conditions (lumière, angle, heure).",objectif:"Premières définitions visibles"},
+    {semaine:4,titre:"🍽️ Tracking précis",expert:"Dr. Layne Norton",message:"Études : personnes sous-estiment calories de 30-50% sans tracking. Balance alimentaire + MyFitnessPal = obligatoire. 'À l'œil' = échec garanti.",objectif:"Track 100% des repas"},
+    {semaine:5,titre:"🩸 Contrôle glycémie",expert:"Dr. Spencer Nadolsky",message:"Mesure glycémie à jeun. Objectif : <1.00 g/L déjà. Si > 1.00 : augmente berbérine 2000mg/j. Si déjà < 1.00 : EXCELLENT, continue.",objectif:"Glycémie ≤ 1.00 g/L visée"},
+    {semaine:6,titre:"😴 Semaine dure : Récupération",expert:"Dr. Matthew Walker",message:"Semaine 6 = pic fatigue statistique. Sommeil 8h NON-NÉGOCIABLE. Sieste 20 min après-midi si besoin. Baisse volume training si nécessaire. Préservation > performance.",objectif:"Passer le cap fatigue"},
+    {semaine:7,titre:"💪 Deuxième souffle",expert:"Dr. Eric Helms",message:"Adaptation neuromusculaire déficit complète. Force récupère +5-10% vs semaine 6. Énergie remonte. Psychologiquement : tu réalises que tu vas finir.",objectif:"Regain momentum"},
+    {semaine:8,titre:"🎯 80% objectif atteint",expert:"Chris Aceto",message:"Tu as déjà perdu ~5kg. Derniers 1.5kg = les plus durs. Zéro relâchement. Chaque écart coûte 2-3 jours progrès. Sprint final = discipline maximale.",objectif:"Précision absolue macros"},
+    {semaine:9,titre:"📊 Avant-dernière semaine",expert:"Dr. Layne Norton",message:"Photos J1 vs J63 côte à côte. Regarde transformation. Visualise J70 (objectif final). Tu es à 7 jours. RIEN ne peut t'arrêter maintenant.",objectif:"Mental préparation victoire"},
+    {semaine:10,titre:"🏆 Semaine victoire",expert:"Consensus experts",message:"Prise de sang finale J70. Photos finales identiques J1. Pesée finale. Bilan complet : poids, glycémie, composition. Tu as inversé ton diabète. Tu as transformé ton corps. BRAVO.",objectif:"Célébration + Transition"}
+];
+
 // 🆕 PLAN SÈCHE 10 SEMAINES - MACROS AJUSTÉES
 const PLAN_HYBRIDE = {
     dateDebut: new Date().toISOString().split('T')[0],
@@ -433,73 +1405,173 @@ const MENUS_BASE = {
                 id: 'repas1_training',
                 nom: 'REPAS 1 - Pré-Training',
                 heure: '12:00',
-                calories: 1060,
-                macros: {P: 78, G: 141, L: 22},
+                calories: 980,
+                macros: {P: 82, G: 104, L: 28},
                 note: '⏰ Finir 1h45 avant training (13h45)',
                 options: [
                     {
                         id: 'A',
-                        nom: 'Option A - Poulet-Riz',
+                        nom: 'VARIANTE 1 : POULET + RIZ BASMATI (Base)',
+                        macros: {P: 82, G: 104, L: 28, kcal: 960},
                         aliments: [
-                            '🍗 Poulet grillé : 250g cru → 200g cuit',
-                            '🍚 Riz basmati : 90g cru → 270g cuit',
-                            '🥦 Légumes vapeur : 350g cru → 300g cuit',
-                            '🫒 Huile olive : 15ml (1 c. soupe)',
-                            '🍌 Banane : 120g (1 moyenne)',
-                            '🍎 Pomme : 150g (1 moyenne)'
+                            '🍗 Poulet blanc grillé',
+                            '   CRU : 280g → CUIT : 224g',
+                            '   P: 67g / G: 0g / L: 6g / 290 kcal',
+                            '',
+                            '🍚 Riz basmati blanc',
+                            '   CRU : 70g → CUIT : 210g',
+                            '   P: 5g / G: 59g / L: 1g / 265 kcal',
+                            '',
+                            '🥦 Légumes vapeur (brocoli, courgettes)',
+                            '   CRU : 350g → CUIT : 300g',
+                            '   P: 9g / G: 18g / L: 1g / 115 kcal',
+                            '',
+                            '🫒 Huile d\'olive',
+                            '   20ml',
+                            '   P: 0g / G: 0g / L: 20g / 180 kcal',
+                            '',
+                            '🍌 Banane',
+                            '   120g',
+                            '   P: 1g / G: 27g / L: 0g / 110 kcal',
+                            '',
+                            '🌿 Ajouts : Curcuma 5g + Gingembre 5g + Ail 1 gousse'
                         ]
                     },
                     {
                         id: 'B',
-                        nom: 'Option B - Dinde-Quinoa',
+                        nom: 'VARIANTE 2 : VIANDE HACHÉE + PÂTES COMPLÈTES',
+                        macros: {P: 81, G: 100, L: 29, kcal: 968},
                         aliments: [
-                            '🦃 Escalope dinde : 250g cru → 200g cuit',
-                            '🌾 Quinoa : 85g cru → 255g cuit',
-                            '🥦 Haricots verts : 350g',
-                            '🫒 Huile olive : 15ml',
-                            '🍌 Banane : 120g',
-                            '🍊 Orange : 150g'
+                            '🥩 Viande hachée 5% MG',
+                            '   CRU : 280g → CUIT : 224g',
+                            '   P: 67g / G: 0g / L: 11g / 358 kcal',
+                            '',
+                            '🍝 Pâtes complètes',
+                            '   CRU : 65g → CUIT : 180g',
+                            '   P: 8g / G: 52g / L: 2g / 258 kcal',
+                            '',
+                            '🍅 Sauce tomate maison',
+                            '   200g tomates + oignon + ail',
+                            '   P: 3g / G: 14g / L: 1g / 75 kcal',
+                            '',
+                            '🥗 Salade verte + concombre',
+                            '   200g',
+                            '   P: 2g / G: 6g / L: 0g / 30 kcal',
+                            '',
+                            '🫒 Huile d\'olive',
+                            '   15ml',
+                            '   P: 0g / G: 0g / L: 15g / 135 kcal',
+                            '',
+                            '🍎 Pomme',
+                            '   150g',
+                            '   P: 1g / G: 20g / L: 0g / 80 kcal',
+                            '',
+                            '💡 +1 galette de riz (8g G) pour ajuster',
+                            '🌿 Ajouts : Basilic frais + Origan + Ail'
                         ]
                     },
                     {
                         id: 'C',
-                        nom: 'Option C - Bœuf-Pâtes',
+                        nom: 'VARIANTE 3 : SAUMON + QUINOA',
+                        macros: {P: 77, G: 98, L: 42, kcal: 971},
                         aliments: [
-                            '🥩 Bœuf haché 5% : 220g cru → 180g cuit',
-                            '🍝 Pâtes complètes : 85g crues → 255g cuites',
-                            '🥬 Épinards : 350g',
-                            '🫒 Huile olive : 15ml',
-                            '🍌 Banane : 120g',
-                            '🍎 Poire : 150g'
+                            '🐟 Saumon sauvage grillé',
+                            '   CRU : 200g → CUIT : 160g',
+                            '   P: 37g / G: 0g / L: 12g / 255 kcal',
+                            '',
+                            '🌾 Quinoa cuit',
+                            '   CRU : 70g → CUIT : 210g',
+                            '   P: 10g / G: 53g / L: 4g / 284 kcal',
+                            '',
+                            '🥦 Légumes rôtis (courgettes, poivrons, aubergines)',
+                            '   CRU : 350g → CUIT : 280g',
+                            '   P: 7g / G: 21g / L: 1g / 120 kcal',
+                            '',
+                            '🫒 Huile d\'olive + citron',
+                            '   20ml',
+                            '   P: 0g / G: 0g / L: 20g / 180 kcal',
+                            '',
+                            '🥑 Avocat (½)',
+                            '   40g (réduit)',
+                            '   P: 1g / G: 3g / L: 5g / 56 kcal',
+                            '',
+                            '🍊 Orange',
+                            '   150g',
+                            '   P: 1g / G: 18g / L: 0g / 75 kcal',
+                            '',
+                            '💡 +25g whey si besoin (+21g P)',
+                            '🌿 Ajouts : Coriandre fraîche + Citron + Ail'
                         ]
                     },
                     {
                         id: 'D',
-                        nom: 'Option D - Poisson-Riz',
+                        nom: 'VARIANTE 4 : POISSON BLANC + RIZ + PATATE DOUCE MIX',
+                        macros: {P: 81, G: 109, L: 26, kcal: 991},
                         aliments: [
-                            '🐟 Cabillaud/Colin : 280g cru → 230g cuit',
-                            '🍚 Riz basmati : 90g cru → 270g cuit',
-                            '🥒 Courgettes : 350g',
-                            '🫒 Huile olive : 15ml',
-                            '🍌 Banane : 120g',
-                            '🍎 Pomme : 150g'
+                            '🐟 Filet poisson blanc (cabillaud, colin)',
+                            '   CRU : 350g → CUIT : 280g',
+                            '   P: 64g / G: 0g / L: 2g / 270 kcal',
+                            '',
+                            '🍚 Riz basmati',
+                            '   CRU : 40g → CUIT : 120g',
+                            '   P: 3g / G: 34g / L: 0g / 148 kcal',
+                            '',
+                            '🥔 Patate douce',
+                            '   CRU : 120g → CUIT : 108g',
+                            '   P: 2g / G: 27g / L: 0g / 120 kcal',
+                            '',
+                            '🥦 Haricots verts + carottes',
+                            '   CRU : 350g → CUIT : 300g',
+                            '   P: 7g / G: 21g / L: 1g / 120 kcal',
+                            '',
+                            '🫒 Huile d\'olive + beurre',
+                            '   15ml huile + 10g beurre',
+                            '   P: 0g / G: 0g / L: 23g / 207 kcal',
+                            '',
+                            '🍌 Banane',
+                            '   120g',
+                            '   P: 1g / G: 27g / L: 0g / 110 kcal',
+                            '',
+                            '🌿 Ajouts : Persil + Citron + Ail'
+                        ]
+                    },
+                    {
+                        id: 'E',
+                        nom: 'VARIANTE 5 : DORADE + PÂTES + LÉGUMES MÉDITERRANÉENS',
+                        macros: {P: 77, G: 95, L: 42, kcal: 1043},
+                        aliments: [
+                            '🐟 Dorade entière (ou filet)',
+                            '   CRU : 320g → CUIT (filets) : 200g',
+                            '   P: 46g / G: 0g / L: 9g / 273 kcal',
+                            '',
+                            '🍝 Pâtes complètes',
+                            '   CRU : 70g → CUIT : 190g',
+                            '   P: 9g / G: 56g / L: 2g / 280 kcal',
+                            '',
+                            '🍅 Légumes méditerranéens',
+                            '   (Tomates, courgettes, oignons, poivrons rôtis)',
+                            '   CRU : 400g → CUIT : 320g',
+                            '   P: 8g / G: 24g / L: 1g / 135 kcal',
+                            '',
+                            '🫒 Huile d\'olive extra-vierge',
+                            '   25ml',
+                            '   P: 0g / G: 0g / L: 25g / 225 kcal',
+                            '',
+                            '🥜 Amandes effilées (garniture)',
+                            '   10g',
+                            '   P: 2g / G: 2g / L: 5g / 62 kcal',
+                            '',
+                            '💡 +½ banane 60g : G: +13g',
+                            '💡 OU +15g whey pour protéines',
+                            '🌿 Ajouts : Thym + Romarin + Ail + Citron'
                         ]
                     }
                 ],
-                // 🆕 Suppléments associés au repas
                 supplements: [
-                    '💊 ARTICULATIONS (avec repas gras) :',
-                    '✅ Glucosamine : 1500mg (1 comprimé)',
-                    '✅ Chondroïtine : 1200mg (1 comprimé)',
-                    '✅ MSM : 2000mg (2 gélules)',
-                    '✅ Acide Hyaluronique : 200mg (1 gélule)',
-                    '✅ Boswellia : 500mg (1 gélule)',
-                    '',
-                    '💊 AUTRES :',
-                    '✅ Créatine : 5g (dans eau/thé)',
-                    '✅ Collagène : 10g (dans café/thé chaud)'
+                    '💊 MSM : 2000mg (2 gélules)',
+                    '💊 Créatine : 5g (dans eau/thé)',
+                    '💊 Collagène : 10g (dans café/thé chaud)'
                 ],
-                // 🆕 Ajouts anti-inflammatoires
                 antiInflammatoires: [
                     '🌿 Curcuma frais : 5g (saupoudrer)',
                     '🫚 Gingembre frais : 5g (râper)',
@@ -534,63 +1606,239 @@ const MENUS_BASE = {
                 id: 'repas3_training',
                 nom: 'REPAS 3 - Final',
                 heure: '19:30',
-                calories: 715,
-                macros: {P: 46, G: 54, L: 34},
-                note: '🍽️ Version standard Lun/Mer',
+                calories: 865,
+                macros: {P: 81, G: 46, L: 43},
+                note: '🍽️ Lun/Mer standard, Ven = Frites',
                 options: [
                     {
                         id: 'A',
-                        nom: 'Option A - Saumon-Riz',
+                        nom: 'VARIANTE 1 : POULET + PATATE DOUCE (Base)',
+                        macros: {P: 81, G: 46, L: 43, kcal: 899},
                         aliments: [
-                            '🐟 Saumon sauvage : 180g cru → 150g cuit',
-                            '🍚 Riz basmati : 50g cru → 150g cuit',
-                            '🥗 Salade verte + légumes : 300g',
-                            '🫒 Huile olive : 15ml',
-                            '🌰 Graines lin moulues : 15g',
+                            '🍗 Poulet blanc grillé',
+                            '   CRU : 300g → CUIT : 240g',
+                            '   P: 72g / G: 0g / L: 6g / 336 kcal',
                             '',
-                            '🌿 AJOUTS :',
-                            '• Curcuma frais : 3g',
-                            '• Gingembre : 3g',
-                            '• Ail cru : 1 gousse'
+                            '🥔 Patate douce',
+                            '   CRU : 140g → CUIT : 126g',
+                            '   P: 2g / G: 34g / L: 0g / 148 kcal',
+                            '',
+                            '🥗 Salade verte + tomates + concombre',
+                            '   300g',
+                            '   P: 4g / G: 12g / L: 1g / 70 kcal',
+                            '',
+                            '🫒 Huile d\'olive',
+                            '   30ml',
+                            '   P: 0g / G: 0g / L: 30g / 270 kcal',
+                            '',
+                            '🌰 Graines de lin moulues',
+                            '   15g',
+                            '   P: 3g / G: 0g / L: 6g / 75 kcal',
+                            '',
+                            '🌿 Ajouts : Curcuma + Gingembre + Ail'
                         ]
                     },
                     {
                         id: 'B',
-                        nom: 'Option B - Poulet-Patate',
+                        nom: 'VARIANTE 2 : SAUMON + RIZ + AVOCAT',
+                        macros: {P: 83, G: 48, L: 50, kcal: 965},
                         aliments: [
-                            '🍗 Poulet grillé : 200g cru → 160g cuit',
-                            '🍠 Patate douce : 200g crue → 180g cuite',
-                            '🥗 Salade + légumes : 300g',
-                            '🫒 Huile olive : 20ml',
-                            '🌰 Graines lin : 15g',
+                            '🐟 Saumon sauvage',
+                            '   CRU : 300g → CUIT : 240g',
+                            '   P: 55g / G: 0g / L: 24g / 414 kcal',
                             '',
-                            '🌿 AJOUTS identiques'
+                            '🍚 Riz basmati',
+                            '   CRU : 35g → CUIT : 105g',
+                            '   P: 3g / G: 30g / L: 0g / 130 kcal',
+                            '',
+                            '🥑 Avocat',
+                            '   80g (½ moyen)',
+                            '   P: 2g / G: 7g / L: 11g / 128 kcal',
+                            '',
+                            '🥗 Salade + légumes crus',
+                            '   300g',
+                            '   P: 4g / G: 12g / L: 1g / 70 kcal',
+                            '',
+                            '🫒 Huile d\'olive',
+                            '   20ml',
+                            '   P: 0g / G: 0g / L: 20g / 180 kcal',
+                            '',
+                            '💡 +50g poulet froid dans salade',
+                            '   (P: +15g ajouté ci-dessus)',
+                            '🌿 Ajouts : Coriandre + Citron + Ail'
                         ]
                     },
                     {
                         id: 'C',
-                        nom: '🍟 VENDREDI - Frites',
+                        nom: 'VARIANTE 3 : VIANDE HACHÉE + LÉGUMES + GALETTES RIZ',
+                        macros: {P: 85, G: 52, L: 42, kcal: 908},
                         aliments: [
-                            '⚠️ ORDRE IMPORTANT :',
-                            '1️⃣ SALADE (manger en premier) :',
-                            '🥗 Salade verte : 200g',
-                            '🫒 Huile olive : 10ml',
-                            '🌰 Graines lin : 15g',
+                            '🥩 Viande hachée 5%',
+                            '   CRU : 300g → CUIT : 240g',
+                            '   P: 72g / G: 0g / L: 12g / 384 kcal',
                             '',
-                            '2️⃣ VIANDE (puis viande) :',
-                            '🥩 Steak bœuf OU Poulet : 250g cru → 200g cuit',
+                            '🍅 Ratatouille maison',
+                            '   (Courgettes, aubergines, poivrons, tomates, oignon)',
+                            '   400g',
+                            '   P: 6g / G: 24g / L: 2g / 135 kcal',
                             '',
-                            '3️⃣ FRITES (en dernier) :',
-                            '🍟 Pommes terre : 350g crues',
-                            '→ Air Fryer + spray huile 10ml',
+                            '🍘 Galettes de riz',
+                            '   30g (3-4 galettes)',
+                            '   P: 2g / G: 24g / L: 1g / 112 kcal',
                             '',
-                            '⚠️ +160 kcal = 875 kcal total',
-                            '→ Compenser Lun/Mer (-80 kcal)'
+                            '🥜 Beurre de cacahuète',
+                            '   20g (1 cuillère soupe rase)',
+                            '   P: 5g / G: 4g / L: 12g / 142 kcal',
+                            '',
+                            '🫒 Huile d\'olive (cuisson ratatouille)',
+                            '   15ml',
+                            '   P: 0g / G: 0g / L: 15g / 135 kcal',
+                            '',
+                            '💡 Tartiner beurre cacahuète sur galettes riz',
+                            '🌿 Ajouts : Herbes de Provence + Ail'
+                        ]
+                    },
+                    {
+                        id: 'D',
+                        nom: 'VARIANTE 4 : POISSON BLANC + QUINOA + LÉGUMES ASIATIQUES',
+                        macros: {P: 85, G: 57, L: 39, kcal: 914},
+                        aliments: [
+                            '🐟 Filet poisson blanc (colin, cabillaud)',
+                            '   CRU : 350g → CUIT : 280g',
+                            '   P: 64g / G: 0g / L: 2g / 270 kcal',
+                            '',
+                            '🌾 Quinoa',
+                            '   CRU : 45g → CUIT : 135g',
+                            '   P: 6g / G: 34g / L: 2g / 180 kcal',
+                            '',
+                            '🥦 Légumes asiatiques sautés',
+                            '   (Pak choi, champignons, poivrons, oignons)',
+                            '   CRU : 350g → CUIT : 280g',
+                            '   P: 8g / G: 18g / L: 1g / 115 kcal',
+                            '',
+                            '🥜 Sauce cacahuète maison',
+                            '   (15g beurre cacahuète + sauce soja + citron vert)',
+                            '   P: 4g / G: 3g / L: 9g / 107 kcal',
+                            '',
+                            '🫒 Huile sésame + olive (cuisson)',
+                            '   20ml mélange',
+                            '   P: 0g / G: 0g / L: 20g / 180 kcal',
+                            '',
+                            '🥜 Cacahuètes concassées (garniture)',
+                            '   10g',
+                            '   P: 3g / G: 2g / L: 5g / 62 kcal',
+                            '',
+                            '🌿 Ajouts : Gingembre frais + Ail + Coriandre + Citron vert'
+                        ]
+                    },
+                    {
+                        id: 'E',
+                        nom: 'VARIANTE 5 : DORADE + PÂTES + PESTO MAISON',
+                        macros: {P: 81, G: 51, L: 52, kcal: 1018},
+                        aliments: [
+                            '🐟 Dorade grillée (filets)',
+                            '   CRU : 450g → CUIT : 283g',
+                            '   P: 66g / G: 0g / L: 13g / 394 kcal',
+                            '',
+                            '🍝 Pâtes complètes',
+                            '   CRU : 45g → CUIT : 125g',
+                            '   P: 6g / G: 36g / L: 1g / 180 kcal',
+                            '',
+                            '🌿 Pesto maison',
+                            '   (Basilic 30g + huile olive 15ml + parmesan 10g + ail)',
+                            '   P: 3g / G: 2g / L: 18g / 180 kcal',
+                            '',
+                            '🍅 Tomates cerises rôties',
+                            '   200g',
+                            '   P: 2g / G: 8g / L: 0g / 40 kcal',
+                            '',
+                            '🥗 Roquette',
+                            '   100g',
+                            '   P: 3g / G: 4g / L: 1g / 35 kcal',
+                            '',
+                            '🫒 Huile d\'olive supplémentaire',
+                            '   15ml',
+                            '   P: 0g / G: 0g / L: 15g / 135 kcal',
+                            '',
+                            '🥜 Pignons de pin',
+                            '   10g',
+                            '   P: 1g / G: 1g / L: 7g / 71 kcal',
+                            '',
+                            '🌿 Ajouts : Basilic frais + Ail + Citron'
+                        ]
+                    },
+                    {
+                        id: 'F',
+                        nom: 'VARIANTE 6 : ŒUFS + LÉGUMES + GALETTES (Option rapide)',
+                        macros: {P: 87, G: 55, L: 40, kcal: 904},
+                        aliments: [
+                            '🥚 Omelette 4 œufs entiers',
+                            '   220g (4 œufs)',
+                            '   P: 28g / G: 2g / L: 20g / 284 kcal',
+                            '',
+                            '🍗 Blanc de poulet froid ajouté',
+                            '   CRU : 180g → CUIT : 144g',
+                            '   P: 43g / G: 0g / L: 4g / 203 kcal',
+                            '',
+                            '🥦 Légumes vapeur (brocoli, carottes)',
+                            '   300g',
+                            '   P: 9g / G: 18g / L: 1g / 115 kcal',
+                            '',
+                            '🍘 Galettes de riz',
+                            '   40g (4-5 galettes)',
+                            '   P: 3g / G: 32g / L: 1g / 150 kcal',
+                            '',
+                            '🥜 Beurre de cacahuète',
+                            '   15g (sur galettes)',
+                            '   P: 4g / G: 3g / L: 9g / 107 kcal',
+                            '',
+                            '🫒 Huile d\'olive (ajustée)',
+                            '   5ml',
+                            '   P: 0g / G: 0g / L: 5g / 45 kcal',
+                            '',
+                            '💡 Meal prep poulet + omelette express',
+                            '🌿 Ajouts : Herbes + Ail'
+                        ]
+                    },
+                    {
+                        id: 'G',
+                        nom: '🍟 VENDREDI SOIR - REPAS FRITES VALIDÉ',
+                        macros: {P: 68, G: 46, L: 36, kcal: 858},
+                        aliments: [
+                            '⚠️ ORDRE IMPÉRATIF :',
+                            '',
+                            '1️⃣ SALADE (EN PREMIER - crucial)',
+                            '🥗 Salade verte CRU : 200g',
+                            '   P: 2g / G: 4g / L: 0g / 25 kcal',
+                            '🫒 Huile olive 15ml : 135 kcal',
+                            '🌰 Graines lin 15g : 75 kcal',
+                            '',
+                            '2️⃣ VIANDE (DEUXIÈME)',
+                            '🥩 Steak bœuf 5% OU Poulet',
+                            '   CRU : 250g → CUIT : 200g',
+                            '   P: 60g / G: 0g / L: 10g / 330 kcal',
+                            '',
+                            '3️⃣ FRITES (DERNIER - important)',
+                            '🍟 Frites maison Air Fryer',
+                            '   Pommes de terre CRU : 200g → CUITES : 170g',
+                            '   + Spray huile olive 5ml',
+                            '   P: 4g / G: 40g / L: 5g / 225 kcal',
+                            '',
+                            '🥜 NOIX mélange (satiété)',
+                            '   10g',
+                            '   P: 2g / G: 2g / L: 6g / 68 kcal',
+                            '',
+                            '💡 Réduit pic glycémique -30-40% (crucial diabète)',
+                            '🌿 Ajouts : Curcuma + Ail'
                         ]
                     }
                 ],
-                // 🆕 Suppléments spécifiques soir
-                supplements: []
+                supplements: [],
+                antiInflammatoires: [
+                    '🌿 Curcuma : 3g',
+                    '🫚 Gingembre : 3g',
+                    '🧄 Ail : 1 gousse'
+                ]
             }
         ],
         // 🆕 Nouvelle structure pour suppléments globaux
@@ -643,53 +1891,139 @@ const MENUS_BASE = {
                 id: 'repas1_repos',
                 nom: 'REPAS 1',
                 heure: '12:00',
-                calories: 935,
-                macros: {P: 76, G: 100, L: 27},
+                calories: 940,
+                macros: {P: 98, G: 67, L: 34},
                 options: [
                     {
                         id: 'A',
-                        nom: 'Option A - Poulet-Riz',
+                        nom: 'VARIANTE 1 : POULET + RIZ (Base)',
+                        macros: {P: 98, G: 67, L: 34, kcal: 959},
                         aliments: [
-                            '🍗 Poulet : 250g cru → 200g cuit',
-                            '🍚 Riz basmati : 70g cru → 210g cuit',
-                            '🥦 Légumes : 400g (augmenté)',
-                            '🫒 Huile olive : 20ml (+5ml vs training)',
-                            '🍎 Pomme : 150g'
+                            '🍗 Poulet blanc',
+                            '   CRU : 350g → CUIT : 280g',
+                            '   P: 84g / G: 0g / L: 7g / 392 kcal',
+                            '',
+                            '🍚 Riz basmati',
+                            '   CRU : 55g → CUIT : 165g',
+                            '   P: 4g / G: 46g / L: 1g / 212 kcal',
+                            '',
+                            '🥦 Légumes',
+                            '   CRU : 400g → CUIT : 350g',
+                            '   P: 10g / G: 21g / L: 1g / 130 kcal',
+                            '',
+                            '🫒 Huile d\'olive',
+                            '   25ml',
+                            '   P: 0g / G: 0g / L: 25g / 225 kcal',
+                            '',
                         ]
                     },
                     {
                         id: 'B',
-                        nom: 'Option B - Dinde-Quinoa',
+                        nom: 'VARIANTE 2 : VIANDE HACHÉE + PÂTES',
+                        macros: {P: 95, G: 58, L: 36, kcal: 925},
                         aliments: [
-                            '🦃 Dinde : 250g cru → 200g cuit',
-                            '🌾 Quinoa : 65g cru → 195g cuit',
-                            '🥦 Légumes : 400g',
-                            '🫒 Huile olive : 20ml',
-                            '🍊 Orange : 150g'
+                            '🥩 Viande hachée 5%',
+                            '   CRU : 350g → CUIT : 280g',
+                            '   P: 84g / G: 0g / L: 14g / 448 kcal',
+                            '',
+                            '🍝 Pâtes complètes',
+                            '   CRU : 50g → CUIT : 135g',
+                            '   P: 6g / G: 40g / L: 1g / 197 kcal',
+                            '',
+                            '🍅 Sauce tomate + légumes',
+                            '   300g',
+                            '   P: 5g / G: 18g / L: 1g / 100 kcal',
+                            '',
+                            '🫒 Huile d\'olive',
+                            '   20ml',
+                            '   P: 0g / G: 0g / L: 20g / 180 kcal',
+                            '',
                         ]
                     },
                     {
                         id: 'C',
-                        nom: 'Option C - Bœuf-Patate',
+                        nom: 'VARIANTE 3 : SAUMON + QUINOA',
+                        macros: {P: 87, G: 62, L: 53, kcal: 1086},
                         aliments: [
-                            '🥩 Bœuf 5% : 220g cru → 180g cuit',
-                            '🍠 Patate douce : 250g cuite',
-                            '🥬 Légumes : 400g',
-                            '🫒 Huile olive : 20ml',
-                            '🍌 Banane : 100g'
+                            '🐟 Saumon sauvage',
+                            '   CRU : 380g → CUIT : 304g',
+                            '   P: 70g / G: 0g / L: 36g / 594 kcal',
+                            '',
+                            '🌾 Quinoa',
+                            '   CRU : 40g → CUIT : 120g',
+                            '   P: 6g / G: 30g / L: 2g / 162 kcal',
+                            '',
+                            '🥦 Légumes rôtis',
+                            '   350g cuit',
+                            '   P: 7g / G: 21g / L: 1g / 120 kcal',
+                            '',
+                            '🫒 Huile d\'olive',
+                            '   20ml',
+                            '   P: 0g / G: 0g / L: 20g / 180 kcal',
+                            '',
+                            '🥜 Amandes',
+                            '   15g',
+                            '   P: 3g / G: 3g / L: 8g / 94 kcal',
+                            '',
+                            '💡 Réduire quinoa pour ajuster calories',
+                        ]
+                    },
+                    {
+                        id: 'D',
+                        nom: 'VARIANTE 4 : POISSON BLANC + PATATE DOUCE',
+                        macros: {P: 86, G: 63, L: 36, kcal: 915},
+                        aliments: [
+                            '🐟 Filet poisson blanc',
+                            '   CRU : 400g → CUIT : 320g',
+                            '   P: 73g / G: 0g / L: 3g / 312 kcal',
+                            '',
+                            '🥔 Patate douce',
+                            '   CRU : 200g → CUIT : 180g',
+                            '   P: 4g / G: 45g / L: 0g / 200 kcal',
+                            '',
+                            '🥦 Légumes vapeur',
+                            '   350g cuit',
+                            '   P: 9g / G: 18g / L: 1g / 115 kcal',
+                            '',
+                            '🫒 Huile d\'olive + beurre',
+                            '   20ml + 15g',
+                            '   P: 0g / G: 0g / L: 32g / 288 kcal',
+                            '',
+                        ]
+                    },
+                    {
+                        id: 'E',
+                        nom: 'VARIANTE 5 : DORADE + RIZ + LÉGUMES',
+                        macros: {P: 94, G: 64, L: 47, kcal: 1094},
+                        aliments: [
+                            '🐟 Dorade (filets)',
+                            '   CRU : 550g → CUIT : 344g',
+                            '   P: 80g / G: 0g / L: 15g / 470 kcal',
+                            '',
+                            '🍚 Riz basmati',
+                            '   CRU : 45g → CUIT : 135g',
+                            '   P: 3g / G: 38g / L: 1g / 173 kcal',
+                            '',
+                            '🥦 Légumes méditerranéens',
+                            '   350g cuit',
+                            '   P: 8g / G: 24g / L: 1g / 135 kcal',
+                            '',
+                            '🫒 Huile d\'olive',
+                            '   25ml',
+                            '   P: 0g / G: 0g / L: 25g / 225 kcal',
+                            '',
+                            '🥜 Noix',
+                            '   15g',
+                            '   P: 2g / G: 2g / L: 9g / 99 kcal',
+                            '',
+                            '💡 Réduire riz si besoin ajuster',
                         ]
                     }
                 ],
-                // 🆕 Suppléments identiques training
                 supplements: [
-                    '💊 ARTICULATIONS (avec repas) :',
-                    '✅ Glucosamine : 1500mg',
-                    '✅ Chondroïtine : 1200mg',
-                    '✅ MSM : 2000mg',
-                    '✅ Acide Hyaluronique : 200mg',
-                    '✅ Boswellia : 500mg',
-                    '✅ Créatine : 5g',
-                    '✅ Collagène : 10g'
+                    '💊 MSM : 2000mg',
+                    '💊 Créatine : 5g',
+                    '💊 Collagène : 10g'
                 ],
                 antiInflammatoires: [
                     '🌿 Curcuma : 5g',
@@ -701,47 +2035,146 @@ const MENUS_BASE = {
                 id: 'repas2_repos',
                 nom: 'COLLATION',
                 heure: '16:00',
-                calories: 405,
-                macros: {P: 30, G: 49, L: 11},
+                calories: 484,
+                macros: {P: 61, G: 35, L: 12},
                 options: [
                     {
                         id: 'A',
-                        nom: 'Option A - Skyr',
+                        nom: 'VARIANTE 1 : SKYR + WHEY + FRUITS (Base)',
+                        macros: {P: 61, G: 35, L: 12, kcal: 484},
                         aliments: [
-                            '🍶 Skyr 0% : 250g',
-                            '🍌 Banane : 120g',
-                            '🥜 Amandes : 20g (15-20 unités)',
-                            '🍯 Miel : 10g'
+                            '🍶 Skyr 0%',
+                            '   300g',
+                            '   P: 30g / G: 12g / L: 0g / 168 kcal',
+                            '',
+                            '💪 Whey isolate',
+                            '   30g',
+                            '   P: 26g / G: 1g / L: 1g / 116 kcal',
+                            '',
+                            '🍌 Banane',
+                            '   80g (petite)',
+                            '   P: 1g / G: 18g / L: 0g / 75 kcal',
+                            '',
+                            '🥜 Amandes',
+                            '   20g',
+                            '   P: 4g / G: 4g / L: 11g / 125 kcal',
+                            '',
                         ]
                     },
                     {
                         id: 'B',
-                        nom: 'Option B - Œufs',
+                        nom: 'VARIANTE 2 : GALETTES RIZ + BEURRE CACAHUÈTE + FRUITS ⭐',
+                        macros: {P: 55, G: 56, L: 13, kcal: 549},
                         aliments: [
-                            '🥚 Œufs durs : 3 entiers',
-                            '🍌 Banane : 120g',
-                            '🌰 Noix : 20g',
-                            '🍎 Pomme : 150g'
+                            '🍘 Galettes de riz',
+                            '   40g (4-5 galettes)',
+                            '   P: 3g / G: 32g / L: 1g / 150 kcal',
+                            '',
+                            '🥜 Beurre de cacahuète',
+                            '   20g (réduit)',
+                            '   P: 5g / G: 4g / L: 12g / 142 kcal',
+                            '',
+                            '💪 Whey isolate',
+                            '   40g',
+                            '   P: 34g / G: 1g / L: 1g / 148 kcal',
+                            '',
+                            '🍎 Pomme',
+                            '   120g (coupée en tranches pour tartiner)',
+                            '   P: 1g / G: 16g / L: 0g / 65 kcal',
+                            '',
+                            '🍶 Skyr 0% (à côté)',
+                            '   100g',
+                            '   P: 10g / G: 4g / L: 0g / 56 kcal',
+                            '',
+                            '💡 Tartiner beurre cacahuète sur galettes',
+                            '💡 Whey dans eau séparé',
                         ]
                     },
                     {
                         id: 'C',
-                        nom: 'Option C - Fromage blanc',
+                        nom: 'VARIANTE 3 : FROMAGE BLANC + FRUITS + NOIX',
+                        macros: {P: 63, G: 41, L: 10, kcal: 498},
                         aliments: [
-                            '🧀 Fromage blanc 0% : 300g',
-                            '🫐 Fruits rouges : 100g',
-                            '🥜 Beurre cacahuète : 15g',
-                            '🍯 Miel : 10g'
+                            '🥛 Fromage blanc 0%',
+                            '   300g',
+                            '   P: 24g / G: 12g / L: 0g / 144 kcal',
+                            '',
+                            '💪 Whey chocolat (mélangé dedans)',
+                            '   40g',
+                            '   P: 34g / G: 2g / L: 1g / 152 kcal',
+                            '',
+                            '🍓 Fruits rouges surgelés',
+                            '   100g (fraises, myrtilles)',
+                            '   P: 1g / G: 12g / L: 0g / 50 kcal',
+                            '',
+                            '🥜 Noix de cajou',
+                            '   20g',
+                            '   P: 4g / G: 7g / L: 9g / 122 kcal',
+                            '',
+                            '🍯 Miel',
+                            '   10g',
+                            '   P: 0g / G: 8g / L: 0g / 30 kcal',
+                            '',
+                            '💡 Mélanger fromage blanc + whey chocolat',
+                            '💡 Ajouter fruits rouges + noix + miel',
                         ]
                     },
                     {
                         id: 'D',
-                        nom: 'Option D - Shaker',
+                        nom: 'VARIANTE 4 : ŒUFS DURS + PAIN COMPLET + AVOCAT',
+                        macros: {P: 51, G: 27, L: 36, kcal: 629},
                         aliments: [
-                            '💪 Whey : 35g',
-                            '🍌 Banane : 150g',
-                            '🥛 Lait avoine : 200ml',
-                            '🥜 Amandes : 15g'
+                            '🥚 Œufs durs',
+                            '   4 œufs (200g)',
+                            '   P: 25g / G: 1g / L: 20g / 284 kcal',
+                            '',
+                            '🍞 Pain complet',
+                            '   40g (1.5 tranche)',
+                            '   P: 4g / G: 19g / L: 2g / 106 kcal',
+                            '',
+                            '🥑 Avocat',
+                            '   40g (¼)',
+                            '   P: 1g / G: 3g / L: 6g / 64 kcal',
+                            '',
+                            '🥜 Amandes',
+                            '   15g',
+                            '   P: 3g / G: 3g / L: 8g / 94 kcal',
+                            '',
+                            '💪 Whey',
+                            '   20g',
+                            '   P: 17g / G: 1g / L: 1g / 78 kcal',
+                            '',
+                            '💡 Option difficile à équilibrer',
+                            '💡 Privilégier autres variantes',
+                        ]
+                    },
+                    {
+                        id: 'E',
+                        nom: 'VARIANTE 5 : SMOOTHIE PROTÉINÉ COMPLET',
+                        macros: {P: 61, G: 43, L: 14, kcal: 539},
+                        aliments: [
+                            '💪 Whey vanille',
+                            '   60g',
+                            '   P: 51g / G: 3g / L: 2g / 228 kcal',
+                            '',
+                            '🍌 Banane',
+                            '   100g',
+                            '   P: 1g / G: 23g / L: 0g / 95 kcal',
+                            '',
+                            '🥜 Beurre de cacahuète',
+                            '   15g',
+                            '   P: 4g / G: 3g / L: 9g / 107 kcal',
+                            '',
+                            '🥛 Lait d\'amande non sucré',
+                            '   200ml',
+                            '   P: 2g / G: 2g / L: 2g / 34 kcal',
+                            '',
+                            '🥣 Flocons d\'avoine',
+                            '   20g',
+                            '   P: 3g / G: 12g / L: 1g / 75 kcal',
+                            '',
+                            '💡 Blender : Tout mixer avec glace',
+                            '💡 Collation liquide complète',
                         ]
                     }
                 ]
@@ -750,47 +2183,143 @@ const MENUS_BASE = {
                 id: 'repas3_repos',
                 nom: 'REPAS 3 - Soir',
                 heure: '19:30',
-                calories: 765,
-                macros: {P: 47, G: 55, L: 39},
+                calories: 720,
+                macros: {P: 49, G: 28, L: 54},
                 note: '🍽️ Rotation protéines selon jour',
                 options: [
                     {
                         id: 'A',
-                        nom: 'Option A - Saumon',
+                        nom: 'VARIANTE 1 : SAUMON + PATATE DOUCE (Base)',
+                        macros: {P: 49, G: 28, L: 54, kcal: 785},
                         aliments: [
-                            '🐟 Saumon sauvage : 180g cru → 150g cuit',
-                            '🍠 Patate douce : 200g cuite',
-                            '🥗 Salade + légumes : 350g',
-                            '🫒 Huile olive : 20ml',
-                            '🌰 Graines lin : 15g',
+                            '🐟 Saumon sauvage',
+                            '   CRU : 220g → CUIT : 176g',
+                            '   P: 40g / G: 0g / L: 17g / 297 kcal',
                             '',
-                            '💡 ROTATION :',
-                            '• Mardi : Saumon',
-                            '• Jeudi : Sardines 200g',
-                            '• Samedi : Maquereaux 150g',
-                            '• Dimanche : Poulet 200g'
+                            '🥔 Patate douce',
+                            '   CRU : 60g → CUIT : 54g',
+                            '   P: 1g / G: 13g / L: 0g / 58 kcal',
+                            '',
+                            '🥗 Salade + légumes crus',
+                            '   350g',
+                            '   P: 5g / G: 15g / L: 1g / 85 kcal',
+                            '',
+                            '🫒 Huile d\'olive',
+                            '   30ml',
+                            '   P: 0g / G: 0g / L: 30g / 270 kcal',
+                            '',
+                            '🌰 Graines de lin',
+                            '   15g',
+                            '   P: 3g / G: 0g / L: 6g / 75 kcal',
+                            '',
                         ]
                     },
                     {
                         id: 'B',
-                        nom: 'Option B - Poulet-Légumes',
+                        nom: 'VARIANTE 2 : DORADE + QUINOA + LÉGUMES',
+                        macros: {P: 56, G: 41, L: 43, kcal: 770},
                         aliments: [
-                            '🍗 Poulet : 200g cru → 160g cuit',
-                            '🥔 Pommes terre : 200g vapeur',
-                            '🥦 Légumes : 400g',
-                            '🫒 Huile olive : 25ml',
-                            '🌰 Graines lin : 15g'
+                            '🐟 Dorade grillée',
+                            '   CRU : 300g → CUIT : 188g',
+                            '   P: 43g / G: 0g / L: 10g / 263 kcal',
+                            '',
+                            '🌾 Quinoa',
+                            '   CRU : 30g → CUIT : 90g',
+                            '   P: 4g / G: 23g / L: 2g / 122 kcal',
+                            '',
+                            '🥦 Légumes vapeur',
+                            '   350g cuit',
+                            '   P: 9g / G: 18g / L: 1g / 115 kcal',
+                            '',
+                            '🫒 Huile d\'olive',
+                            '   30ml',
+                            '   P: 0g / G: 0g / L: 30g / 270 kcal',
+                            '',
                         ]
                     },
                     {
                         id: 'C',
-                        nom: 'Option C - Œufs',
+                        nom: 'VARIANTE 3 : POULET + GALETTES RIZ + BEURRE CACAHUÈTE ⭐',
+                        macros: {P: 61, G: 49, L: 41, kcal: 802},
                         aliments: [
-                            '🥚 Œufs entiers : 5 (omelette)',
-                            '🍠 Patate douce : 200g',
-                            '🥦 Mix légumes : 400g',
-                            '🫒 Huile olive : 15ml',
-                            '🧀 Fromage râpé : 30g'
+                            '🍗 Poulet blanc',
+                            '   CRU : 200g → CUIT : 160g',
+                            '   P: 48g / G: 0g / L: 4g / 224 kcal',
+                            '',
+                            '🍘 Galettes de riz',
+                            '   40g (4-5 galettes)',
+                            '   P: 3g / G: 32g / L: 1g / 150 kcal',
+                            '',
+                            '🥜 Beurre de cacahuète',
+                            '   25g (sur galettes)',
+                            '   P: 6g / G: 5g / L: 15g / 178 kcal',
+                            '',
+                            '🥗 Salade composée',
+                            '   300g (laitue, tomates, concombre, carottes)',
+                            '   P: 4g / G: 12g / L: 1g / 70 kcal',
+                            '',
+                            '🫒 Huile d\'olive (salade)',
+                            '   20ml',
+                            '   P: 0g / G: 0g / L: 20g / 180 kcal',
+                            '',
+                            '💡 Poulet grillé épicé',
+                            '💡 Galettes riz tartinées beurre cacahuète en "dessert salé"',
+                        ]
+                    },
+                    {
+                        id: 'D',
+                        nom: 'VARIANTE 4 : POISSON BLANC + RIZ + AVOCAT',
+                        macros: {P: 58, G: 54, L: 39, kcal: 784},
+                        aliments: [
+                            '🐟 Filet colin/cabillaud',
+                            '   CRU : 250g → CUIT : 200g',
+                            '   P: 46g / G: 0g / L: 2g / 197 kcal',
+                            '',
+                            '🍚 Riz basmati',
+                            '   CRU : 35g → CUIT : 105g',
+                            '   P: 3g / G: 29g / L: 0g / 129 kcal',
+                            '',
+                            '🥑 Avocat',
+                            '   80g (½)',
+                            '   P: 2g / G: 7g / L: 11g / 128 kcal',
+                            '',
+                            '🥦 Légumes',
+                            '   300g cuit',
+                            '   P: 7g / G: 18g / L: 1g / 105 kcal',
+                            '',
+                            '🫒 Huile d\'olive',
+                            '   25ml',
+                            '   P: 0g / G: 0g / L: 25g / 225 kcal',
+                            '',
+                        ]
+                    },
+                    {
+                        id: 'E',
+                        nom: 'VARIANTE 5 : ŒUFS + LÉGUMES + PAIN (Rapide)',
+                        macros: {P: 67, G: 37, L: 40, kcal: 763},
+                        aliments: [
+                            '🥚 Omelette 3 œufs',
+                            '   165g',
+                            '   P: 21g / G: 2g / L: 15g / 214 kcal',
+                            '',
+                            '🍗 Blanc dinde/poulet froid',
+                            '   CRU : 150g → CUIT : 120g',
+                            '   P: 36g / G: 0g / L: 3g / 169 kcal',
+                            '',
+                            '🥦 Légumes rôtis',
+                            '   350g cuit',
+                            '   P: 7g / G: 21g / L: 1g / 120 kcal',
+                            '',
+                            '🍞 Pain complet',
+                            '   30g (1 tranche)',
+                            '   P: 3g / G: 14g / L: 1g / 80 kcal',
+                            '',
+                            '🫒 Huile d\'olive',
+                            '   20ml',
+                            '   P: 0g / G: 0g / L: 20g / 180 kcal',
+                            '',
+                            '💡 Meal prep : Poulet/dinde cuit d\'avance',
+                            '💡 Omelette express (5 min)',
                         ]
                     }
                 ],
@@ -798,6 +2327,11 @@ const MENUS_BASE = {
                     '💧 BOUILLON OS (3-4×/sem) :',
                     '• 250ml après repas',
                     '• P: 10g / Collagène naturel'
+                ],
+                antiInflammatoires: [
+                    '🌿 Curcuma : 3g',
+                    '🫚 Gingembre : 3g',
+                    '🧄 Ail : 1 gousse'
                 ]
             }
         ],
@@ -966,83 +2500,146 @@ const AJUSTEMENTS_MACROS = {
 };
 
 // 🆕 STACK SUPPLÉMENTS COMPLET AVEC COÛTS ET BÉNÉFICES DIABÈTE
+// 🆕 STACK SIMPLIFIÉ - 8 SUPPLÉMENTS ESSENTIELS AVEC TIMING OPTIMISÉ
 const STACK_SUPPLEMENTS_COMPLET = {
-    basique: {
-        articulations: {
-            glucosamine: {dose: '1500mg', prix: '15€/mois', diabete: '✅ Neutre'},
-            chondroitine: {dose: '1200mg', prix: '12€/mois', diabete: '✅ Neutre'},
-            msm: {dose: '2000mg', prix: '10€/mois', diabete: '✅ Neutre', effet: '-82% inflammation'},
-            acide_hyaluronique: {dose: '200mg', prix: '18€/mois', diabete: '✅ Neutre'},
-            boswellia: {dose: '1000mg', prix: '15€/mois', diabete: '✅✅ Positif', effet: '-60% inflammation'}
-        },
-        performance: {
-            creatine: {dose: '5g/j', prix: '8€/mois', diabete: '✅ Neutre'},
-            whey: {dose: '60-90g/j', prix: '40€/mois', diabete: '✅ Neutre'},
-            omega3: {dose: '2-4g/j', prix: '20€/mois', diabete: '✅✅ Positif', effet: 'Cardio + inflamm'},
-            collagene: {dose: '15g/j', prix: '25€/mois', diabete: '✅ Neutre', effet: 'Tendons/peau'}
-        },
-        sante: {
-            vitamine_d3: {dose: '5000 UI', prix: '8€/mois', diabete: '✅✅ Positif'},
-            magnesium: {dose: '400mg', prix: '10€/mois', diabete: '✅✅ Positif', effet: 'Insuline ↑'},
-            zinc: {dose: '30mg', prix: '8€/mois', diabete: '✅✅ Positif'},
-            vitamine_c: {dose: '1000mg', prix: '6€/mois', diabete: '✅ Positif'},
-            glycine: {dose: '5g', prix: '12€/mois', diabete: '✅ Neutre', effet: 'Sommeil +15%'}
-        },
-        total_mensuel: '207€/mois (~6.90€/jour)'
-    },
-    diabete: {
-        titre: '🩸 AJOUTS SPÉCIFIQUES GLYCÉMIE 1.09 g/L',
-        berbérine: {
-            dose: '500mg 3×/jour (avec repas)',
+    liste_complete: {
+        berberine: {
+            nom: 'Berbérine',
+            emoji: '🩸',
+            objectif: 'Diabète / Glycémie',
+            dose: '500mg',
             prix: '15€/mois',
             effet: 'Glycémie -20%, Insuline +30%',
-            note: 'PRIORITÉ #1 - "Metformine naturelle"'
-        },
-        chrome_picolinate: {
-            dose: '200mcg 2×/jour',
-            prix: '5€/mois',
-            effet: 'Régulation glucose',
-            note: 'Recommandé'
-        },
-        acide_alpha_lipoique: {
-            dose: '600mg 1×/jour',
-            prix: '20€/mois',
-            effet: 'Antioxydant + sensibilité insuline',
-            note: 'Optionnel'
-        },
-        total_diabete: '40€/mois additionnel',
-        minimum_recommande: 'Berbérine seule = 15€/mois'
-    },
-    cholesterol: {
-        titre: '🫀 CHOLESTÉROL - Déjà couvert par stack basique',
-        deja_present: [
-            'Oméga-3 4g : Réduit LDL, augmente HDL ✅',
-            'Curcuma : Effet hypocholestérol ✅',
-            'Saumon 3-5×/sem : Oméga-3 naturel ✅'
-        ],
-        optionnels: {
-            levure_riz_rouge: {
-                dose: '1200mg/jour',
-                prix: '15€/mois',
-                effet: 'LDL -20% (statine naturelle)',
-                note: '⚠️ Consulter médecin si statines chimiques'
-            },
-            psyllium: {
-                dose: '5g 2×/jour',
-                prix: '10€/mois',
-                effet: 'Cholestérol -10%, Transit',
-                note: 'Recommandé'
+            timing: {
+                training: [
+                    {moment: 'REPAS 1 (12h00)', dose: '500mg (avec repas)'},
+                    {moment: 'REPAS 3 (19h30)', dose: '500mg (avec repas)'}
+                ],
+                repos: [
+                    {moment: 'REPAS 1 (12h00)', dose: '500mg (avec repas)'},
+                    {moment: 'REPAS 3 (19h30)', dose: '500mg (avec repas)'}
+                ]
             }
         },
-        recommandation: 'Tester stack 10 sem + perte 6kg → Prise sang sem 10 → Ajuster si besoin'
+        omega3: {
+            nom: 'Oméga-3 EPA/DHA',
+            emoji: '🐟',
+            objectif: 'Inflammation / Cardio',
+            dose: '2-4g/jour',
+            prix: '20€/mois',
+            effet: 'Anti-inflammatoire, santé cardiovasculaire',
+            timing: {
+                training: [
+                    {moment: 'SOIR (22h00)', dose: '4g (4 capsules)', note: '⚠️ 2g si saumon au dîner'}
+                ],
+                repos: [
+                    {moment: 'SOIR (22h00)', dose: '4g (4 capsules)', note: '⚠️ 2g si saumon/poisson gras au dîner'}
+                ]
+            }
+        },
+        collagene: {
+            nom: 'Collagène',
+            emoji: '🦴',
+            objectif: 'Articulations / Tendons',
+            dose: '15g/jour',
+            prix: '25€/mois',
+            effet: 'Santé articulations, tendons, peau',
+            timing: {
+                training: [
+                    {moment: 'REPAS 1 (12h00)', dose: '10g (dans café/thé chaud)'},
+                    {moment: 'SOIR (22h00)', dose: '5g (dans eau chaude)'}
+                ],
+                repos: [
+                    {moment: 'REPAS 1 (12h00)', dose: '10g (dans café/thé chaud)'},
+                    {moment: 'SOIR (22h00)', dose: '5g (dans eau chaude)'}
+                ]
+            }
+        },
+        creatine: {
+            nom: 'Créatine',
+            emoji: '💪',
+            objectif: 'Performance / Force',
+            dose: '5g/jour',
+            prix: '8€/mois',
+            effet: 'Force +10-15%, récupération musculaire',
+            timing: {
+                training: [
+                    {moment: 'REPAS 1 (12h00)', dose: '5g (dans eau/thé)', note: 'Avant training'}
+                ],
+                repos: [
+                    {moment: 'MATIN (7h30)', dose: '5g (dans eau/café)', note: 'À jeun ou avec petit déjeuner'}
+                ]
+            }
+        },
+        vitamine_d3: {
+            nom: 'Vitamine D3',
+            emoji: '☀️',
+            objectif: 'Hormones / Immunité',
+            dose: '5000 UI/jour',
+            prix: '8€/mois',
+            effet: 'Testostérone, immunité, santé osseuse',
+            timing: {
+                training: [
+                    {moment: 'MATIN (7h30, à jeun)', dose: '5000 UI (1 capsule)'}
+                ],
+                repos: [
+                    {moment: 'MATIN (7h30, à jeun)', dose: '5000 UI (1 capsule)'}
+                ]
+            }
+        },
+        magnesium: {
+            nom: 'Magnésium Bisglycinate',
+            emoji: '😴',
+            objectif: 'Sommeil / Insuline',
+            dose: '400mg/jour',
+            prix: '10€/mois',
+            effet: 'Sommeil, relaxation, sensibilité insuline +30%',
+            timing: {
+                training: [
+                    {moment: 'SOIR (22h00, avant coucher)', dose: '400mg'}
+                ],
+                repos: [
+                    {moment: 'SOIR (22h00, avant coucher)', dose: '400mg'}
+                ]
+            }
+        },
+        msm: {
+            nom: 'MSM',
+            emoji: '🦴',
+            objectif: 'Articulations / Anti-inflammatoire',
+            dose: '2000mg/jour',
+            prix: '10€/mois',
+            effet: 'Inflammation -82%, soufre pour cartilages',
+            timing: {
+                training: [
+                    {moment: 'REPAS 1 (12h00)', dose: '2000mg (2 gélules avec repas)'}
+                ],
+                repos: [
+                    {moment: 'REPAS 1 (12h00)', dose: '2000mg (2 gélules avec repas)'}
+                ]
+            }
+        },
+        whey: {
+            nom: 'Whey Isolate',
+            emoji: '🥤',
+            objectif: 'Protéines / Récupération',
+            dose: '60-90g/jour (selon objectif)',
+            prix: '40€/mois',
+            effet: 'Apport protéique optimisé, récupération musculaire',
+            timing: {
+                training: [
+                    {moment: 'POST-TRAINING (15h45)', dose: '60g (shaker anti-inflammatoire)'}
+                ],
+                repos: [
+                    {moment: 'COLLATION (16h00)', dose: '30-40g (selon variante choisie)', note: 'Voir variantes collations'}
+                ]
+            }
+        }
     },
     cout_total: {
-        stack_basique: '207€/mois',
-        avec_diabete_minimum: '222€/mois (+15€ Berbérine)',
-        avec_diabete_complet: '247€/mois (+40€)',
-        avec_cholesterol_optionnel: '+25€/mois',
-        maximum_total: '272€/mois (~9€/jour)',
-        note: 'Investissement santé 44 ans : Articulations + Métabolisme + Performance'
+        mensuel: '136€/mois',
+        journalier: '~4.50€/jour',
+        note: 'Stack simplifié et optimisé - 8 suppléments essentiels'
     }
 };
 
@@ -1059,10 +2656,20 @@ let optionsSelectionnees = JSON.parse(localStorage.getItem('options-repas') || '
 
 window.onload = function() {
     updateSeasonDisplay();
-    semaineActuelle = getSemaineActuelle();
+
+    // 🆕 Charger semaine sauvegardée (priorité) ou calculer selon date
+    const savedSemaine = localStorage.getItem('semaineActuelle');
+    if (savedSemaine && savedSemaine.match(/^S([1-9]|10)$/)) {
+        semaineActuelle = savedSemaine;
+    } else {
+        semaineActuelle = getSemaineActuelle();
+        localStorage.setItem('semaineActuelle', semaineActuelle);
+    }
+
     derniereSemaineChargee = semaineActuelle;
     derniereDateChargee = new Date().toISOString().split('T')[0];
     loadDayType();
+    updateTimelineVisuel();  // 🆕 Mettre à jour la timeline visuelle
     afficherMenu();
     loadGrignotages();
     calculerProgression();
@@ -1235,16 +2842,138 @@ function loadDayType() {
 function afficherMenu() {
     const menu = MENUS_BASE[jourType];
     const config = PLAN_HYBRIDE.semaines[semaineActuelle];
-    
+
     document.getElementById('semaine-actuelle-label').textContent = `${semaineActuelle} - ${config.nom.toUpperCase()}`;
-    
+
     let html = '';
-    
+
+    // 🆕 Conseil expert du jour
+    const conseilsExperts = {
+        training: [
+            "💪 <strong>Focus training :</strong> Glucides autour de l'entraînement pour maximiser la performance et la récupération.",
+            "🏋️ <strong>Astuce pro :</strong> Prendre la Créatine le matin améliore la saturation musculaire progressive.",
+            "⚡ <strong>Performance :</strong> Le pic d'insuline post-training avec glucides rapides favorise l'anabolisme.",
+            "🔥 <strong>Astuce :</strong> MSM + Collagène au repas 1 protègent les articulations pendant la sèche intensive."
+        ],
+        repos: [
+            "😴 <strong>Récupération :</strong> Le repos est aussi important que l'entraînement pour la perte de graisse.",
+            "🧘 <strong>Astuce pro :</strong> Magnésium le soir améliore sommeil et sensibilité à l'insuline.",
+            "🌿 <strong>Focus :</strong> Profitez du jour de repos pour optimiser votre hydratation (3-4L d'eau).",
+            "💚 <strong>Conseil :</strong> Les jours de repos favorisent la réparation musculaire et la récupération hormonale."
+        ]
+    };
+
+    const dayOfWeek = new Date().getDay();
+    const conseilIndex = dayOfWeek % conseilsExperts[jourType].length;
+    const conseilDuJour = conseilsExperts[jourType][conseilIndex];
+
+    html += `<div class="alert-box alert-success" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-left: 5px solid #51cf66; margin-bottom: 20px; animation: slideIn 0.5s;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="font-size: 32px;">💡</div>
+            <div style="flex: 1;">
+                <div style="font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Conseil Expert du Jour</div>
+                <div style="font-size: 14px; line-height: 1.5;">${conseilDuJour}</div>
+            </div>
+        </div>
+    </div>`;
+
+    // 🆕 Astuce nutritionnelle selon la semaine
+    const astucesNutri = {
+        S1: "🌟 Semaine 1 : Votre corps s'adapte au déficit. Restez hydraté et respectez les macros !",
+        S2: "📊 Semaine 2 : Les premiers résultats apparaissent. Prenez photos et mensurations !",
+        S3: "🔥 Semaine 3 : Phase intensive. Le MSM et Collagène protègent vos articulations.",
+        S4: "💪 Semaine 4 : Mi-parcours ! Ajustez selon vos résultats visuels.",
+        S5: "⚡ Semaine 5 : Maintien de l'intensité. La Berbérine optimise votre glycémie.",
+        S6: "🎯 Semaine 6 : Phase critique. Ne lâchez rien, les Oméga-3 soutiennent votre métabolisme.",
+        S7: "🚀 Semaine 7 : Le sprint final commence. Votre discipline paie !",
+        S8: "💎 Semaine 8 : La définition musculaire devient visible. Restez focus !",
+        S9: "🏆 Semaine 9 : Avant-dernière semaine. Poussez jusqu'au bout !",
+        S10: "👑 Semaine 10 : Dernière ligne droite. Transformation complète en vue !"
+    };
+
+    html += `<div class="alert-box alert-warning" style="background: linear-gradient(135deg, #fff9e6 0%, #ffe9a3 100%); border-left: 5px solid #ffc107; margin-bottom: 20px;">
+        <div style="font-size: 13px; font-weight: bold; color: #f57c00;">${astucesNutri[semaineActuelle]}</div>
+    </div>`;
+
+    // 🆕 SECTION PETIT DÉJEUNER / MATIN (7h30)
+    const couleurMatin = '#ffd93d';
+    const bgMatin = 'linear-gradient(135deg, rgba(255, 217, 61, 0.08) 0%, rgba(245, 159, 0, 0.05) 100%)';
+    const iconeMatin = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 8C17 10.7614 14.7614 13 12 13C9.23858 13 7 10.7614 7 8M12 3V4M18.3643 5.63574L17.6572 6.34285M5.63574 5.63574L6.34285 6.34285M21 8H20M4 8H3" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M6 13H18C19.1046 13 20 13.8954 20 15V16C20 17.1046 19.1046 18 18 18H6C4.89543 18 4 17.1046 4 16V15C4 13.8954 4.89543 13 6 13Z" fill="white"/></svg>';
+
+    html += `<div id="matin" class="nutrition-section" style="background: ${bgMatin}; border: 1px solid ${couleurMatin}20; position: relative; overflow: hidden;">
+        <!-- Décor SVG -->
+        <div style="position: absolute; top: -15px; right: -15px; opacity: 0.06; pointer-events: none;">
+            <svg width="100" height="100">
+                <circle cx="50" cy="50" r="45" fill="${couleurMatin}"/>
+            </svg>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; position: relative; z-index: 1;">
+            <div style="background: linear-gradient(135deg, ${couleurMatin}, ${couleurMatin}dd); width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px ${couleurMatin}40;">
+                ${iconeMatin}
+            </div>
+            <h3 style="margin: 0; flex: 1;">7h30 - PETIT DÉJEUNER / MATIN</h3>
+        </div>
+        <div class="meal">
+            <div style="background: #fff9e6; padding: 12px; border-radius: 10px; margin-bottom: 10px;">
+                <strong style="color: #f59f00; font-size: 14px; margin-bottom: 8px; display: block;">☕ À jeun + Café noir</strong>
+                <div class="meal-foods">
+                    <ul>
+                        <li>☕ Café noir : 1-2 tasses (300mg caféine max)</li>
+                        <li>💧 Eau : 500ml (hydratation matinale)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="supplements-box">
+                <strong>💊 SUPPLÉMENTS MATIN :</strong>
+                <div style="margin-top: 8px;">
+                    <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7);">
+                        <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                        <span style="font-size: 12px; line-height: 1.3;">☀️ <strong>Vitamine D3</strong> : 5000 UI (1 capsule)</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
+                        <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                        <span style="font-size: 12px; line-height: 1.3;">💪 <strong>Créatine</strong> : 5g ${jourType === 'repos' ? '✅ (recommandé)' : '<small>(ou avec repas 1)</small>'}</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>`;
+
     menu.repas.forEach(repas => {
         const valide = isRepasValide(repas.id);
         
-        html += `<div class="nutrition-section">
-            <h3>${repas.heure} - ${repas.nom}</h3>
+
+        // 🆕 Icônes SVG sophistiquées selon le type de repas
+        let iconeSVG = '';
+        let couleurTheme = '#667eea';
+        let bgGradient = 'linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.05) 100%)';
+
+        if (repas.nom.includes('Pré-Training') || repas.nom.includes('REPAS 1')) {
+            couleurTheme = '#ff9800';
+            bgGradient = 'linear-gradient(135deg, rgba(255, 152, 0, 0.08) 0%, rgba(245, 124, 0, 0.05) 100%)';
+            iconeSVG = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C10.9 2 10 2.9 10 4V6H8C7.45 6 7 6.45 7 7V9C7 10.66 8.34 12 10 12H14C15.66 12 17 10.66 17 9V7C17 6.45 16.55 6 16 6H14V4C14 2.9 13.1 2 12 2Z" fill="white"/><path d="M10 13V20C10 21.1 10.9 22 12 22C13.1 22 14 21.1 14 20V13" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>';
+        } else if (repas.nom.includes('Post-Training') || repas.nom.includes('REPAS 2')) {
+            couleurTheme = '#667eea';
+            iconeSVG = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 3H15V6H9V3Z" fill="white"/><path d="M8 6H16C16.5523 6 17 6.44772 17 7V19C17 20.1046 16.1046 21 15 21H9C7.89543 21 7 20.1046 7 19V7C7 6.44772 7.44772 6 8 6Z" stroke="white" stroke-width="2"/><path d="M10 10H14M10 13H14" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>';
+        } else {
+            couleurTheme = '#51cf66';
+            bgGradient = 'linear-gradient(135deg, rgba(81, 207, 102, 0.08) 0%, rgba(55, 178, 77, 0.05) 100%)';
+            iconeSVG = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12C2 12 5 7 12 7C19 7 22 12 22 12C22 12 19 17 12 17C5 17 2 12 2 12Z" stroke="white" stroke-width="2"/><circle cx="12" cy="12" r="2" fill="white"/></svg>';
+        }
+        html += `<div class="nutrition-section" style="background: ${bgGradient}; border: 1px solid ${couleurTheme}20; position: relative; overflow: hidden;">
+            <!-- Décor SVG coin supérieur droit -->
+            <div style="position: absolute; top: -15px; right: -15px; opacity: 0.06; pointer-events: none;">
+                <svg width="100" height="100">
+                    <circle cx="50" cy="50" r="45" fill="${couleurTheme}"/>
+                </svg>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; position: relative; z-index: 1;">
+                <div style="background: linear-gradient(135deg, ${couleurTheme}, ${couleurTheme}dd); width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px ${couleurTheme}40;">
+                    ${iconeSVG}
+                </div>
+                <h3 style="margin: 0; flex: 1;">${repas.heure} - ${repas.nom}</h3>
+            </div>
             <div class="meal">
                 <div class="meal-details">
                     <div class="detail-item"><span class="detail-label">Cal:</span> ${repas.calories}</div>
@@ -1271,15 +3000,39 @@ function afficherMenu() {
             });
             
             html += `</div>`;
-            
+
             const optionChoisie = repas.options.find(o => o.id === optionSelectionnee);
-            
+
+            // 🆕 Affichage des macros de la variante (style Foodvisor moderne)
+            if (optionChoisie.macros) {
+                html += `<div style="background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%); padding: 12px; border-radius: 12px; margin: 12px 0; border-left: 4px solid #667eea; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);">
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; text-align: center;">
+                        <div style="background: rgba(102, 126, 234, 0.1); padding: 8px; border-radius: 8px;">
+                            <div style="font-size: 18px; font-weight: bold; color: #667eea; margin-bottom: 2px;">${optionChoisie.macros.P}g</div>
+                            <div style="font-size: 9px; color: #667eea; text-transform: uppercase; font-weight: 600;">Protéines</div>
+                        </div>
+                        <div style="background: rgba(255, 152, 0, 0.1); padding: 8px; border-radius: 8px;">
+                            <div style="font-size: 18px; font-weight: bold; color: #ff9800; margin-bottom: 2px;">${optionChoisie.macros.G}g</div>
+                            <div style="font-size: 9px; color: #ff9800; text-transform: uppercase; font-weight: 600;">Glucides</div>
+                        </div>
+                        <div style="background: rgba(81, 207, 102, 0.1); padding: 8px; border-radius: 8px;">
+                            <div style="font-size: 18px; font-weight: bold; color: #51cf66; margin-bottom: 2px;">${optionChoisie.macros.L}g</div>
+                            <div style="font-size: 9px; color: #51cf66; text-transform: uppercase; font-weight: 600;">Lipides</div>
+                        </div>
+                        <div style="background: rgba(255, 217, 61, 0.1); padding: 8px; border-radius: 8px;">
+                            <div style="font-size: 18px; font-weight: bold; color: #f59f00; margin-bottom: 2px;">${optionChoisie.macros.kcal}</div>
+                            <div style="font-size: 9px; color: #f59f00; text-transform: uppercase; font-weight: 600;">Calories</div>
+                        </div>
+                    </div>
+                </div>`;
+            }
+
             if (optionChoisie.plat) {
                 html += `<div class="meal-foods">
                     <strong>🍽️ PLAT PRINCIPAL:</strong>
                     <ul>${optionChoisie.plat.map(a => `<li>${a}</li>`).join('')}</ul>
                 </div>`;
-                
+
                 if (optionChoisie.dessert) {
                     html += `<div class="meal-foods">
                         <strong>🍨 DESSERT (30 min après):</strong>
@@ -1288,7 +3041,7 @@ function afficherMenu() {
                 }
             } else {
                 html += `<div class="meal-foods">
-                    <strong>🥘 Aliments:</strong>
+                    <strong>🥘 Composition:</strong>
                     <ul>${optionChoisie.aliments.map(a => `<li>${a}</li>`).join('')}</ul>
                 </div>`;
             }
@@ -1298,15 +3051,68 @@ function afficherMenu() {
                 <ul>${repas.aliments.map(a => `<li>${a}</li>`).join('')}</ul>
             </div>`;
         }
-        
-        // 🆕 Ajout suppléments associés au repas
-        if (repas.supplements && repas.supplements.length > 0) {
-            html += `<div class="supplements-box">
-                <strong>💊 SUPPLÉMENTS À PRENDRE AVEC CE REPAS :</strong>
-                <ul style="margin-left: 10px; margin-top: 5px;">${repas.supplements.map(s => `<li style="margin: 3px 0;">${s}</li>`).join('')}</ul>
+
+        // 🆕 Suppléments spécifiques au repas - INTÉGRÉS DANS CHAQUE REPAS
+        let supplementsHtml = '';
+
+        // REPAS 1 (12h00)
+        if (repas.nom.includes('REPAS 1') || repas.heure === '12h00') {
+            supplementsHtml = `<div style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%); padding: 12px; border-radius: 10px; margin: 12px 0; border-left: 4px solid #51cf66;">
+                <strong style="color: #51cf66; font-size: 13px; display: block; margin-bottom: 8px;">💊 SUPPLÉMENTS À PRENDRE MAINTENANT:</strong>
+                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7);">
+                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                    <span style="font-size: 12px; line-height: 1.3;">🦴 <strong>MSM</strong> : 2000mg</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
+                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                    <span style="font-size: 12px; line-height: 1.3;">🦴 <strong>Collagène</strong> : 10g</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
+                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                    <span style="font-size: 12px; line-height: 1.3;">🩸 <strong>Berbérine</strong> : 500mg <small>(contrôle glycémie)</small></span>
+                </label>
+                ${jourType === 'training' ? `<label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
+                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                    <span style="font-size: 12px; line-height: 1.3;">💪 <strong>Créatine</strong> : 5g <small>(si pas pris le matin)</small></span>
+                </label>` : ''}
             </div>`;
         }
-        
+        // REPAS 2 (15h45, training only)
+        else if ((repas.nom.includes('REPAS 2') || repas.nom.includes('Post-Training')) && jourType === 'training') {
+            supplementsHtml = `<div style="background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 50%); padding: 12px; border-radius: 10px; margin: 12px 0; border-left: 4px solid #667eea;">
+                <strong style="color: #667eea; font-size: 13px; display: block; margin-bottom: 8px;">💊 SUPPLÉMENTS POST-TRAINING:</strong>
+                <div style="background: rgba(102, 126, 234, 0.1); padding: 8px; border-radius: 6px; font-size: 11px; color: #667eea;">
+                    ℹ️ <strong>Whey 60g</strong> déjà inclus dans ce shaker
+                </div>
+            </div>`;
+        }
+        // REPAS 3 / SOIR (19h30 ou 22h00)
+        else if (repas.nom.includes('REPAS 3') || repas.heure.includes('19h30') || repas.heure.includes('22h00')) {
+            supplementsHtml = `<div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%); padding: 12px; border-radius: 10px; margin: 12px 0; border-left: 4px solid #2196f3;">
+                <strong style="color: #2196f3; font-size: 13px; display: block; margin-bottom: 8px;">💊 SUPPLÉMENTS DU SOIR:</strong>
+                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7);">
+                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                    <span style="font-size: 12px; line-height: 1.3;">🐟 <strong>Oméga-3</strong> : 4g <small>(2g si saumon au repas)</small></span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
+                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                    <span style="font-size: 12px; line-height: 1.3;">😴 <strong>Magnésium</strong> : 400mg <small>(sommeil)</small></span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
+                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                    <span style="font-size: 12px; line-height: 1.3;">🦴 <strong>Collagène</strong> : 5g</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; padding: 6px; cursor: pointer; border-radius: 6px; background: rgba(255,255,255,0.7); margin-top: 4px;">
+                    <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; flex-shrink: 0;">
+                    <span style="font-size: 12px; line-height: 1.3;">🩸 <strong>Berbérine</strong> : 500mg <small>(contrôle glycémie)</small></span>
+                </label>
+            </div>`;
+        }
+
+        if (supplementsHtml) {
+            html += supplementsHtml;
+        }
+
         // 🆕 Ajout anti-inflammatoires
         if (repas.antiInflammatoires && repas.antiInflammatoires.length > 0) {
             html += `<div class="anti-inflam-box">
@@ -1322,24 +3128,7 @@ function afficherMenu() {
         </div>
     </div>`;
     });
-    
-    // 🆕 Ajout section suppléments globaux
-    if (menu.supplementsGlobaux && menu.supplementsGlobaux.length > 0) {
-        html += `<div class="nutrition-section">
-            <h3>💊 SUPPLÉMENTS ${jourType === 'training' ? 'JOUR TRAINING' : 'JOUR REPOS'}</h3>`;
-        
-        menu.supplementsGlobaux.forEach(supp => {
-            html += `<div class="meal">
-                <strong style="color: #667eea; font-size: 14px;">${supp.moment}</strong>
-                <div class="meal-foods">
-                    <ul>${supp.liste.map(s => `<li>${s}</li>`).join('')}</ul>
-                </div>
-            </div>`;
-        });
-        
-        html += `</div>`;
-    }
-    
+
     document.getElementById('menu-container').innerHTML = html;
 }
 
@@ -1413,11 +3202,22 @@ function calculerProgression() {
 
 function afficherSemaine(num) {
     semaineActuelle = 'S' + num;
+    localStorage.setItem('semaineActuelle', semaineActuelle);  // 🆕 Sauvegarde de la semaine
     afficherMenu();
     calculerProgression();
     afficherCarteSemaine();
     updateTimelineVisuel();
     showAutoSave();
+}
+
+// 🆕 Fonction pour charger la semaine sauvegardée
+function loadSemaineActuelle() {
+    const saved = localStorage.getItem('semaineActuelle');
+    if (saved && saved.match(/^S([1-9]|10)$/)) {
+        semaineActuelle = saved;
+        const num = parseInt(saved.substring(1));
+        updateTimelineVisuel();
+    }
 }
 
 // 🆕 Timeline étendue à 10 semaines
@@ -1518,7 +3318,7 @@ function enregistrerPesee() {
     const notes = document.getElementById('input-notes-pesee').value;
 
     if (!poids || !bf) {
-        alert('⚠️ Poids et % graisse obligatoires !');
+        showNotification('⚠️ Poids et % graisse obligatoires !', 'warning');
         return;
     }
 
@@ -1773,7 +3573,7 @@ function ajouterGrignotage() {
     const calories = document.getElementById('input-calories').value;
     
     if (!aliment || !quantite || !calories) {
-        alert('⚠️ Remplis tous les champs');
+        showNotification('⚠️ Remplis tous les champs', 'warning');
         return;
     }
 
@@ -1884,7 +3684,7 @@ function exportRapport() {
         rapport += `Évolution: ${dernierePesee.deltaKg > 0 ? '+' : ''}${dernierePesee.deltaKg}kg\n`;
     }
 
-    navigator.clipboard.writeText(rapport).then(() => alert('✅ Rapport copié !')).catch(() => alert('❌ Erreur copie'));
+    navigator.clipboard.writeText(rapport).then(() => showNotification('✅ Rapport copié !', 'success')).catch(() => showNotification('❌ Erreur copie', 'error'));
 }
 
 function exportRapportSemaine() {
@@ -1933,7 +3733,7 @@ function exportRapportSemaine() {
         rapport += `Penser à se peser ce vendredi/samedi !\n\n`;
     }
 
-    navigator.clipboard.writeText(rapport).then(() => alert('✅ Rapport semaine copié !')).catch(() => alert('❌ Erreur copie'));
+    navigator.clipboard.writeText(rapport).then(() => showNotification('✅ Rapport semaine copié !', 'success')).catch(() => showNotification('❌ Erreur copie', 'error'));
 }
 
 function resetJour() {
@@ -1945,7 +3745,7 @@ function resetJour() {
     afficherMenu();
     loadGrignotages();
     calculerProgression();
-    alert('✅ Journée réinitialisée');
+    showNotification('✅ Journée réinitialisée', 'success');
 }
 
 function resetSemaine() {
@@ -1980,7 +3780,7 @@ function resetSemaine() {
     afficherHistoriquePesees();
     updateTimelineVisuel();
     
-    alert('✅ Semaine réinitialisée');
+    showNotification('✅ Semaine réinitialisée', 'success');
 }
 
 function resetTout() {
@@ -2044,7 +3844,7 @@ function telechargerBackup() {
     localStorage.setItem('last-backup', new Date().toISOString());
     updateLastBackupDate();
     
-    alert(`✅ Backup téléchargé !\n\n📊 Contenu :\n- ${nbJours} jours de données\n- ${nbPesees} pesées\n- ${nbGrignotages} grignotages`);
+    showNotification(`✅ Backup téléchargé !<br><br>📊 Contenu :<br>- ${nbJours} jours de données<br>- ${nbPesees} pesées<br>- ${nbGrignotages} grignotages`, 'success');
 }
 
 function restaurerBackup(event) {
@@ -2085,12 +3885,12 @@ function restaurerBackup(event) {
                 localStorage.setItem('jourType', jourType);
             }
             
-            alert(`✅ Backup restauré !\n\n📊 Données importées :\n- ${backup.stats?.nbJours || 0} jours\n- ${backup.stats?.nbPesees || 0} pesées\n- ${backup.stats?.nbGrignotages || 0} grignotages`);
-            
-            location.reload();
-            
+            showNotification(`✅ Backup restauré !<br><br>📊 Données importées :<br>- ${backup.stats?.nbJours || 0} jours<br>- ${backup.stats?.nbPesees || 0} pesées<br>- ${backup.stats?.nbGrignotages || 0} grignotages`, 'success');
+
+            setTimeout(() => location.reload(), 2000);
+
         } catch (error) {
-            alert('❌ Erreur lors de la restauration !');
+            showNotification('❌ Erreur lors de la restauration !', 'error');
         }
     };
     
@@ -2115,6 +3915,39 @@ function showAutoSave() {
     setTimeout(() => indicator.classList.remove('show'), 2000);
 }
 
+// 🆕 Fonction notification personnalisée qui se ferme au clic
+function showNotification(message, type = 'success') {
+    // Supprimer notifications existantes
+    document.querySelectorAll('.notification-overlay, .custom-notification').forEach(el => el.remove());
+
+    // Créer overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'notification-overlay';
+
+    // Créer notification
+    const notification = document.createElement('div');
+    notification.className = `custom-notification ${type}`;
+    notification.innerHTML = `
+        <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">${message}</div>
+        <div style="font-size: 12px; color: #999; margin-top: 10px;">👆 Cliquez n'importe où pour fermer</div>
+    `;
+
+    // Fonction pour fermer
+    const fermer = () => {
+        notification.remove();
+        overlay.remove();
+    };
+
+    notification.onclick = fermer;
+    overlay.onclick = fermer;
+
+    // Auto-fermeture après 5 secondes
+    setTimeout(fermer, 5000);
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(notification);
+}
+
 // 🆕 FONCTION AFFICHAGE ONGLETS MODIFIÉE
 function showTab(tabName) {
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -2135,101 +3968,215 @@ function showTab(tabName) {
     if (tabName === 'ajustements') afficherAjustementsMacros();
 }
 
-// 🆕 FONCTION AFFICHAGE STACK SUPPLÉMENTS
+// 🆕 FONCTION AFFICHAGE STACK SUPPLÉMENTS SIMPLIFIÉ
 function afficherStackSupplements() {
     const stack = STACK_SUPPLEMENTS_COMPLET;
 
-    // Stack basique
-    let htmlBasique = '<div class="week-card"><h3 style="color: #667eea;">💊 Stack Basique - 207€/mois</h3>';
+    // 🆕 Version simplifiée avec checklists modernes
+    let html = `
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
+        <h2 style="margin: 0 0 10px 0; font-size: 20px;">💊 STACK SUPPLÉMENTS ESSENTIELS</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+            <div>
+                <div style="font-size: 28px; font-weight: bold;">8</div>
+                <div style="font-size: 12px; opacity: 0.9;">suppléments</div>
+            </div>
+            <div>
+                <div style="font-size: 28px; font-weight: bold;">136€</div>
+                <div style="font-size: 12px; opacity: 0.9;">/mois (~4.50€/jour)</div>
+            </div>
+        </div>
+    </div>
 
-    // Articulations
-    htmlBasique += '<div class="progress-card"><h4 style="color: #667eea; margin-bottom: 10px;">🦴 Articulations (70€/mois)</h4>';
-    htmlBasique += '<div style="display: grid; gap: 10px;">';
-    Object.entries(stack.basique.articulations).forEach(([nom, data]) => {
-        if (nom === 'total_mensuel') return;
-        htmlBasique += `<div style="background: #f8f9fa; padding: 10px; border-radius: 8px; border-left: 4px solid #51cf66;">
-            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
-            <small>📦 Dose: ${data.dose} | 💰 ${data.prix}</small><br>
-            <small>🩸 Diabète: ${data.diabete}</small>
-            ${data.effet ? `<br><small>✨ ${data.effet}</small>` : ''}
-        </div>`;
+    <!-- CHECKLIST TRAINING -->
+    <div class="week-card" style="border-left-color: #667eea;">
+        <h3 style="color: #667eea; margin-bottom: 20px;">🏋️ JOURS TRAINING (Lun/Mer/Ven)</h3>
+
+        <!-- MATIN -->
+        <div style="background: #fff9e6; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #ffd93d;">
+            <strong style="color: #f59f00; font-size: 15px; display: block; margin-bottom: 12px;">☀️ MATIN (7h30, à jeun avec café)</strong>
+            <div style="display: grid; gap: 8px;">
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(255,217,61,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #ffd93d;">
+                    <span style="font-size: 14px; flex: 1;">☀️ <strong>Vitamine D3</strong> - 5000 UI <small style="color: #999;">(immunité)</small></span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(255,217,61,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #ffd93d;">
+                    <span style="font-size: 14px; flex: 1;">💪 <strong>Créatine</strong> - 5g <small style="color: #999;">(force + volume)</small></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- REPAS 1 -->
+        <div style="background: #e8f5e9; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #51cf66;">
+            <strong style="color: #51cf66; font-size: 15px; display: block; margin-bottom: 12px;">🍽️ REPAS 1 (12h00, avec repas)</strong>
+            <div style="display: grid; gap: 8px;">
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(81,207,102,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #51cf66;">
+                    <span style="font-size: 14px; flex: 1;">🦴 <strong>MSM</strong> - 2000mg <small style="color: #999;">(articulations)</small></span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(81,207,102,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #51cf66;">
+                    <span style="font-size: 14px; flex: 1;">🦴 <strong>Collagène</strong> - 10g <small style="color: #999;">(peau + articulations)</small></span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(81,207,102,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #51cf66;">
+                    <span style="font-size: 14px; flex: 1;">🩸 <strong>Berbérine</strong> - 500mg <small style="color: #999;">(glycémie)</small></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- POST-TRAINING -->
+        <div style="background: #f0f4ff; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #667eea;">
+            <strong style="color: #667eea; font-size: 15px; display: block; margin-bottom: 12px;">💪 POST-TRAINING (15h45, juste après)</strong>
+            <div style="display: grid; gap: 8px;">
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(102,126,234,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #667eea;">
+                    <span style="font-size: 14px; flex: 1;">💪 <strong>Whey</strong> - 30g <small style="color: #999;">(récupération)</small></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- REPAS 3 -->
+        <div style="background: #fff3e0; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #ff9800;">
+            <strong style="color: #ff9800; font-size: 15px; display: block; margin-bottom: 12px;">🍽️ REPAS 3 (19h30, avec repas)</strong>
+            <div style="display: grid; gap: 8px;">
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(255,152,0,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #ff9800;">
+                    <span style="font-size: 14px; flex: 1;">🩸 <strong>Berbérine</strong> - 500mg <small style="color: #999;">(glycémie)</small></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- SOIR -->
+        <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #2196f3;">
+            <strong style="color: #2196f3; font-size: 15px; display: block; margin-bottom: 12px;">🌙 SOIR (22h00, avant coucher)</strong>
+            <div style="display: grid; gap: 8px;">
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(33,150,243,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #2196f3;">
+                    <span style="font-size: 14px; flex: 1;">🐟 <strong>Oméga-3</strong> - 4g <small style="color: #999;">(cardio + inflammation)</small></span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(33,150,243,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #2196f3;">
+                    <span style="font-size: 14px; flex: 1;">😴 <strong>Magnésium</strong> - 400mg <small style="color: #999;">(sommeil)</small></span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(33,150,243,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #2196f3;">
+                    <span style="font-size: 14px; flex: 1;">🦴 <strong>Collagène</strong> - 5g <small style="color: #999;">(récupération nocturne)</small></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHECKLIST REPOS -->
+    <div class="week-card" style="border-left-color: #51cf66;">
+        <h3 style="color: #51cf66; margin-bottom: 20px;">💤 JOURS REPOS (Mar/Jeu/Sam/Dim)</h3>
+
+        <!-- MATIN -->
+        <div style="background: #fff9e6; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #ffd93d;">
+            <strong style="color: #f59f00; font-size: 15px; display: block; margin-bottom: 12px;">☀️ MATIN (7h30, à jeun avec café)</strong>
+            <div style="display: grid; gap: 8px;">
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(255,217,61,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #ffd93d;">
+                    <span style="font-size: 14px; flex: 1;">☀️ <strong>Vitamine D3</strong> - 5000 UI <small style="color: #999;">(immunité)</small></span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(255,217,61,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #ffd93d;">
+                    <span style="font-size: 14px; flex: 1;">💪 <strong>Créatine</strong> - 5g <small style="color: #999;">(saturation musculaire)</small></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- REPAS 1 -->
+        <div style="background: #e8f5e9; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #51cf66;">
+            <strong style="color: #51cf66; font-size: 15px; display: block; margin-bottom: 12px;">🍽️ REPAS 1 (12h00, avec repas)</strong>
+            <div style="display: grid; gap: 8px;">
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(81,207,102,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #51cf66;">
+                    <span style="font-size: 14px; flex: 1;">🦴 <strong>MSM</strong> - 2000mg <small style="color: #999;">(articulations)</small></span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(81,207,102,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #51cf66;">
+                    <span style="font-size: 14px; flex: 1;">🦴 <strong>Collagène</strong> - 10g <small style="color: #999;">(peau + articulations)</small></span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(81,207,102,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #51cf66;">
+                    <span style="font-size: 14px; flex: 1;">🩸 <strong>Berbérine</strong> - 500mg <small style="color: #999;">(glycémie)</small></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- COLLATION -->
+        <div style="background: #f3e5f5; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #9c27b0;">
+            <strong style="color: #9c27b0; font-size: 15px; display: block; margin-bottom: 12px;">🥤 COLLATION (16h00)</strong>
+            <div style="display: grid; gap: 8px;">
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(156,39,176,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #9c27b0;">
+                    <span style="font-size: 14px; flex: 1;">💪 <strong>Whey</strong> - 30g <small style="color: #999;">(collation protéinée)</small></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- REPAS 3 -->
+        <div style="background: #fff3e0; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #ff9800;">
+            <strong style="color: #ff9800; font-size: 15px; display: block; margin-bottom: 12px;">🍽️ REPAS 3 (19h30, avec repas)</strong>
+            <div style="display: grid; gap: 8px;">
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(255,152,0,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #ff9800;">
+                    <span style="font-size: 14px; flex: 1;">🩸 <strong>Berbérine</strong> - 500mg <small style="color: #999;">(glycémie)</small></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- SOIR -->
+        <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #2196f3;">
+            <strong style="color: #2196f3; font-size: 15px; display: block; margin-bottom: 12px;">🌙 SOIR (22h00, avant coucher)</strong>
+            <div style="display: grid; gap: 8px;">
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(33,150,243,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #2196f3;">
+                    <span style="font-size: 14px; flex: 1;">🐟 <strong>Oméga-3</strong> - 4g <small style="color: #999;">(cardio + inflammation)</small></span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(33,150,243,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #2196f3;">
+                    <span style="font-size: 14px; flex: 1;">😴 <strong>Magnésium</strong> - 400mg <small style="color: #999;">(sommeil)</small></span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 12px; padding: 10px; cursor: pointer; border-radius: 8px; transition: all 0.2s; background: white;" onmouseover="this.style.background='rgba(33,150,243,0.15)'; this.style.transform='translateX(4px)'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'">
+                    <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: #2196f3;">
+                    <span style="font-size: 14px; flex: 1;">🦴 <strong>Collagène</strong> - 5g <small style="color: #999;">(récupération nocturne)</small></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- RÉSUMÉ DÉTAILLÉ -->
+    <div class="week-card" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); border-left-color: #667eea;">
+        <h3 style="color: #667eea; margin-bottom: 15px;">📋 DÉTAILS DES SUPPLÉMENTS</h3>
+        <div style="display: grid; gap: 12px;">`;
+
+    Object.entries(stack.liste_complete).forEach(([key, supp]) => {
+        html += `
+            <div style="background: white; padding: 15px; border-radius: 10px; border-left: 4px solid #667eea; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
+                    <div>
+                        <strong style="font-size: 16px; color: #333;">${supp.emoji} ${supp.nom}</strong>
+                        <div style="color: #999; font-size: 12px; margin-top: 4px;">🎯 ${supp.objectif}</div>
+                    </div>
+                    <div style="background: #f0f4ff; padding: 6px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; color: #667eea;">${supp.prix}</div>
+                </div>
+                <div style="font-size: 13px; color: #666; line-height: 1.6;">
+                    <div>📦 Dose: <strong>${supp.dose}</strong></div>
+                    <div style="margin-top: 4px;">✨ ${supp.effet}</div>
+                </div>
+            </div>`;
     });
-    htmlBasique += '</div></div>';
 
-    // Performance
-    htmlBasique += '<div class="progress-card"><h4 style="color: #667eea; margin-bottom: 10px;">💪 Performance (93€/mois)</h4>';
-    htmlBasique += '<div style="display: grid; gap: 10px;">';
-    Object.entries(stack.basique.performance).forEach(([nom, data]) => {
-        htmlBasique += `<div style="background: #f8f9fa; padding: 10px; border-radius: 8px; border-left: 4px solid #667eea;">
-            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
-            <small>📦 Dose: ${data.dose} | 💰 ${data.prix}</small><br>
-            <small>🩸 Diabète: ${data.diabete}</small>
-            ${data.effet ? `<br><small>✨ ${data.effet}</small>` : ''}
-        </div>`;
-    });
-    htmlBasique += '</div></div>';
+    html += `
+        </div>
+    </div>`;
 
-    // Santé
-    htmlBasique += '<div class="progress-card"><h4 style="color: #667eea; margin-bottom: 10px;">🌿 Santé Générale (44€/mois)</h4>';
-    htmlBasique += '<div style="display: grid; gap: 10px;">';
-    Object.entries(stack.basique.sante).forEach(([nom, data]) => {
-        htmlBasique += `<div style="background: #f8f9fa; padding: 10px; border-radius: 8px; border-left: 4px solid #ffc107;">
-            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
-            <small>📦 Dose: ${data.dose} | 💰 ${data.prix}</small><br>
-            <small>🩸 Diabète: ${data.diabete}</small>
-            ${data.effet ? `<br><small>✨ ${data.effet}</small>` : ''}
-        </div>`;
-    });
-    htmlBasique += '</div></div>';
-    htmlBasique += '</div>';
-
-    document.getElementById('stack-basique-container').innerHTML = htmlBasique;
-
-    // Stack diabète
-    let htmlDiabete = `<div class="week-card" style="border-left-color: #ff6b6b;">
-        <h3 style="color: #ff6b6b;">🩸 ${stack.diabete.titre}</h3>
-        <div class="alert-box alert-danger">
-            <strong>💰 Coût additionnel :</strong> ${stack.diabete.total_diabete}<br>
-            <strong>🎯 Minimum recommandé :</strong> ${stack.diabete.minimum_recommande}
-        </div>`;
-
-    ['berbérine', 'chrome_picolinate', 'acide_alpha_lipoique'].forEach(nom => {
-        const data = stack.diabete[nom];
-        htmlDiabete += `<div style="background: #ffebee; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #ff6b6b;">
-            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
-            <small>📦 Dose: ${data.dose}</small><br>
-            <small>💰 Prix: ${data.prix}</small><br>
-            <small>✨ Effet: ${data.effet}</small><br>
-            <small style="background: #fff; padding: 3px 6px; border-radius: 4px; display: inline-block; margin-top: 5px;">💡 ${data.note}</small>
-        </div>`;
-    });
-    htmlDiabete += '</div>';
-
-    document.getElementById('stack-diabete-container').innerHTML = htmlDiabete;
-
-    // Cholestérol
-    let htmlCholesterol = `<div class="week-card" style="border-left-color: #ffc107;">
-        <h3 style="color: #ffc107;">🫀 ${stack.cholesterol.titre}</h3>
-        <div class="alert-box alert-success">
-            <strong>✅ Déjà couvert :</strong><br>
-            ${stack.cholesterol.deja_present.map(item => `• ${item}`).join('<br>')}
-        </div>`;
-
-    htmlCholesterol += '<h4 style="margin-top: 15px;">Optionnels (si besoin):</h4>';
-    Object.entries(stack.cholesterol.optionnels).forEach(([nom, data]) => {
-        htmlCholesterol += `<div style="background: #fff9e6; padding: 15px; border-radius: 8px; margin: 10px 0;">
-            <strong>${nom.replace(/_/g, ' ').toUpperCase()}</strong><br>
-            <small>📦 ${data.dose} | 💰 ${data.prix}</small><br>
-            <small>✨ ${data.effet}</small><br>
-            <small style="color: #666;">💡 ${data.note}</small>
-        </div>`;
-    });
-
-    htmlCholesterol += `<div class="info-box" style="margin-top: 15px;">
-        <strong>📋 Recommandation :</strong> ${stack.cholesterol.recommandation}
-    </div></div>`;
-
-    document.getElementById('stack-cholesterol-container').innerHTML = htmlCholesterol;
+    document.getElementById('stack-basique-container').innerHTML = html;
+    document.getElementById('stack-diabete-container').innerHTML = '';
+    document.getElementById('stack-cholesterol-container').innerHTML = '';
 }
 
 // 🆕 FONCTION AFFICHAGE AJUSTEMENTS MACROS
@@ -2329,6 +4276,231 @@ function afficherAjustementsMacros() {
 
     document.getElementById('details-nutritionnels-container').innerHTML = htmlDetails;
 }
+
+// 🆕 FONCTIONS MESURES ÉDITABLES
+function toggleMesuresEdit() {
+    const display = document.getElementById('mesures-display');
+    const edit = document.getElementById('mesures-edit');
+
+    if (edit.style.display === 'none') {
+        display.style.display = 'none';
+        edit.style.display = 'block';
+    } else {
+        display.style.display = 'block';
+        edit.style.display = 'none';
+    }
+}
+
+function updateMesures() {
+    const poids = parseFloat(document.getElementById('input-poids-actuel').value) || 93.4;
+    const taille = parseFloat(document.getElementById('input-taille-actuel').value) || 105;
+    const objectif = parseFloat(document.getElementById('input-objectif').value) || 88;
+
+    document.getElementById('display-poids').textContent = poids.toFixed(1);
+    document.getElementById('display-taille').textContent = taille.toFixed(0);
+    document.getElementById('display-objectif').textContent = objectif.toFixed(1);
+
+    const perteVisee = poids - objectif;
+    document.getElementById('perte-visee').textContent = perteVisee.toFixed(1);
+    const perteDisplay = document.getElementById('perte-visee-display');
+    if (perteDisplay) perteDisplay.textContent = perteVisee.toFixed(1);
+    const kgRestant = document.getElementById('kg-restant');
+    if (kgRestant) kgRestant.textContent = perteVisee.toFixed(1);
+
+    // Sauvegarde
+    localStorage.setItem('mesures', JSON.stringify({poids, taille, objectif}));
+    showAutoSave();
+}
+
+// 🆕 FONCTION CALCULATEUR MACROS LIVE
+function updateCalculMacros() {
+    const p = parseInt(document.getElementById('calc-p-slider').value);
+    const g = parseInt(document.getElementById('calc-g-slider').value);
+    const l = parseInt(document.getElementById('calc-l-slider').value);
+
+    document.getElementById('calc-p-value').textContent = p;
+    document.getElementById('calc-g-value').textContent = g;
+    document.getElementById('calc-l-value').textContent = l;
+
+    const pKcal = p * 4;
+    const gKcal = g * 4;
+    const lKcal = l * 9;
+    const total = pKcal + gKcal + lKcal;
+
+    document.getElementById('calc-p-kcal').textContent = pKcal;
+    document.getElementById('calc-g-kcal').textContent = gKcal;
+    document.getElementById('calc-l-kcal').textContent = lKcal;
+    document.getElementById('calc-total-kcal').textContent = total;
+}
+
+// 🆕 FONCTION DESSIN GRAPHIQUE (simplifié avec canvas)
+function drawGraph() {
+    const canvas = document.getElementById('graph-progression');
+    if (!canvas || !canvas.getContext) return;
+
+    const ctx = canvas.getContext('2d');
+    const width = canvas.offsetWidth;
+    const height = 250;
+    canvas.width = width;
+    canvas.height = height;
+
+    // Données exemple
+    const data = [93.4, 92.8, 92.3, 91.9, 91.5, 91.0, 90.5, 90.0, 89.5, 89.0, 88.5];
+    const objectif = 88;
+
+    // Fond
+    ctx.fillStyle = '#f8f9fa';
+    ctx.fillRect(0, 0, width, height);
+
+    // Ligne objectif
+    const objY = height - 30;
+    ctx.strokeStyle = '#51cf66';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 5]);
+    ctx.beginPath();
+    ctx.moveTo(40, objY);
+    ctx.lineTo(width - 20, objY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Courbe progression
+    ctx.strokeStyle = '#667eea';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+
+    const stepX = (width - 60) / (data.length - 1);
+    const maxVal = Math.max(...data);
+    const minVal = objectif - 1;
+    const range = maxVal - minVal;
+
+    data.forEach((val, i) => {
+        const x = 40 + i * stepX;
+        const y = height - 40 - ((val - minVal) / range * (height - 80));
+
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+
+        // Points
+        ctx.fillStyle = '#667eea';
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+    });
+    ctx.stroke();
+
+    // Texte
+    ctx.fillStyle = '#666';
+    ctx.font = '12px Arial';
+    ctx.fillText('Départ', 40, height - 10);
+    ctx.fillText('Objectif', width - 70, height - 10);
+    ctx.fillStyle = '#51cf66';
+    ctx.fillText(objectif + 'kg', 10, objY + 5);
+}
+
+// 🆕 CHARGER MESURES AU DÉMARRAGE
+window.addEventListener('load', function() {
+    const saved = localStorage.getItem('mesures');
+    if (saved) {
+        const {poids, taille, objectif} = JSON.parse(saved);
+        document.getElementById('input-poids-actuel').value = poids;
+        document.getElementById('input-taille-actuel').value = taille;
+        document.getElementById('input-objectif').value = objectif;
+        updateMesures();
+    }
+
+    // 🧭 NAVIGATION MENU - Smooth scrolling et active state
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+
+            if (targetElement) {
+                // Calculer position avec offset pour le menu fixe
+                const navHeight = document.querySelector('.fixed-nav').offsetHeight;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+
+                // Smooth scroll
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+
+                // Mettre à jour active state
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            }
+        });
+    });
+
+    // Highlight navigation sur scroll
+    window.addEventListener('scroll', function() {
+        const scrollPosition = window.pageYOffset + 100;
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            const targetId = link.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+
+            if (targetElement) {
+                const sectionTop = targetElement.offsetTop - 100;
+                const sectionBottom = sectionTop + targetElement.offsetHeight;
+
+                if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                }
+            }
+        });
+    });
+
+    // 🎯 SYSTÈME CONSEILS - Affichage conseil du jour
+    function afficherConseilDuJour() {
+        const semaine = getSemaineActuelle();
+        const jourSemaine = new Date().getDay(); // 0=dimanche, 1=lundi, ..., 6=samedi
+
+        // Obtenir le conseil quotidien
+        const conseilsSemaine = CONSEILS_QUOTIDIENS[`S${semaine}`];
+        if (!conseilsSemaine) return;
+
+        const conseil = conseilsSemaine[jourSemaine] || conseilsSemaine[0];
+
+        // Afficher le conseil
+        document.getElementById('conseil-titre').textContent = conseil.titre;
+        document.getElementById('conseil-expert').textContent = conseil.expert;
+        document.getElementById('conseil-texte').textContent = conseil.conseil;
+        document.getElementById('conseil-action').innerHTML = `
+            <strong style="color: #f59f00; font-size: 12px;">✅ Action aujourd'hui :</strong>
+            <p style="margin: 4px 0 0 0; font-size: 12px; color: #555;">${conseil.action}</p>
+        `;
+        document.getElementById('conseil-etude').textContent = conseil.etude;
+        document.getElementById('conseil-pourquoi').innerHTML = `<strong>Pourquoi toi :</strong> ${conseil.pourquoi}`;
+    }
+
+    function toggleConseilDetail() {
+        const detail = document.getElementById('conseil-detail');
+        if (detail.style.display === 'none') {
+            detail.style.display = 'block';
+        } else {
+            detail.style.display = 'none';
+        }
+    }
+
+    function getSemaineActuelle() {
+        const dateDebut = new Date(PLAN_HYBRIDE.dateDebut);
+        const aujourd = new Date();
+        const diff = aujourd - dateDebut;
+        const jours = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const semaine = Math.floor(jours / 7) + 1;
+        return Math.min(Math.max(semaine, 1), 10); // Entre 1 et 10
+    }
+
+    // Afficher conseil au chargement
+    afficherConseilDuJour();
+
+    // Dessiner graphique si onglet suivi visible
+    setTimeout(drawGraph, 500);
+});
     </script>
+    </div><!-- Fin content-wrapper -->
 </body>
 </html>
