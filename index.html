@@ -2470,8 +2470,37 @@ function afficherMenu() {
     menu.repas.forEach(repas => {
         const valide = isRepasValide(repas.id);
         
-        html += `<div class="nutrition-section">
-            <h3>${repas.heure} - ${repas.nom}</h3>
+
+        // 🆕 Icônes SVG sophistiquées selon le type de repas
+        let iconeSVG = '';
+        let couleurTheme = '#667eea';
+        let bgGradient = 'linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.05) 100%)';
+
+        if (repas.nom.includes('Pré-Training') || repas.nom.includes('REPAS 1')) {
+            couleurTheme = '#ff9800';
+            bgGradient = 'linear-gradient(135deg, rgba(255, 152, 0, 0.08) 0%, rgba(245, 124, 0, 0.05) 100%)';
+            iconeSVG = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C10.9 2 10 2.9 10 4V6H8C7.45 6 7 6.45 7 7V9C7 10.66 8.34 12 10 12H14C15.66 12 17 10.66 17 9V7C17 6.45 16.55 6 16 6H14V4C14 2.9 13.1 2 12 2Z" fill="white"/><path d="M10 13V20C10 21.1 10.9 22 12 22C13.1 22 14 21.1 14 20V13" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>';
+        } else if (repas.nom.includes('Post-Training') || repas.nom.includes('REPAS 2')) {
+            couleurTheme = '#667eea';
+            iconeSVG = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 3H15V6H9V3Z" fill="white"/><path d="M8 6H16C16.5523 6 17 6.44772 17 7V19C17 20.1046 16.1046 21 15 21H9C7.89543 21 7 20.1046 7 19V7C7 6.44772 7.44772 6 8 6Z" stroke="white" stroke-width="2"/><path d="M10 10H14M10 13H14" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>';
+        } else {
+            couleurTheme = '#51cf66';
+            bgGradient = 'linear-gradient(135deg, rgba(81, 207, 102, 0.08) 0%, rgba(55, 178, 77, 0.05) 100%)';
+            iconeSVG = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12C2 12 5 7 12 7C19 7 22 12 22 12C22 12 19 17 12 17C5 17 2 12 2 12Z" stroke="white" stroke-width="2"/><circle cx="12" cy="12" r="2" fill="white"/></svg>';
+        }
+        html += `<div class="nutrition-section" style="background: ${bgGradient}; border: 1px solid ${couleurTheme}20; position: relative; overflow: hidden;">
+            <!-- Décor SVG coin supérieur droit -->
+            <div style="position: absolute; top: -15px; right: -15px; opacity: 0.06; pointer-events: none;">
+                <svg width="100" height="100">
+                    <circle cx="50" cy="50" r="45" fill="${couleurTheme}"/>
+                </svg>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; position: relative; z-index: 1;">
+                <div style="background: linear-gradient(135deg, ${couleurTheme}, ${couleurTheme}dd); width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px ${couleurTheme}40;">
+                    ${iconeSVG}
+                </div>
+                <h3 style="margin: 0; flex: 1;">${repas.heure} - ${repas.nom}</h3>
+            </div>
             <div class="meal">
                 <div class="meal-details">
                     <div class="detail-item"><span class="detail-label">Cal:</span> ${repas.calories}</div>
