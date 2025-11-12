@@ -476,7 +476,193 @@
         .option-selector {background: #f8f9fa; padding: 12px; border-radius: 8px; margin: 10px 0;}
         .option-btn {padding: 8px 16px; background: white; border: 2px solid #e0e0e0; border-radius: 8px; margin: 4px; cursor: pointer; font-size: 12px; font-weight: bold; transition: all 0.3s;}
         .option-btn.active {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-color: #667eea;}
-        @media (max-width: 600px) {.container {padding: 12px;} h1 {font-size: 22px;} .macro-grid, .stats-grid {grid-template-columns: repeat(2, 1fr);} .timeline-item {padding: 2px;} .timeline-dot {width: 30px; height: 30px; font-size: 10px;} .timeline-label, .timeline-phase {font-size: 9px;}}
+        /* 📱 OPTIMISATION MOBILE RESPONSIVE */
+        @media (max-width: 600px) {
+            /* Container et typographie */
+            .container {
+                padding: 10px;
+                border-radius: 20px;
+            }
+
+            h1 {
+                font-size: 20px !important;
+                margin-bottom: 12px;
+            }
+
+            h2 {
+                font-size: 18px !important;
+            }
+
+            h3 {
+                font-size: 15px !important;
+            }
+
+            /* Grids responsive */
+            .macro-grid, .stats-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 8px;
+            }
+
+            /* Timeline mobile */
+            .timeline-item {
+                padding: 2px;
+            }
+
+            .timeline-dot {
+                width: 28px !important;
+                height: 28px !important;
+                font-size: 9px !important;
+            }
+
+            .timeline-label {
+                font-size: 9px !important;
+            }
+
+            .timeline-phase {
+                font-size: 8px !important;
+            }
+
+            /* Day tracker mobile */
+            .day-display {
+                font-size: 22px !important;
+            }
+
+            .day-tracker {
+                padding: 12px;
+            }
+
+            /* Tabs mobile */
+            .tabs {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
+                padding: 4px;
+            }
+
+            .tab {
+                padding: 10px 6px;
+                font-size: 11px;
+            }
+
+            /* Section repas mobile - icônes et layout */
+            .nutrition-section {
+                padding: 10px !important;
+                margin-bottom: 12px;
+            }
+
+            .nutrition-section h3 {
+                font-size: 14px !important;
+            }
+
+            /* Icônes food réduites sur mobile */
+            .nutrition-section > div:first-of-type > div:first-child {
+                width: 36px !important;
+                height: 36px !important;
+            }
+
+            .nutrition-section > div:first-of-type > div:first-child svg {
+                width: 22px !important;
+                height: 22px !important;
+            }
+
+            /* Cercle décoratif réduit */
+            .nutrition-section > div:first-of-type svg {
+                width: 70px !important;
+                height: 70px !important;
+            }
+
+            /* Meal details mobile */
+            .meal {
+                padding: 10px !important;
+                margin: 8px 0 !important;
+            }
+
+            .meal-details {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 6px;
+                font-size: 11px !important;
+            }
+
+            .detail-item {
+                padding: 6px !important;
+            }
+
+            /* Mes mesures section mobile */
+            .week-card {
+                padding: 12px !important;
+            }
+
+            /* Icône balance réduite */
+            .week-card > div:nth-child(2) > div:first-child {
+                width: 40px !important;
+                height: 40px !important;
+            }
+
+            .week-card > div:nth-child(2) > div:first-child svg {
+                width: 24px !important;
+                height: 24px !important;
+            }
+
+            /* Cards des mesures en colonne sur mobile */
+            .week-card > div:nth-child(3) {
+                grid-template-columns: 1fr !important;
+                gap: 10px;
+            }
+
+            /* Indicateurs et valeurs */
+            .week-card span[style*="font-size: 32px"] {
+                font-size: 24px !important;
+            }
+
+            .week-card span[style*="font-size: 20px"] {
+                font-size: 16px !important;
+            }
+
+            /* Progress bars mobile */
+            .progress-bar-container {
+                height: 28px !important;
+            }
+
+            /* Options selector mobile */
+            .option-btn {
+                padding: 6px 12px;
+                font-size: 11px;
+            }
+
+            /* Notifications mobile */
+            .custom-notification {
+                max-width: 90%;
+                padding: 20px;
+            }
+
+            /* Auto-save indicator */
+            .auto-save-indicator {
+                top: 10px;
+                right: 10px;
+                font-size: 10px;
+                padding: 6px 12px;
+            }
+
+            /* Version badges mobile */
+            .version-badge {
+                font-size: 10px !important;
+                padding: 4px 10px !important;
+            }
+
+            /* Sliders calculateur mobile */
+            input[type="range"] {
+                height: 6px;
+            }
+
+            input[type="range"]::-webkit-slider-thumb {
+                width: 20px !important;
+                height: 20px !important;
+            }
+
+            /* Canvas graph mobile */
+            #graph-progression {
+                max-height: 180px;
+            }
+        }
     </style>
 </head>
 <body>
