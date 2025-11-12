@@ -476,6 +476,91 @@
         .option-selector {background: #f8f9fa; padding: 12px; border-radius: 8px; margin: 10px 0;}
         .option-btn {padding: 8px 16px; background: white; border: 2px solid #e0e0e0; border-radius: 8px; margin: 4px; cursor: pointer; font-size: 12px; font-weight: bold; transition: all 0.3s;}
         .option-btn.active {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-color: #667eea;}
+
+        /* 🧭 MENU NAVIGATION FIXE */
+        .fixed-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(102, 126, 234, 0.15);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 12px 0;
+            animation: slideDown 0.4s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .nav-container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .nav-brand {
+            font-size: 14px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .nav-link {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #667eea;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1.5px solid transparent;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .content-wrapper {
+            padding-top: 70px;
+        }
+
         /* 📱 OPTIMISATION MOBILE RESPONSIVE */
         @media (max-width: 600px) {
             /* Container et typographie */
@@ -495,6 +580,24 @@
 
             h3 {
                 font-size: 15px !important;
+            }
+
+            /* Navigation mobile */
+            .nav-brand {
+                font-size: 11px !important;
+            }
+
+            .nav-links {
+                gap: 4px;
+            }
+
+            .nav-link {
+                padding: 5px 10px !important;
+                font-size: 10px !important;
+            }
+
+            .content-wrapper {
+                padding-top: 60px;
             }
 
             /* Grids responsive */
@@ -706,15 +809,31 @@
     </style>
 </head>
 <body>
-    <div class="auto-save-indicator" id="auto-save-indicator">✅ Sauvegardé</div>
-    <div class="container">
+    <!-- 🧭 MENU NAVIGATION FIXE -->
+    <nav class="fixed-nav">
+        <div class="nav-container">
+            <div class="nav-brand">🔥 NUTRI-TRACK</div>
+            <div class="nav-links">
+                <a href="#progression" class="nav-link active">📊 Progression</a>
+                <a href="#mesures" class="nav-link">📏 Mesures</a>
+                <a href="#timeline" class="nav-link">⏰ Timeline</a>
+                <a href="#matin" class="nav-link">☀️ Matin</a>
+                <a href="#repas" class="nav-link">🍽️ Repas</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <div class="content-wrapper">
+        <div class="auto-save-indicator" id="auto-save-indicator">✅ Sauvegardé</div>
+        <div class="container">
         <h1>🔥 PLAN SÈCHE 10 SEMAINES</h1>
         <div style="text-align: center;">
             <span class="version-badge">v5.0 SÈCHE • Hocine 44 ans</span>
             <span class="version-badge season-badge" id="season-badge">🍂 AUTOMNE</span>
         </div>
         <!-- 🆕 SECTION MES MESURES ÉDITABLE PREMIUM -->
-        <div class="week-card" style="margin-bottom: 25px; background: linear-gradient(135deg, rgba(81, 207, 102, 0.08) 0%, rgba(56, 178, 77, 0.05) 100%); border-left: 6px solid #51cf66; position: relative; overflow: hidden;">
+        <div id="mesures" class="week-card" style="margin-bottom: 25px; background: linear-gradient(135deg, rgba(81, 207, 102, 0.08) 0%, rgba(56, 178, 77, 0.05) 100%); border-left: 6px solid #51cf66; position: relative; overflow: hidden;">
 
             <!-- Décorations SVG -->
             <div style="position: absolute; top: -20px; right: -20px; opacity: 0.08;">
@@ -846,7 +965,7 @@
             </div>
         </div>
 
-        <div class="timeline-container">
+        <div id="timeline" class="timeline-container">
             <div style="text-align: center; margin-bottom: 15px; font-weight: bold; color: #667eea;">PROGRESSION 10 SEMAINES</div>
             <div class="timeline">
                 <div class="timeline-line"></div>
@@ -924,7 +1043,7 @@
         </div>
 
         <div id="tab-menu" class="tab-content active">
-            <div class="progress-card">
+            <div id="progression" class="progress-card">
                 <h3 style="color: #667eea; margin-bottom: 10px;">📊 Progression du jour</h3>
                 <div class="progress-bar-container"><div class="progress-bar" id="progress-bar" style="width: 0%">0%</div></div>
                 <div class="macro-grid">
@@ -934,7 +1053,9 @@
                     <div class="macro-card lipides"><div class="macro-label">Lipides</div><div class="macro-value"><span id="lip-actuel">0</span>/<span id="lip-total">75</span>g</div></div>
                 </div>
             </div>
-            <div id="menu-container"></div>
+            <div id="repas">
+                <div id="menu-container"></div>
+            </div>
             <textarea class="notes-area" id="notes-jour" placeholder="📝 Notes du jour (énergie, sensations, digestion...)" oninput="showAutoSave()"></textarea>
         </div>
 
@@ -2698,7 +2819,7 @@ function afficherMenu() {
     const bgMatin = 'linear-gradient(135deg, rgba(255, 217, 61, 0.08) 0%, rgba(245, 159, 0, 0.05) 100%)';
     const iconeMatin = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 8C17 10.7614 14.7614 13 12 13C9.23858 13 7 10.7614 7 8M12 3V4M18.3643 5.63574L17.6572 6.34285M5.63574 5.63574L6.34285 6.34285M21 8H20M4 8H3" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M6 13H18C19.1046 13 20 13.8954 20 15V16C20 17.1046 19.1046 18 18 18H6C4.89543 18 4 17.1046 4 16V15C4 13.8954 4.89543 13 6 13Z" fill="white"/></svg>';
 
-    html += `<div class="nutrition-section" style="background: ${bgMatin}; border: 1px solid ${couleurMatin}20; position: relative; overflow: hidden;">
+    html += `<div id="matin" class="nutrition-section" style="background: ${bgMatin}; border: 1px solid ${couleurMatin}20; position: relative; overflow: hidden;">
         <!-- Décor SVG -->
         <div style="position: absolute; top: -15px; right: -15px; opacity: 0.06; pointer-events: none;">
             <svg width="100" height="100">
@@ -4214,9 +4335,55 @@ window.addEventListener('load', function() {
         updateMesures();
     }
 
+    // 🧭 NAVIGATION MENU - Smooth scrolling et active state
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+
+            if (targetElement) {
+                // Calculer position avec offset pour le menu fixe
+                const navHeight = document.querySelector('.fixed-nav').offsetHeight;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+
+                // Smooth scroll
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+
+                // Mettre à jour active state
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            }
+        });
+    });
+
+    // Highlight navigation sur scroll
+    window.addEventListener('scroll', function() {
+        const scrollPosition = window.pageYOffset + 100;
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            const targetId = link.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+
+            if (targetElement) {
+                const sectionTop = targetElement.offsetTop - 100;
+                const sectionBottom = sectionTop + targetElement.offsetHeight;
+
+                if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                }
+            }
+        });
+    });
+
     // Dessiner graphique si onglet suivi visible
     setTimeout(drawGraph, 500);
 });
     </script>
+    </div><!-- Fin content-wrapper -->
 </body>
 </html>
